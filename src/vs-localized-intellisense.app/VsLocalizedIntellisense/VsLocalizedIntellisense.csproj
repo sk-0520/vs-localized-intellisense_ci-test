@@ -82,10 +82,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Binding\BindModelBase.cs" />
+    <Compile Include="Models\Logger\FileLogger.cs" />
+    <Compile Include="Models\Logger\TraceLogger.cs" />
     <Compile Include="Models\Logger\ILoggerExtensions.cs" />
     <Compile Include="Models\Logger\ILogger.cs" />
     <Compile Include="Models\Logger\LoggerBase.cs" />
     <Compile Include="Models\Logger\LogLevel.cs" />
+    <Compile Include="Models\Logger\LogOptions.cs" />
+    <Compile Include="Models\Logger\MultiLogger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
