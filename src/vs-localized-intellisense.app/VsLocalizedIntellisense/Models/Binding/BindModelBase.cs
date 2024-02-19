@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VsLocalizedIntellisense.Models
+namespace VsLocalizedIntellisense.Models.Binding
 {
     /// <summary>
     /// MVVM で使用するモデル基底。
