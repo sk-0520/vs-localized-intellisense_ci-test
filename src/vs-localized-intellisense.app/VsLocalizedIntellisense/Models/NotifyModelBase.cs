@@ -15,7 +15,7 @@ namespace VsLocalizedIntellisense.Models
     {
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler PropertyChanged = default!;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 

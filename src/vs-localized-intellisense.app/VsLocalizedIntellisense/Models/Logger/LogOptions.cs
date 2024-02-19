@@ -22,13 +22,13 @@ namespace VsLocalizedIntellisense.Models.Logger
     {
         #region proeprty
 
-        public string FilePath { get; } = default!;
+        public string FilePath { get; }
 
         #endregion
     }
 
     public class MultiLogOptions : LogOptionsBase
     {
-        public IDictionary<string, LogOptionsBase> Options { get; } = default!;
+        public IDictionary<string, LogOptionsBase> Options { get; }
     }
 }

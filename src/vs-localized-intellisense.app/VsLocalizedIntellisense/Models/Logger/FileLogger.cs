@@ -41,7 +41,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region LoggerBase
 
-        protected override void LogImpl(LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected internal override void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
         {
             switch (logLevel)
             {

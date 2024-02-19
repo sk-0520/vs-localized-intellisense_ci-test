@@ -26,7 +26,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
-        protected abstract void LogImpl(LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0);
+        protected internal abstract void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0);
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace VsLocalizedIntellisense.Models.Logger
                 return;
             }
 
-            LogImpl(logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+            LogImpl(DateTime.UtcNow, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
         }
 
 

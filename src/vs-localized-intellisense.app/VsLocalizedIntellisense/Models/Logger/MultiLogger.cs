@@ -35,17 +35,17 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region property
 
-        private IReadOnlyCollection<ILogger> Loggers { get; }
+        private IReadOnlyCollection<LoggerBase> Loggers { get; }
 
         #endregion
 
         #region LoggerBase
 
-        protected override void LogImpl(LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected internal override void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
         {
             foreach (var logger in Loggers)
             {
-                logger.Log(logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+                logger.LogImpl(utcTimestamp, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
             }
         }
 
