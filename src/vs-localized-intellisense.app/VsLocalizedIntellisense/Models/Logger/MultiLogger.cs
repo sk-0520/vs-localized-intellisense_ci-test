@@ -7,26 +7,36 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    internal sealed class MultiLogger : LoggerBase
+    internal sealed class MultiLogger : ILogger
     {
         public MultiLogger(MultiLogOptions multiLogOptions)
-            : base(multiLogOptions)
         {
             var loggers = new List<LoggerBase>();
 
             foreach (var currentOptions in multiLogOptions.Options.Values)
             {
-                if (currentOptions is TraceLogOptions)
+                switch (currentOptions)
                 {
-                    var options = (TraceLogOptions)currentOptions;
-                    var logger = new TraceLogger(options);
-                    loggers.Add(logger);
-                }
-                else if (currentOptions is FileLogOptions)
-                {
-                    var options = (FileLogOptions)currentOptions;
-                    var logger = new FileLogger(options);
-                    loggers.Add(logger);
+                    case DebugLogOptions options:
+                        {
+                            var logger = new DebugLogger(options);
+                            loggers.Add(logger);
+                        }
+                        break;
+
+                    case TraceLogOptions options:
+                        {
+                            var logger = new TraceLogger(options);
+                            loggers.Add(logger);
+                        }
+                        break;
+
+                    case FileLogOptions options:
+                        {
+                            var logger = new FileLogger(options);
+                            loggers.Add(logger);
+                        }
+                        break;
                 }
             }
 
@@ -39,13 +49,23 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #endregion
 
-        #region LoggerBase
+        #region ILogger
 
-        protected internal override void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        public bool IsEnabled(LogLevel logLevel)
         {
+            return true;
+        }
+
+        public void Log(LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        {
+            var logItem = new LogItem(DateTime.UtcNow, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+
             foreach (var logger in Loggers)
             {
-                logger.LogImpl(utcTimestamp, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+                if (logger.IsEnabled(logLevel))
+                {
+                    logger.OutputLog(logItem);
+                }
             }
         }
 

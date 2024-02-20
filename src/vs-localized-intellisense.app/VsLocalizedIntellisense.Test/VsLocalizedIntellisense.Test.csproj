@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Logger\LoggerBaseTest.cs" />
+    <Compile Include="Models\Logger\LoggingTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,25 +10,69 @@ namespace VsLocalizedIntellisense.Models.Logger
     {
         #region property
 
-        public LogLevel Level { get; }
+        /// <summary>
+        /// デフォルトログレベル。
+        /// <para>このレベル未満はログ出力対象外となる。</para>
+        /// </summary>
+        public LogLevel Level { get; set; }
 
         #endregion
     }
 
-    public class TraceLogOptions : LogOptionsBase
-    { }
+    public interface ILogFormatOptions
+    {
+        #region property
 
-    public class FileLogOptions : LogOptionsBase
+        string Format { get; set; }
+
+        #endregion
+    }
+
+    public class DebugLogOptions : LogOptionsBase, ILogFormatOptions
+    {
+        #region ILogFormatOptions
+
+        public string Format { get; set; } = string.Empty;
+
+        #endregion
+    }
+
+    public class TraceLogOptions : LogOptionsBase, ILogFormatOptions
     {
         #region proeprty
 
-        public string FilePath { get; }
+        public string FilePath { get; set; } = string.Empty;
+
+        #endregion
+
+        #region ILogFormatOptions
+
+        public string Format { get; set; } = string.Empty;
 
         #endregion
     }
 
-    public class MultiLogOptions : LogOptionsBase
+    public class FileLogOptions : LogOptionsBase, ILogFormatOptions
     {
-        public IDictionary<string, LogOptionsBase> Options { get; }
+        #region proeprty
+
+        public string FilePath { get; set; }
+
+        #endregion
+
+        #region ILogFormatOptions
+
+        public string Format { get; set; } = string.Empty;
+
+        #endregion
+    }
+
+    public sealed class MultiLogOptions
+    {
+        #region property
+
+        public IDictionary<string, LogOptionsBase> Options { get; set; } = new Dictionary<string, LogOptionsBase>();
+
+        #endregion
     }
 }

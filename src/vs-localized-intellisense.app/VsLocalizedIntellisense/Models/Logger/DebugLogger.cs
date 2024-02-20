@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    public sealed class TraceLogger : OutputLoggerBase<TraceLogOptions>
+    public sealed class DebugLogger : OutputLoggerBase<DebugLogOptions>
     {
-        public TraceLogger(TraceLogOptions options)
+        public DebugLogger(DebugLogOptions options)
             : base(options)
         { }
 
@@ -19,7 +19,7 @@ namespace VsLocalizedIntellisense.Models.Logger
         protected internal override void OutputLog(in LogItem logItem)
         {
             var log = Logging.Format(logItem, Options);
-            Trace.WriteLine(log);
+            Debug.WriteLine(log);
         }
 
         #endregion

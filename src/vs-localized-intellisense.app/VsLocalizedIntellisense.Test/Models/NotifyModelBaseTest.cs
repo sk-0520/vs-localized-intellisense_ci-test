@@ -25,7 +25,7 @@ namespace VsLocalizedIntellisense.Test.Models
 
             public int Value
             {
-                get => _value;
+                get => this._value;
                 set
                 {
                     this._value = value;

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    public sealed class FileLogger : LoggerBase<FileLogOptions>, IDisposable
+    public sealed class FileLogger : OutputLoggerBase<FileLogOptions>, IDisposable
     {
         #region variable
 
@@ -41,37 +41,10 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region LoggerBase
 
-        protected internal override void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+        protected internal override void OutputLog(in LogItem logItem)
         {
-            switch (logLevel)
-            {
-                case LogLevel.Trace:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                case LogLevel.Debug:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                case LogLevel.Information:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                case LogLevel.Warning:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                case LogLevel.Error:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                case LogLevel.Critical:
-                    Writer.WriteLine(logMessage);
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
+            var log = Logging.Format(logItem, Options);
+            Writer.WriteLine(log);
         }
 
         #endregion
@@ -99,6 +72,5 @@ namespace VsLocalizedIntellisense.Models.Logger
         }
 
         #endregion
-
     }
 }

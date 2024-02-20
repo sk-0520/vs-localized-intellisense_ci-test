@@ -26,7 +26,12 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
-        protected internal abstract void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0);
+        /// <summary>
+        /// ログ出力実装。
+        /// <para>ログレベル判定は行わない。</para>
+        /// </summary>
+        /// <param name="log"></param>
+        protected internal abstract void OutputLog(in LogItem logItem);
 
         #endregion
 
@@ -34,7 +39,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return CurrentLogLevel <= logLevel;
+            return Logging.IsEnabled(CurrentLogLevel, logLevel);
         }
 
         public void Log(LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
@@ -44,15 +49,16 @@ namespace VsLocalizedIntellisense.Models.Logger
                 return;
             }
 
-            LogImpl(DateTime.UtcNow, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+            var logItem = new LogItem(DateTime.UtcNow, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber);
+            OutputLog(logItem);
         }
 
 
         #endregion
     }
 
-    public abstract class LoggerBase<TLogOptions>: LoggerBase
-        where TLogOptions: LogOptionsBase
+    public abstract class LoggerBase<TLogOptions> : LoggerBase
+        where TLogOptions : LogOptionsBase
     {
         protected LoggerBase(TLogOptions options)
             : base(options)
@@ -64,6 +70,6 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         protected TLogOptions Options { get; }
 
-        #endregion  
+        #endregion
     }
 }

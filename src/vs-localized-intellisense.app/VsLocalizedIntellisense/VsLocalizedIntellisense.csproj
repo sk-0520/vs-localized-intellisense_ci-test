@@ -83,6 +83,10 @@
     </Compile>
     <Compile Include="Models\Binding\BindModelBase.cs" />
     <Compile Include="Models\Logger\FileLogger.cs" />
+    <Compile Include="Models\Logger\Logging.cs" />
+    <Compile Include="Models\Logger\LogItem.cs" />
+    <Compile Include="Models\Logger\OutputLoggerBase.cs" />
+    <Compile Include="Models\Logger\DebugLogger.cs" />
     <Compile Include="Models\Logger\TraceLogger.cs" />
     <Compile Include="Models\Logger\ILoggerExtensions.cs" />
     <Compile Include="Models\Logger\ILogger.cs" />
