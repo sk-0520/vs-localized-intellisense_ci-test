@@ -30,9 +30,9 @@ namespace VsLocalizedIntellisense.Test.Models.Logger
 
             public IList<LogItem> Items { get; } = new List<LogItem>();
 
-            protected override void LogImpl(DateTime utcTimestamp, LogLevel logLevel, string logMessage, [CallerMemberName] string callerMemberName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumber = 0)
+            protected override void OutputLog(in LogItem logItem)
             {
-                Items.Add(new LogItem(utcTimestamp, logLevel, logMessage, callerMemberName, callerFilePath, callerLineNumber));
+                Items.Add(logItem);
             }
         }
 
