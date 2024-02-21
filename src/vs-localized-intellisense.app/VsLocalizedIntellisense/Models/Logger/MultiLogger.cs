@@ -9,7 +9,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 {
     internal sealed class MultiLogger : ILogger
     {
-        public MultiLogger(MultiLogOptions multiLogOptions)
+        public MultiLogger(string category, MultiLogOptions multiLogOptions)
         {
             var loggers = new List<LoggerBase>();
 
@@ -19,21 +19,21 @@ namespace VsLocalizedIntellisense.Models.Logger
                 {
                     case DebugLogOptions options:
                         {
-                            var logger = new DebugLogger(options);
+                            var logger = new DebugLogger(category, options);
                             loggers.Add(logger);
                         }
                         break;
 
                     case TraceLogOptions options:
                         {
-                            var logger = new TraceLogger(options);
+                            var logger = new TraceLogger(category, options);
                             loggers.Add(logger);
                         }
                         break;
 
                     case FileLogOptions options:
                         {
-                            var logger = new FileLogger(options);
+                            var logger = new FileLogger(category, options);
                             loggers.Add(logger);
                         }
                         break;

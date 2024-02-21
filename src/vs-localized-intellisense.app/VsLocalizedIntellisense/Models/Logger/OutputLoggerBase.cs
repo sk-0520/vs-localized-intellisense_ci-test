@@ -10,8 +10,8 @@ namespace VsLocalizedIntellisense.Models.Logger
     public abstract class OutputLoggerBase<TLogOptions> : LoggerBase<TLogOptions>
         where TLogOptions : LogOptionsBase
     {
-        protected OutputLoggerBase(TLogOptions options)
-            : base(options)
+        protected OutputLoggerBase(string category, TLogOptions options)
+            : base(category, options)
         { }
     }
 }

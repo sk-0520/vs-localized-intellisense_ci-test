@@ -10,12 +10,15 @@ namespace VsLocalizedIntellisense.Models.Logger
 {
     public abstract class LoggerBase : ILogger
     {
-        protected LoggerBase(LogOptionsBase options)
+        protected LoggerBase(string category, LogOptionsBase options)
         {
+            Category = category;
             CurrentLogLevel = options.Level;
         }
 
         #region property
+
+        protected string Category { get; }
 
         /// <summary>
         /// ロガーの対象ログレベル。
@@ -60,8 +63,8 @@ namespace VsLocalizedIntellisense.Models.Logger
     public abstract class LoggerBase<TLogOptions> : LoggerBase
         where TLogOptions : LogOptionsBase
     {
-        protected LoggerBase(TLogOptions options)
-            : base(options)
+        protected LoggerBase(string category, TLogOptions options)
+            : base(category, options)
         {
             Options = options;
         }

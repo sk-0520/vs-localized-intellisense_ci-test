@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VsLocalizedIntellisense.Models;
+using VsLocalizedIntellisense.Models.Configuration;
 
-namespace VsLocalizedIntellisense.Test.Models
+namespace VsLocalizedIntellisense.Test.Models.Configuration
 {
     [TestClass]
     public class AppConfigurationTest
@@ -16,8 +17,8 @@ namespace VsLocalizedIntellisense.Test.Models
 
         private AppConfiguration GetAppConfiguration()
         {
-            var path = Path.Combine(Test.GetProjectDirectory().FullName, "Models", "AppConfigurationTest.config");
-            return AppConfiguration.Open(path);
+            var path = Path.Combine(Test.GetProjectDirectory().FullName, "Models", "Configuration", "AppConfigurationTest.config");
+            return AppConfiguration.Open(path, new AppConfigurationInitializeParameters(DateTime.UtcNow));
         }
 
         [TestMethod]
@@ -188,7 +189,7 @@ namespace VsLocalizedIntellisense.Test.Models
         [TestMethod]
         public void GetValue_timespan_Test()
         {
-            var expected = new TimeSpan(1,2,3,4,500);
+            var expected = new TimeSpan(1, 2, 3, 4, 500);
 
             var config = GetAppConfiguration();
             var actual1 = config.GetValue<TimeSpan>("timespan_str");

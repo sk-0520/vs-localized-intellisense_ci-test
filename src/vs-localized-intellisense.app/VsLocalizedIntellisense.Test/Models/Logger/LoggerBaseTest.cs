@@ -25,7 +25,7 @@ namespace VsLocalizedIntellisense.Test.Models.Logger
             }
 
             public TestLogger(LogLevel logLevel)
-                : base(new TestLogOptions(logLevel))
+                : base(string.Empty, new TestLogOptions(logLevel))
             { }
 
             public IList<LogItem> Items { get; } = new List<LogItem>();

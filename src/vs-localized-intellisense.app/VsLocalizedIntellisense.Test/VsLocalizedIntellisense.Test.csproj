@@ -49,15 +49,16 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AppConfigurationTest.cs" />
+    <Compile Include="Models\Configuration\AppConfigurationTest.cs" />
     <Compile Include="Models\Logger\LoggerBaseTest.cs" />
     <Compile Include="Models\Logger\LoggingTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
+    <Compile Include="Models\StringsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Models\AppConfigurationTest.config">
+    <None Include="Models\Configuration\AppConfigurationTest.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

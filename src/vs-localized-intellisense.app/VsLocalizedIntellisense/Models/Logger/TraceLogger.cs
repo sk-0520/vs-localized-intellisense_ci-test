@@ -10,15 +10,15 @@ namespace VsLocalizedIntellisense.Models.Logger
 {
     public sealed class TraceLogger : OutputLoggerBase<TraceLogOptions>
     {
-        public TraceLogger(TraceLogOptions options)
-            : base(options)
+        public TraceLogger(string category, TraceLogOptions options)
+            : base(category, options)
         { }
 
         #region OutputLoggerBase
 
         protected internal override void OutputLog(in LogItem logItem)
         {
-            var log = Logging.Format(logItem, Options);
+            var log = Logging.Format(Category, logItem, Options);
             Trace.WriteLine(log);
         }
 

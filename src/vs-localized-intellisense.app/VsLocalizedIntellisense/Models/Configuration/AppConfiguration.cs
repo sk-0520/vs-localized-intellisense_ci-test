@@ -6,8 +6,11 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Configuration.Internal;
 using System.Dynamic;
+using System.Text.RegularExpressions;
+using System.Reflection;
+using System.IO;
 
-namespace VsLocalizedIntellisense.Models
+namespace VsLocalizedIntellisense.Models.Configuration
 {
 
     [Serializable]
@@ -31,17 +34,18 @@ namespace VsLocalizedIntellisense.Models
         /// 生成。
         /// <para>デフォルトの App.config が使用される。</para>
         /// </summary>
-        public AppConfiguration()
-            : this(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None))
+        public AppConfiguration(AppConfigurationInitializeParameters initializeParameters)
+            : this(ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None), initializeParameters)
         { }
 
         /// <summary>
         /// 指定した構成ファイルから生成。
         /// </summary>
         /// <param name="configuration">構成ファイル。</param>
-        public AppConfiguration(Configuration configuration)
+        public AppConfiguration(System.Configuration.Configuration configuration, AppConfigurationInitializeParameters initializeParameters)
         {
             Configuration = configuration;
+            InitializeParameters = initializeParameters;
         }
 
         #region proeprty
@@ -49,7 +53,11 @@ namespace VsLocalizedIntellisense.Models
         /// <summary>
         /// 構成ファイル。
         /// </summary>
-        private Configuration Configuration { get; }
+        private System.Configuration.Configuration Configuration { get; }
+
+        private AppConfigurationInitializeParameters InitializeParameters { get; }
+
+        private IReadOnlyDictionary<string, string> ReplaceMap { get; set; }
 
         #endregion
 
@@ -60,14 +68,14 @@ namespace VsLocalizedIntellisense.Models
         /// </summary>
         /// <param name="path">アプリケーション構成ファイルパス。</param>
         /// <returns></returns>
-        public static AppConfiguration Open(string path)
+        public static AppConfiguration Open(string path, AppConfigurationInitializeParameters initializeParameters)
         {
             var map = new ExeConfigurationFileMap
             {
                 ExeConfigFilename = path,
             };
             var conf = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
-            return new AppConfiguration(conf);
+            return new AppConfiguration(conf, initializeParameters);
         }
 
         /// <summary>
@@ -195,6 +203,20 @@ namespace VsLocalizedIntellisense.Models
                 .Select(a => ConvertValue<TResult>(a))
                 .ToArray()
             ;
+        }
+
+        public string Replace(string source)
+        {
+            if (ReplaceMap == null)
+            {
+                ReplaceMap = new Dictionary<string, string>()
+                {
+                    ["APP-DIR"] = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    ["STARTUP-TIMESTAMP:LOCAL:FILE"] = InitializeParameters.UtcTimestamp.ToLocalTime().ToString("yyyy-MM-dd_HHmmss"),
+                };
+            }
+
+            return Strings.ReplaceFromDictionary(source, ReplaceMap);
         }
 
         #endregion

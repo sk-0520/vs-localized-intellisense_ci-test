@@ -10,15 +10,15 @@ namespace VsLocalizedIntellisense.Models.Logger
 {
     public sealed class DebugLogger : OutputLoggerBase<DebugLogOptions>
     {
-        public DebugLogger(DebugLogOptions options)
-            : base(options)
+        public DebugLogger(string category, DebugLogOptions options)
+            : base(category, options)
         { }
 
         #region OutputLoggerBase
 
         protected internal override void OutputLog(in LogItem logItem)
         {
-            var log = Logging.Format(logItem, Options);
+            var log = Logging.Format(Category, logItem, Options);
             Debug.WriteLine(log);
         }
 

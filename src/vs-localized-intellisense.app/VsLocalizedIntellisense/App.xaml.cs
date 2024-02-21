@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using VsLocalizedIntellisense.Models;
+using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Element;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.ViewModels;
@@ -18,19 +19,40 @@ namespace VsLocalizedIntellisense
     /// </summary>
     public partial class App : Application
     {
+        #region property
+
+        private ILogger Logger { get; set; }
+
+        #endregion
+
+        #region Application
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            Logging.Initialize();
+            var appConfiguration = new AppConfiguration(new AppConfigurationInitializeParameters(DateTime.UtcNow));
 
-            var mainElement = new MainElement();
-            var mainViewModel = new MainViewModel(mainElement);
+            var loggerFactory = Logging.Initialize(appConfiguration);
+            Logger = loggerFactory.CreateLogger(GetType());
+            Logger.LogInformation("START");
+
+            var mainElement = new MainElement(Logging.Instance);
+            var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();
 
             MainWindow = mainView;
             MainWindow.DataContext = mainViewModel;
             MainWindow.Show();
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            Logger?.LogInformation("EXIT");
+        }
+
+        #endregion
     }
 }

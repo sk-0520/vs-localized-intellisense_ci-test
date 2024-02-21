@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Configuration;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
@@ -11,15 +12,15 @@ namespace VsLocalizedIntellisense.Models.Logger
     {
         #region property
 
-        private static MultiLogger Logger { get; set; }
+        private static AppLoggerFactory AppLoggerFactory { get; set; }
 
 
-        internal static ILogger Instance
+        internal static ILoggerFactory Instance
         {
             get
             {
-                Debug.Assert(Logger != null);
-                return Logger;
+                Debug.Assert(AppLoggerFactory != null);
+                return AppLoggerFactory;
             }
         }
 
@@ -27,8 +28,10 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
-        public static void Initialize()
+        public static ILoggerFactory Initialize(AppConfiguration configuration)
         {
+            AppLoggerFactory = new AppLoggerFactory(configuration);
+            return AppLoggerFactory;
         }
 
         public static bool IsEnabled(LogLevel defaultLevel, LogLevel compareLevel)
@@ -36,18 +39,29 @@ namespace VsLocalizedIntellisense.Models.Logger
             return compareLevel != LogLevel.None && defaultLevel <= compareLevel;
         }
 
-        private static string FormatFromFormatOptions(in LogItem logItem, LogOptionsBase options, ILogFormatOptions formatOptions)
+        private static string FormatFromFormatOptions(string category, in LogItem logItem, LogOptionsBase options, ILogFormatOptions formatOptions)
         {
             Debug.Assert(!string.IsNullOrEmpty(formatOptions.Format));
 
-            return logItem.Message;
+            var map = new Dictionary<string, string>()
+            {
+                ["TIMESTAMP:LOCAL"] = logItem.Timestamp.ToLocalTime().ToString("u"),
+                ["LEVEL"] = logItem.Level.ToString(),
+                ["CATEGORY"] = category,
+                ["MESSAGE"] = logItem.Message,
+                ["FILE"] = logItem.CallerFilePath,
+                ["LINE"] = logItem.CallerLineNumber.ToString(),
+            };
+
+            var message = Strings.ReplaceFromDictionary(formatOptions.Format, map);
+            return message;
         }
 
-        public static string Format(in LogItem logItem, LogOptionsBase options)
+        public static string Format(string category, in LogItem logItem, LogOptionsBase options)
         {
             if (options is ILogFormatOptions formatOptions && !string.IsNullOrEmpty(formatOptions.Format))
             {
-                return FormatFromFormatOptions(logItem, options, formatOptions);
+                return FormatFromFormatOptions(category, logItem, options, formatOptions);
             }
 
             return logItem.Message;
