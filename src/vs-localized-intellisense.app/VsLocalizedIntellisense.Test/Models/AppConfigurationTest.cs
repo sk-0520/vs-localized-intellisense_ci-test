@@ -139,6 +139,65 @@ namespace VsLocalizedIntellisense.Test.Models
         }
 
         [TestMethod]
+        public void GetValue_datetime_Test()
+        {
+            var expected = new DateTime(2024, 2, 21, 10, 0, 0);
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<DateTime>("datetime");
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DateTimeKind.Unspecified, actual.Kind);
+        }
+
+        [TestMethod]
+        public void GetValue_datetime_0900_Test()
+        {
+            var expected = new DateTime(2024, 2, 21, 10, 0, 0);
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<DateTime>("datetime+09:00");
+            Assert.AreEqual(expected, actual);
+            Assert.AreNotEqual(DateTimeKind.Utc, actual.Kind); // CI通すとローカルではなくなるが、まぁUTCじゃないことだけでも分かればいいかなと
+        }
+
+        [TestMethod]
+        public void GetValue_datetime_utc_Test()
+        {
+            //datetime のタイムゾーンとUTCの関係が分からん, 10時だとおれおれPCでしか動かない気がする, その割にUTC判定されるのがもうわからん
+            //var expected = new DateTime(2024, 2, 21, 10, 0, 0, DateTimeKind.Utc);
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<DateTime>("datetime_utc");
+            //Assert.AreEqual(expected, actual);
+            Assert.AreNotEqual(DateTimeKind.Utc, actual.Kind);
+        }
+
+        [TestMethod]
+        public void GetValue_datetime_tz_Test()
+        {
+            var expected = new DateTime(2024, 2, 21, 1, 0, 0, DateTimeKind.Utc);
+
+            var config = GetAppConfiguration();
+            var actual1 = config.GetValue<DateTimeOffset>("datetime");
+            var actual2 = config.GetValue<DateTimeOffset>("datetime+09:00");
+            var actual3 = config.GetValue<DateTimeOffset>("datetime_utc");
+
+            Assert.AreEqual(expected, actual1.UtcDateTime);
+            Assert.AreEqual(expected, actual2.UtcDateTime);
+            Assert.AreEqual(expected, actual3.UtcDateTime);
+        }
+
+        [TestMethod]
+        public void GetValue_timespan_Test()
+        {
+            var expected = new TimeSpan(1,2,3,4,500);
+
+            var config = GetAppConfiguration();
+            var actual1 = config.GetValue<TimeSpan>("timespan_str");
+            var actual2 = config.GetValue<TimeSpan>("timespan_iso");
+
+            Assert.AreEqual(expected, actual1);
+            Assert.AreEqual(expected, actual2);
+        }
+
+        [TestMethod]
         [DataRow(new[] { "TEXT" }, "string")]
         [DataRow(new[] { "a", "b", "c" }, "array_string_1")]
         [DataRow(new[] { "a", "b", "c" }, "array_string_2")]

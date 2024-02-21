@@ -126,6 +126,19 @@ namespace VsLocalizedIntellisense.Models
                     return (TResult)Enum.Parse(type, value, true);
                 }
 
+                if (type == typeof(TimeSpan))
+                {
+                    if (!TimeSpan.TryParse(value, out var result))
+                    {
+                        result = System.Xml.XmlConvert.ToTimeSpan(value);
+                    }
+                    return (TResult)(object)result;
+                }
+                if (type == typeof(DateTimeOffset))
+                {
+                    return (TResult)(object)DateTimeOffset.Parse(value);
+                }
+
                 return (TResult)Convert.ChangeType(value, type);
             }
             catch (Exception ex)
