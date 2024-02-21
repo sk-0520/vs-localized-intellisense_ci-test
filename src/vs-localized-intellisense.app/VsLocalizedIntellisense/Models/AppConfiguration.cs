@@ -138,6 +138,10 @@ namespace VsLocalizedIntellisense.Models
                 {
                     return (TResult)(object)DateTimeOffset.Parse(value);
                 }
+                if(type == typeof(Guid))
+                {
+                    return (TResult)(object)Guid.Parse(value);
+                }
 
                 return (TResult)Convert.ChangeType(value, type);
             }

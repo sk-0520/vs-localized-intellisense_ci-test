@@ -141,6 +141,7 @@ namespace VsLocalizedIntellisense.Test.Models
         [TestMethod]
         public void GetValue_datetime_Test()
         {
+            // TZなしの時間はもう分からん
             var expected = new DateTime(2024, 2, 21, 10, 0, 0);
             var config = GetAppConfiguration();
             var actual = config.GetValue<DateTime>("datetime");
@@ -195,6 +196,21 @@ namespace VsLocalizedIntellisense.Test.Models
 
             Assert.AreEqual(expected, actual1);
             Assert.AreEqual(expected, actual2);
+        }
+
+        [TestMethod]
+        public void GetValue_guid_Test()
+        {
+            var expected = new Guid("b7aa969ef81f427087898702fa9c5d76");
+
+            var config = GetAppConfiguration();
+            var actual1 = config.GetValue<Guid>("guid_1");
+            var actual2 = config.GetValue<Guid>("guid_2");
+            var actual3 = config.GetValue<Guid>("guid_3");
+
+            Assert.AreEqual(expected, actual1);
+            Assert.AreEqual(expected, actual2);
+            Assert.AreEqual(expected, actual3);
         }
 
         [TestMethod]
