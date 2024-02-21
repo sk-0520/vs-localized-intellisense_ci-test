@@ -126,6 +126,10 @@ namespace VsLocalizedIntellisense.Models
                     return (TResult)Enum.Parse(type, value, true);
                 }
 
+                if (type == typeof(Uri))
+                {
+                    return (TResult)(object)new Uri(value);
+                }
                 if (type == typeof(TimeSpan))
                 {
                     if (!TimeSpan.TryParse(value, out var result))
@@ -138,7 +142,7 @@ namespace VsLocalizedIntellisense.Models
                 {
                     return (TResult)(object)DateTimeOffset.Parse(value);
                 }
-                if(type == typeof(Guid))
+                if (type == typeof(Guid))
                 {
                     return (TResult)(object)Guid.Parse(value);
                 }
@@ -192,8 +196,6 @@ namespace VsLocalizedIntellisense.Models
                 .ToArray()
             ;
         }
-
-
 
         #endregion
     }

@@ -19,7 +19,7 @@ namespace VsLocalizedIntellisense
             base.OnStartup(e);
 
             //var conf = new AppConfiguration();
-            //MessageBox.Show(conf.Get<string>("update-uri"));
+            //MessageBox.Show(conf.GetUpdateCheckUri().ToString());
         }
     }
 }

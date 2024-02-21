@@ -199,6 +199,17 @@ namespace VsLocalizedIntellisense.Test.Models
         }
 
         [TestMethod]
+        public void GetValue_uri_Test()
+        {
+            var expected = new Uri("http://localhost");
+
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<Uri>("uri");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void GetValue_guid_Test()
         {
             var expected = new Guid("b7aa969ef81f427087898702fa9c5d76");
