@@ -1,0 +1,54 @@
+name: Build Application
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOLUTION_PATH: src\vs-localized-intellisense.app\vs-localized-intellisense.app.sln
+  APP_BIN_DIR: src\vs-localized-intellisense.app\VsLocalizedIntellisense\bin\Release
+  TEST_BIN_PATH: src\vs-localized-intellisense.app\VsLocalizedIntellisense.Test\bin\Release\VsLocalizedIntellisense.Test.dll
+  VS_TEST_CONSOLE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow
+
+jobs:
+  build:
+    name: Build
+
+    runs-on: windows-latest
+
+    steps:
+      - name: <Checkout> Repository
+        uses: actions/checkout@v4
+
+      - name: <Add> msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: <Restore> Application
+        shell: cmd
+        run: |
+          nuget restore ${{ env.SOLUTION_PATH }}
+
+      - name: <Build> Application
+        shell: pwsh
+        run: |
+          msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Release
+          if(-not $?) {
+            throw 'error: build'
+          }
+          tree /f
+
+      - name: <Test> Application
+        shell: cmd
+        run: |
+          set PATH=%PATH%;${{env.VS_TEST_CONSOLE_PATH}}
+          VSTest.Console ${{ env.TEST_BIN_PATH }} /InIsolation
+
+      - name: <Artifact> Application
+        uses: actions/upload-artifact@v4
+        with:
+          name: VsLocalizedIntellisense
+          path: ${{ env.APP_BIN_DIR }}
