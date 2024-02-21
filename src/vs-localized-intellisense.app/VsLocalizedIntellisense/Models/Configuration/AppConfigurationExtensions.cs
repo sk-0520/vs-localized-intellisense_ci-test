@@ -11,6 +11,11 @@ namespace VsLocalizedIntellisense.Models.Configuration
     {
         #region function
 
+        private static TResult GetValueOrEmptyInit<TResult>(AppConfiguration configuration, string key)
+        {
+            return configuration.Contains(key) ? configuration.GetValue<TResult>(key) : default;
+        }
+
         /// <summary>
         /// アップデートチェック用URIを取得。
         /// </summary>
@@ -22,35 +27,29 @@ namespace VsLocalizedIntellisense.Models.Configuration
 
         public static bool IsEnableDebugLog(this AppConfiguration configuration)
         {
-            var key = "log-debug-is-enabled";
-            return configuration.Contains(key) && configuration.GetValue<bool>(key);
+            return GetValueOrEmptyInit<bool>(configuration, "log-debug-is-enabled");
         }
         public static string GetLogDebugFormat(this AppConfiguration configuration)
         {
-            var key = "log-debug-format";
-            return configuration.Contains(key) ? configuration.GetValue<string>(key): string.Empty;
+            return GetValueOrEmptyInit<string>(configuration, "log-debug-format");
         }
 
         public static bool IsEnableTraceLog(this AppConfiguration configuration)
         {
-            var key = "log-trace-is-enabled";
-            return configuration.Contains(key) && configuration.GetValue<bool>(key);
+            return GetValueOrEmptyInit<bool>(configuration, "log-trace-is-enabled");
         }
         public static string GetLogTraceFormat(this AppConfiguration configuration)
         {
-            var key = "log-trace-format";
-            return configuration.Contains(key) ? configuration.GetValue<string>(key) : string.Empty;
+            return GetValueOrEmptyInit<string>(configuration, "log-trace-format");
         }
 
         public static bool IsEnableFileLog(this AppConfiguration configuration)
         {
-            var key = "log-file-is-enabled";
-            return configuration.Contains(key) && configuration.GetValue<bool>(key);
+            return GetValueOrEmptyInit<bool>(configuration, "log-file-is-enabled");
         }
         public static string GetLogFileFormat(this AppConfiguration configuration)
         {
-            var key = "log-file-format";
-            return configuration.Contains(key) ? configuration.GetValue<string>(key) : string.Empty;
+            return GetValueOrEmptyInit<string>(configuration, "log-file-format");
         }
         public static string GetLogFilePath(this AppConfiguration configuration)
         {

@@ -205,15 +205,22 @@ namespace VsLocalizedIntellisense.Models.Configuration
             ;
         }
 
+        private static Dictionary<string, string> CreateReplaceParameters(AppConfigurationInitializeParameters parameters)
+        {
+            var map = new Dictionary<string, string>()
+            {
+                ["APP-DIR"] = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                ["STARTUP-TIMESTAMP:LOCAL:FILE"] = parameters.UtcTimestamp.ToLocalTime().ToString("yyyy-MM-dd_HHmmss"),
+            };
+
+            return map;
+        }
+
         public string Replace(string source)
         {
             if (ReplaceMap == null)
             {
-                ReplaceMap = new Dictionary<string, string>()
-                {
-                    ["APP-DIR"] = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                    ["STARTUP-TIMESTAMP:LOCAL:FILE"] = InitializeParameters.UtcTimestamp.ToLocalTime().ToString("yyyy-MM-dd_HHmmss"),
-                };
+                ReplaceMap = CreateReplaceParameters(InitializeParameters);
             }
 
             return Strings.ReplaceFromDictionary(source, ReplaceMap);
