@@ -21,10 +21,21 @@ namespace VsLocalizedIntellisense.Test.Models
         }
 
         [TestMethod]
-        public void Get_notFound_Test()
+        [DataRow(false, "")]
+        [DataRow(false, "not-found")]
+        [DataRow(true, "string")]
+        public void ContainsTest(bool expected, string key)
         {
             var config = GetAppConfiguration();
-            Assert.ThrowsException<KeyNotFoundException>(() => config.Get<object>(""));
+            var actual = config.Contains(key);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetValue_notFound_Test()
+        {
+            var config = GetAppConfiguration();
+            Assert.ThrowsException<KeyNotFoundException>(() => config.GetValue<object>(""));
         }
 
         [TestMethod]
@@ -34,18 +45,18 @@ namespace VsLocalizedIntellisense.Test.Models
         [DataRow("3.14", "float")]
         [DataRow("2.71", "double")]
         [DataRow("0.1", "decimal")]
-        public void Get_string_Test(string expected, string key)
+        public void GetValue_string_Test(string expected, string key)
         {
             var config = GetAppConfiguration();
-            var actual = config.Get<string>(key);
+            var actual = config.GetValue<string>(key);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void Get_int_Test()
+        public void GetValue_int_Test()
         {
             var config = GetAppConfiguration();
-            var actual = config.Get<int>("int");
+            var actual = config.GetValue<int>("int");
             Assert.AreEqual(2147483647, actual);
         }
 
@@ -54,25 +65,26 @@ namespace VsLocalizedIntellisense.Test.Models
         [DataRow("float")]
         [DataRow("double")]
         [DataRow("decimal")]
-        public void Get_int_FormatException_Test(string key)
+        public void GetValue_int_FormatException_Test(string key)
         {
             var config = GetAppConfiguration();
-            Assert.ThrowsException<FormatException>(() => config.Get<int>(key));
-        }
-
-        public void Get_int_OverflowException_Test()
-        {
-            var config = GetAppConfiguration();
-            Assert.ThrowsException<OverflowException>(() => config.Get<int>("long"));
+            Assert.ThrowsException<AppConfigurationException>(() => config.GetValue<int>(key));
         }
 
         [TestMethod]
-        public void Get_long_Test()
+        public void GetValue_int_OverflowException_Test()
         {
             var config = GetAppConfiguration();
-            var actualLong = config.Get<long>("long");
+            Assert.ThrowsException<AppConfigurationException>(() => config.GetValue<int>("long"));
+        }
+
+        [TestMethod]
+        public void GetValue_long_Test()
+        {
+            var config = GetAppConfiguration();
+            var actualLong = config.GetValue<long>("long");
             Assert.AreEqual(9223372036854775807, actualLong);
-            var actualInt = config.Get<long>("int");
+            var actualInt = config.GetValue<long>("int");
             Assert.AreEqual(2147483647, actualInt);
         }
 
@@ -81,10 +93,90 @@ namespace VsLocalizedIntellisense.Test.Models
         [DataRow("float")]
         [DataRow("double")]
         [DataRow("decimal")]
-        public void Get_long_throw_Test(string key)
+        public void GetValue_long_throw_Test(string key)
         {
             var config = GetAppConfiguration();
-            Assert.ThrowsException<FormatException>(() => config.Get<long>(key));
+            Assert.ThrowsException<AppConfigurationException>(() => config.GetValue<long>(key));
+        }
+
+        public enum TestEnum1
+        {
+            Key1,
+            Key2,
+            Key3,
+        }
+
+        [TestMethod]
+        public void GetValue_enum_str_Test()
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<TestEnum1>("enum_str");
+            Assert.AreEqual(TestEnum1.Key2, actual);
+        }
+
+        [TestMethod]
+        public void GetValue_enum_num_Test()
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<TestEnum1>("enum_num");
+            Assert.AreEqual(TestEnum1.Key2, actual);
+        }
+
+        [Flags]
+        public enum TestEnum2
+        {
+            Key1 = 0b0001,
+            Key2 = 0b0010,
+            Key3 = 0b0100,
+        }
+
+        [TestMethod]
+        public void GetValue_enum_flag_Test()
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValue<TestEnum2>("enum_flag");
+            Assert.AreEqual(TestEnum2.Key2 | TestEnum2.Key3, actual);
+        }
+
+        [TestMethod]
+        [DataRow(new[] { "TEXT" }, "string")]
+        [DataRow(new[] { "a", "b", "c" }, "array_string_1")]
+        [DataRow(new[] { "a", "b", "c" }, "array_string_2")]
+        [DataRow(new[] { "a", "", "b", "c" }, "array_string_3")]
+        [DataRow(new[] { "a\tb\tc" }, "array_string_4")]
+        public void GetValues_string_default_Test(string[] expected, string key)
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValues<string>(key);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow(new[] { "TEXT" }, "string")]
+        [DataRow(new[] { "a,b,c" }, "array_string_1")]
+        [DataRow(new[] { "a , b , c" }, "array_string_2")]
+        [DataRow(new[] { "a , ,b, c" }, "array_string_3")]
+        [DataRow(new[] { "a", "b", "c" }, "array_string_4")]
+        public void GetValues_string_tab_Test(string[] expected, string key)
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValues<string>(key, '\t');
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetValues_mixed_string_Test()
+        {
+            var config = GetAppConfiguration();
+            var actual = config.GetValues<string>("array_mixed");
+            CollectionAssert.AreEqual(new[] { "abc", "123" }, actual);
+        }
+
+        [TestMethod]
+        public void GetValues_mixed_int_Test()
+        {
+            var config = GetAppConfiguration();
+            Assert.ThrowsException<AppConfigurationException>(() => config.GetValues<int>("array_mixed"));
         }
 
         #endregion
