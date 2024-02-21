@@ -37,6 +37,9 @@ namespace VsLocalizedIntellisense.Models.Logger
                             loggers.Add(logger);
                         }
                         break;
+
+                    default:
+                        throw new NotImplementedException();
                 }
             }
 
