@@ -84,6 +84,7 @@
     <Compile Include="Models\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Binding\BindModelBase.cs" />
     <Compile Include="Models\AppConfiguration.cs" />
+    <Compile Include="Models\Binding\Command.cs" />
     <Compile Include="Models\Logger\FileLogger.cs" />
     <Compile Include="Models\Logger\Logging.cs" />
     <Compile Include="Models\Logger\LogItem.cs" />
