@@ -6,6 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using VsLocalizedIntellisense.Models;
+using VsLocalizedIntellisense.Models.Element;
+using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.ViewModels;
+using VsLocalizedIntellisense.Views;
 
 namespace VsLocalizedIntellisense
 {
@@ -18,8 +22,15 @@ namespace VsLocalizedIntellisense
         {
             base.OnStartup(e);
 
-            //var conf = new AppConfiguration();
-            //MessageBox.Show(conf.GetUpdateCheckUri().ToString());
+            Logging.Initialize();
+
+            var mainElement = new MainElement();
+            var mainViewModel = new MainViewModel(mainElement);
+            var mainView = new MainWindow();
+
+            MainWindow = mainView;
+            MainWindow.DataContext = mainViewModel;
+            MainWindow.Show();
         }
     }
 }

@@ -27,6 +27,10 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
+        public static void Initialize()
+        {
+        }
+
         public static bool IsEnabled(LogLevel defaultLevel, LogLevel compareLevel)
         {
             return compareLevel != LogLevel.None && defaultLevel <= compareLevel;
