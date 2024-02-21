@@ -23,6 +23,10 @@ jobs:
     steps:
       - name: <Checkout> Repository
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            src
 
       - name: <Add> msbuild to PATH
         uses: microsoft/setup-msbuild@v2
