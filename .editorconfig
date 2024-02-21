@@ -24,6 +24,23 @@ dotnet_style_predefined_type_for_member_access = true:suggestion
 dotnet_sort_system_directives_first = true
 dotnet_separate_import_directive_groups = false
 
+# IDE --------------------------------------------------------------------------
+# IDE0060: 未使用のパラメーターを削除します
+dotnet_code_quality_unused_parameters = non_public:silent
+# IDE0052: 読み取られていないプライベート メンバーを削除
+dotnet_diagnostic.IDE0052.severity = silent
+# IDE0042: 変数の宣言を分解
+dotnet_diagnostic.IDE0042.severity = silent
+# IDE0008: 明示的な型の使用
+dotnet_diagnostic.IDE0008.severity = none
+# IDE0058: 式の値が使用されていません
+dotnet_diagnostic.IDE0058.severity = none
+# IDE0063: 単純な 'using' ステートメントを使用する
+dotnet_diagnostic.IDE0063.severity = none
+
+dotnet_diagnostic.CA2016.severity = error
+dotnet_diagnostic.CA2250.severity = warning
+
 [*.yml]
 indent_style = space
 indent_size = 2
