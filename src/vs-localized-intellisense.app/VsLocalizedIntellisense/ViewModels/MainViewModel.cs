@@ -13,5 +13,15 @@ namespace VsLocalizedIntellisense.ViewModels
         public MainViewModel(MainElement model, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
         { }
+
+        #region property
+
+        public string InstallRootDirectoryPath
+        {
+            get => Model.InstallRootDirectoryPath;
+            set => SetModel(value);
+        }
+
+        #endregion
     }
 }

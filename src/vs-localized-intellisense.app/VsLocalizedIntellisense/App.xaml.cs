@@ -37,7 +37,7 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            var mainElement = new MainElement(Logging.Instance);
+            var mainElement = new MainElement(appConfiguration, Logging.Instance);
             var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();
 

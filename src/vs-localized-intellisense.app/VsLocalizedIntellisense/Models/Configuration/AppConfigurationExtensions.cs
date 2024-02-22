@@ -23,6 +23,8 @@ namespace VsLocalizedIntellisense.Models.Configuration
         /// <returns></returns>
         public static Uri GetUpdateCheckUri(this AppConfiguration configuration) => configuration.GetValue<Uri>("update-check-uri");
 
+        public static string GetInstallRootDirectoryPath(this AppConfiguration configuration) => configuration.GetValue<string>("install-root-directory");
+
         public static LogLevel GetLogDefaultLevel(this AppConfiguration configuration) => configuration.GetValue<LogLevel>("log-default-level");
 
         public static bool IsEnableDebugLog(this AppConfiguration configuration)
