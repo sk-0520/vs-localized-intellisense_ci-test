@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +87,7 @@
     <Compile Include="Models\Binding\BindModelBase.cs" />
     <Compile Include="Models\Configuration\AppConfiguration.cs" />
     <Compile Include="Models\Binding\Command.cs" />
+    <Compile Include="Models\Disposer.cs" />
     <Compile Include="Models\Element\ElementBase.cs" />
     <Compile Include="Models\Element\MainElement.cs" />
     <Compile Include="Models\Logger\AppLoggerFactory.cs" />
