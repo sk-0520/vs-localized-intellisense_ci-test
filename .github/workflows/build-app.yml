@@ -11,8 +11,11 @@ concurrency:
 env:
   SOLUTION_PATH: src\vs-localized-intellisense.app\vs-localized-intellisense.app.sln
   APP_BIN_DIR: src\vs-localized-intellisense.app\VsLocalizedIntellisense\bin\Release
-  TEST_BIN_PATH: src\vs-localized-intellisense.app\VsLocalizedIntellisense.Test\bin\Release\VsLocalizedIntellisense.Test.dll
+  TEST_BASE_DIR: src\vs-localized-intellisense.app\VsLocalizedIntellisense.Test\bin
+  TEST_BIN_NAME: VsLocalizedIntellisense.Test.dll
   VS_TEST_CONSOLE_PATH: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TestWindow
+  NUGET_TOOL_OpenCover: src\vs-localized-intellisense.app\packages\OpenCover.4.7.1221\tools\OpenCover.Console.exe
+  NUGET_TOOL_ReportGenerator: src\vs-localized-intellisense.app\packages\ReportGenerator.5.2.1\tools\net47\ReportGenerator.exe
 
 jobs:
   build:
@@ -49,10 +52,76 @@ jobs:
         shell: cmd
         run: |
           set PATH=%PATH%;${{env.VS_TEST_CONSOLE_PATH}}
-          VSTest.Console ${{ env.TEST_BIN_PATH }} /InIsolation
+          VSTest.Console "${{ env.TEST_BASE_DIR }}\Release\${{ env.TEST_BIN_NAME }}" /InIsolation
 
       - name: <Artifact> Application
         uses: actions/upload-artifact@v4
         with:
           name: VsLocalizedIntellisense
           path: ${{ env.APP_BIN_DIR }}
+
+  test:
+    name: Test
+
+    runs-on: windows-latest
+
+    steps:
+      - name: <Checkout> Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            src
+
+      - name: <Add> msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: <Restore> Application
+        shell: cmd
+        run: |
+          nuget restore ${{ env.SOLUTION_PATH }}
+
+      - name: <Build> Application
+        shell: pwsh
+        run: |
+          msbuild ${{ env.SOLUTION_PATH }} /t:Build /p:Configuration=Debug
+          if(-not $?) {
+            throw 'error: build'
+          }
+
+      - name: <Test> Application
+        shell: pwsh
+        run: |
+          #$env:Path += ';${{env.VS_TEST_CONSOLE_PATH}}'
+          $testDir = Join-Path -Path '${{ env.TEST_BASE_DIR }}' -ChildPath 'Debug'
+
+          Write-Host "OpenCover"
+          ${{ env.NUGET_TOOL_OpenCover }} `
+            -target:"${{ env.VS_TEST_CONSOLE_PATH }}\VSTest.Console.exe" `
+            -targetdir:"${testDir}" `
+            -targetargs:"""${{ env.TEST_BIN_NAME }}""" `
+            -filter:"+[VsLocalizedIntellisense*]* -[VsLocalizedIntellisense.Test]* " `
+            -output:"result.xml" `
+            -register:user
+          if(-not $?) {
+            throw 'error: OpenCover'
+          }
+
+          Write-Host "ReportGenerator"
+          ${{ env.NUGET_TOOL_ReportGenerator }} `
+            -reports:"result.xml" `
+            -reporttypes:HTML `
+            -targetdir:"code-coverage"
+          if(-not $?) {
+            throw 'error: ReportGenerator'
+          }
+          Remove-Item -Path (Join-Path -Path 'code-coverage' -ChildPath 'index.htm')
+
+      - name: <Artifact> Code Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: CodeCoverage
+          path: |
+            code-coverage
+            result.xml
+
