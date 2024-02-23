@@ -95,6 +95,7 @@
     <Compile Include="Models\Logger\ILoggerFactory.cs" />
     <Compile Include="Models\Logger\Logging.cs" />
     <Compile Include="Models\Logger\LogItem.cs" />
+    <Compile Include="Models\Logger\NullLoggers.cs" />
     <Compile Include="Models\Logger\OutputLoggerBase.cs" />
     <Compile Include="Models\Logger\DebugLogger.cs" />
     <Compile Include="Models\Logger\TraceLogger.cs" />

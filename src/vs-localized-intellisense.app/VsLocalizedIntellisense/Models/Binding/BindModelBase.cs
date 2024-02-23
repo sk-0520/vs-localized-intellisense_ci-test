@@ -13,19 +13,26 @@ namespace VsLocalizedIntellisense.Models.Binding
     /// </summary>
     public abstract class BindModelBase : NotifyPropertyBase
     {
-        protected void SetVariable<T>(ref T variable, T value, [CallerMemberName] string propertyName = "")
+        /// <summary>
+        /// プロパティ値変更処理。
+        /// <para>プロパティ対象となるフィールドを指定し、変更があれば変更通知を行う。</para>
+        /// </summary>
+        /// <typeparam name="T">プロパティの型。</typeparam>
+        /// <param name="variable">プロパティの実体となるフィールド。</param>
+        /// <param name="value">設定する値。</param>
+        /// <param name="notifyPropertyName">プロパティ名。</param>
+        /// <returns>変更されたか。</returns>
+        protected bool SetVariable<T>(ref T variable, T value, [CallerMemberName] string notifyPropertyName = "")
         {
+            if(EqualityComparer<T>.Default.Equals(variable, value))
+            {
+                return false;
+            }
+
             variable = value;
-            OnPropertyChanged(propertyName);
-        }
+            OnPropertyChanged(notifyPropertyName);
 
-        public void SetProperty<T>(T value, [CallerMemberName] string propertyName = "")
-        {
-            var type = GetType();
-            var prop = type.GetProperty(propertyName);
-
-            prop.SetValue(this, value);
-            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }
