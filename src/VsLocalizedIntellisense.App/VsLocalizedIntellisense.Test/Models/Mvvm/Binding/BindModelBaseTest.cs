@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VsLocalizedIntellisense.Models.Mvvm;
+using VsLocalizedIntellisense.Models.Mvvm.Binding;
 
-namespace VsLocalizedIntellisense.Test.Models.Mvvm
+namespace VsLocalizedIntellisense.Test.Models.Mvvm.Binding
 {
     [TestClass]
     public class BindModelBaseTest

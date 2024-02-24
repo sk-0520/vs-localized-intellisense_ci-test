@@ -8,7 +8,8 @@ using VsLocalizedIntellisense.Models;
 
 namespace VsLocalizedIntellisense.Test.Models
 {
-    internal class StringsTest
+    [TestClass]
+    public class StringsTest
     {
         #region function
 

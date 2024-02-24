@@ -50,17 +50,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Mvvm\BindModelBaseTest.cs" />
+    <Compile Include="Models\Logger\ILoggerExtensionsTest.cs" />
+    <Compile Include="Models\Mvvm\Binding\BindModelBaseTest.cs" />
     <Compile Include="Models\Configuration\AppConfigurationTest.cs" />
     <Compile Include="Models\DisposerTest.cs" />
     <Compile Include="Models\Logger\LoggerBaseTest.cs" />
     <Compile Include="Models\Logger\LoggingTest.cs" />
-    <Compile Include="Models\Mvvm\MessengerTest.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ModelViewModelObservableCollectionManagerTest.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ObservableCollectionManagerBaseTest.cs" />
+    <Compile Include="Models\Mvvm\Binding\SingleModelViewModelBaseTest.cs" />
+    <Compile Include="Models\Mvvm\Message\MessengerHelperTest.cs" />
+    <Compile Include="Models\Mvvm\Message\MessengerTest.cs" />
+    <Compile Include="Models\Mvvm\Message\ScopedMessengerTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
     <Compile Include="Models\StringsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
-    <Compile Include="Models\Mvvm\ViewModelTest.cs" />
+    <Compile Include="Models\Mvvm\Binding\ViewModelBaseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Configuration\AppConfigurationTest.config">

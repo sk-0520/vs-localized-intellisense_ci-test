@@ -34,7 +34,7 @@ namespace VsLocalizedIntellisense.Models
             Dispose(false);
         }
 
-        #region IDisposable
+        #region IDisposed
 
         /// <summary>
         /// <see cref="IDisposable.Dispose"/>されたか。
@@ -82,109 +82,6 @@ namespace VsLocalizedIntellisense.Models
         {
             Dispose(true);
         }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// その場で破棄する処理。
-    /// <para><c>using var xxx = new ActionDisposer(d => ...)</c>で実装する前提。</para>
-    /// </summary>
-    public sealed class ActionDisposer : DisposerBase
-    {
-        public ActionDisposer(Action<bool> action)
-        {
-            Action = action ?? throw new ArgumentNullException(nameof(action));
-        }
-
-        #region property
-
-        private Action<bool> Action { get; set; }
-
-        #endregion
-
-        #region ActionDisposer
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!IsDisposed)
-            {
-                if (Action != null)
-                {
-                    Action(disposing);
-                    Action = null;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
-    }
-
-    /// <inheritdoc cref="ActionDisposer"/>
-    public sealed class ActionDisposer<TArgument> : DisposerBase
-    {
-        public ActionDisposer(Action<bool, TArgument> action, TArgument argument)
-        {
-            Action = action ?? throw new ArgumentNullException(nameof(action));
-            Argument = argument;
-        }
-
-        #region property
-
-        private Action<bool, TArgument> Action { get; set; }
-        private TArgument Argument { get; set; }
-
-        #endregion
-
-        #region ActionDisposer
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!IsDisposed)
-            {
-                if (Action != null)
-                {
-                    Action(disposing, Argument);
-                    Action = null;
-                    Argument = default;
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// <see cref="ActionDisposer"/>, <see cref="ActionDisposer{TArgument}"/> の生成ヘルパー。
-    /// </summary>
-    public static class ActionDisposerHelper
-    {
-        #region define
-
-        private sealed class EmptyDisposer : IDisposable
-        {
-            public void Dispose()
-            {
-                GC.SuppressFinalize(this);
-            }
-        }
-
-        #endregion
-
-        #region function
-
-        public static ActionDisposer Create(Action<bool> action) => new ActionDisposer(action);
-        public static ActionDisposer<TArgument> Create<TArgument>(Action<bool, TArgument> action, TArgument argument) => new ActionDisposer<TArgument>(action, argument);
-
-        /// <summary>
-        /// <see cref="IDisposable"/>とのIFを合わせるための空処理。
-        /// </summary>
-        /// <returns></returns>
-        public static IDisposable CreateEmpty() => new EmptyDisposer();
 
         #endregion
     }

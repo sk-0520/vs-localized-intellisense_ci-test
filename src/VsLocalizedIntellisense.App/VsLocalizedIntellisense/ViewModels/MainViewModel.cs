@@ -8,6 +8,9 @@ using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Element;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.ViewModels.Message;
+using VsLocalizedIntellisense.Models.Mvvm.Binding;
+using VsLocalizedIntellisense.Models.Mvvm.Command;
+using VsLocalizedIntellisense.Models.Mvvm.Message;
 
 namespace VsLocalizedIntellisense.ViewModels
 {

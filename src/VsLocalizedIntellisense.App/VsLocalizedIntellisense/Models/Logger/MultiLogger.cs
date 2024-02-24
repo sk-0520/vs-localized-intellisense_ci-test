@@ -24,13 +24,6 @@ namespace VsLocalizedIntellisense.Models.Logger
                         }
                         break;
 
-                    case TraceLogOptions options:
-                        {
-                            var logger = new TraceLogger(category, options);
-                            loggers.Add(logger);
-                        }
-                        break;
-
                     case FileLogOptions options:
                         {
                             var logger = new FileLogger(category, options);

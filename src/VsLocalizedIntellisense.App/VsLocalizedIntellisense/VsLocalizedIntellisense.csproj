@@ -84,9 +84,15 @@
     </Compile>
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
-    <Compile Include="Models\Mvvm\BindModelBase.cs" />
+    <Compile Include="Models\Logger\ILoggerFactoryExtensions.cs" />
+    <Compile Include="Models\Mvvm\Binding\BindModelBase.cs" />
     <Compile Include="Models\Configuration\AppConfiguration.cs" />
-    <Compile Include="Models\Mvvm\Command.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ModelViewModelObservableCollectionManager.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ObservableCollectionManagerBase.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ModelViewModelObservableCollectionOptions.cs" />
+    <Compile Include="Models\Mvvm\Binding\Collection\ModelViewModelObservableCollectionViewModelApply.cs" />
+    <Compile Include="Models\Mvvm\Binding\SingleModelViewModelBase.cs" />
+    <Compile Include="Models\Mvvm\Command\AsyncDelegateCommand.cs" />
     <Compile Include="Models\Disposer.cs" />
     <Compile Include="Models\Element\ElementBase.cs" />
     <Compile Include="Models\Element\MainElement.cs" />
@@ -98,18 +104,26 @@
     <Compile Include="Models\Logger\NullLoggers.cs" />
     <Compile Include="Models\Logger\OutputLoggerBase.cs" />
     <Compile Include="Models\Logger\DebugLogger.cs" />
-    <Compile Include="Models\Logger\TraceLogger.cs" />
     <Compile Include="Models\Logger\ILoggerExtensions.cs" />
     <Compile Include="Models\Logger\ILogger.cs" />
     <Compile Include="Models\Logger\LoggerBase.cs" />
     <Compile Include="Models\Logger\LogLevel.cs" />
     <Compile Include="Models\Logger\LogOptions.cs" />
     <Compile Include="Models\Logger\MultiLogger.cs" />
-    <Compile Include="Models\Mvvm\Messenger.cs" />
+    <Compile Include="Models\Mvvm\Command\CommandBase.cs" />
+    <Compile Include="Models\Mvvm\Command\CommandExtensions.cs" />
+    <Compile Include="Models\Mvvm\Command\DelegateCommand.cs" />
+    <Compile Include="Models\Mvvm\Message\IMessage.cs" />
+    <Compile Include="Models\Mvvm\Message\MessageItem.cs" />
+    <Compile Include="Models\Mvvm\Message\Messenger.cs" />
+    <Compile Include="Models\Mvvm\Message\MessengerAttribute.cs" />
+    <Compile Include="Models\Mvvm\Message\MessengerHelper.cs" />
+    <Compile Include="Models\Mvvm\Message\ScopedMessenger.cs" />
+    <Compile Include="Models\Mvvm\Message\ViewMessenger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="Models\Mvvm\ViewModel.cs" />
+    <Compile Include="Models\Mvvm\Binding\ViewModelBase.cs" />
     <Compile Include="ViewModels\Message\OpenFileDialogMessage.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.Models.Mvvm.Binding;
 
 namespace VsLocalizedIntellisense.Models.Element
 {

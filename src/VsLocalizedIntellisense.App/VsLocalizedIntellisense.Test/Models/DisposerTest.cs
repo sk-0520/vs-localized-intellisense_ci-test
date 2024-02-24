@@ -9,28 +9,40 @@ using VsLocalizedIntellisense.Models;
 namespace VsLocalizedIntellisense.Test.Models
 {
     [TestClass]
-    public class ActionDisposerTest
+    public class DisposerTest
     {
-        [TestMethod]
-        public void UsingTest()
+        private class TestDisposer : DisposerBase
         {
-            using (var disposer = new ActionDisposer(disposing =>
+            public bool Disposing { get; private set; }
+
+            protected override void Dispose(bool disposing)
             {
-                Assert.IsTrue(disposing);
-            }))
-            {
-                Assert.IsTrue(true);
+                Disposing = disposing;
+                base.Dispose(disposing);
             }
         }
 
         [TestMethod]
-        public void FinalizeTest()
+        public void Test()
         {
-            var disposer = new ActionDisposer(disposing =>
-            {
-                Assert.IsFalse(disposing);
-            });
+            var disposer = new TestDisposer();
+
+            disposer.Dispose();
+
+            Assert.IsTrue(disposer.IsDisposed);
+            Assert.IsTrue(disposer.Disposing);
+        }
+
+        [TestMethod]
+        public void Dispose2Test()
+        {
+            var disposer = new TestDisposer();
+
+            disposer.Dispose();
+            disposer.Dispose();
+
+            Assert.IsTrue(disposer.IsDisposed);
+            Assert.IsTrue(disposer.Disposing);
         }
     }
-
 }

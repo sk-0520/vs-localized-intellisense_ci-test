@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VsLocalizedIntellisense.Models.Mvvm;
+using VsLocalizedIntellisense.Models.Mvvm.Message;
 using VsLocalizedIntellisense.ViewModels.Message;
 
 namespace VsLocalizedIntellisense.Views
