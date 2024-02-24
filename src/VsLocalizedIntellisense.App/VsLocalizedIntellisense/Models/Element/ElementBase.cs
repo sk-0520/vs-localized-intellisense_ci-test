@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VsLocalizedIntellisense.Models.Binding;
+using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Logger;
 
 namespace VsLocalizedIntellisense.Models.Element

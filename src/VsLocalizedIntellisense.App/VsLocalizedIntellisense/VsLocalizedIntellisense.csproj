@@ -84,9 +84,9 @@
     </Compile>
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
-    <Compile Include="Models\Binding\BindModelBase.cs" />
+    <Compile Include="Models\Mvvm\BindModelBase.cs" />
     <Compile Include="Models\Configuration\AppConfiguration.cs" />
-    <Compile Include="Models\Binding\Command.cs" />
+    <Compile Include="Models\Mvvm\Command.cs" />
     <Compile Include="Models\Disposer.cs" />
     <Compile Include="Models\Element\ElementBase.cs" />
     <Compile Include="Models\Element\MainElement.cs" />
@@ -105,10 +105,12 @@
     <Compile Include="Models\Logger\LogLevel.cs" />
     <Compile Include="Models\Logger\LogOptions.cs" />
     <Compile Include="Models\Logger\MultiLogger.cs" />
+    <Compile Include="Models\Mvvm\Messenger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="Models\Mvvm\ViewModel.cs" />
+    <Compile Include="ViewModels\Message\OpenFileDialogMessage.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using VsLocalizedIntellisense.Models.Mvvm;
+using VsLocalizedIntellisense.ViewModels.Message;
 
 namespace VsLocalizedIntellisense.Views
 {
@@ -23,6 +25,20 @@ namespace VsLocalizedIntellisense.Views
         public MainWindow()
         {
             InitializeComponent();
+
+            Messenger = new ViewMessenger<Window>(this, m =>
+            {
+                m.Register<OpenFileDialogMessage>(a =>
+                {
+                    MessageBox.Show(nameof(OpenFileDialogMessage));
+                });
+            });
         }
+
+        #region property
+
+        private ViewMessenger<Window> Messenger { get; set; }
+
+        #endregion
     }
 }

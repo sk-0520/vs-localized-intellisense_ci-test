@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 using System.Xml.Linq;
-using VsLocalizedIntellisense.Models.Binding;
+using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Logger;
 
-namespace VsLocalizedIntellisense.ViewModels
+namespace VsLocalizedIntellisense.Models.Mvvm
 {
     /// <summary>
     /// ビューモデルの基底。

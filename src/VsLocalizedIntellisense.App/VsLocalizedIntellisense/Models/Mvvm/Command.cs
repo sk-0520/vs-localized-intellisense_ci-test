@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.UI.WebControls.Expressions;
 using System.Windows.Input;
 
-namespace VsLocalizedIntellisense.Models.Binding
+namespace VsLocalizedIntellisense.Models.Mvvm
 {
     /// <summary>
     /// <see cref="ICommand"/>実装基底クラス。

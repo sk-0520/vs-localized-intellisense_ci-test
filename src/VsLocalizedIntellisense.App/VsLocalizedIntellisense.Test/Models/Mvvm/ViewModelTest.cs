@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VsLocalizedIntellisense.Models.Binding;
+using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.ViewModels;
 
-namespace VsLocalizedIntellisense.Test.ViewModels
+namespace VsLocalizedIntellisense.Test.Models.Mvvm
 {
     [TestClass]
     public class ViewModelBaseTest

@@ -18,6 +18,7 @@
     <StackPanel>
       <Label>install</Label>
       <TextBox Text="{Binding InstallRootDirectoryPath, UpdateSourceTrigger=PropertyChanged}" />
+      <Button Command="{Binding SelectInstallRootDirectoryPathCommand}">select</Button>
 
     </StackPanel>
   </Grid>
