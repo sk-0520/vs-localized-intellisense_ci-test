@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
+    <Compile Include="Models\IOHelper.cs" />
     <Compile Include="Models\Logger\ILoggerFactoryExtensions.cs" />
     <Compile Include="Models\Mvvm\Binding\BindModelBase.cs" />
     <Compile Include="Models\Configuration\AppConfiguration.cs" />

@@ -11,6 +11,7 @@ using VsLocalizedIntellisense.ViewModels.Message;
 using VsLocalizedIntellisense.Models.Mvvm.Binding;
 using VsLocalizedIntellisense.Models.Mvvm.Command;
 using VsLocalizedIntellisense.Models.Mvvm.Message;
+using VsLocalizedIntellisense.Models;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -53,7 +54,7 @@ namespace VsLocalizedIntellisense.ViewModels
                             var message = new OpenFileDialogMessage()
                             {
                                 Kind = OpenFileDialogKind.Directory,
-                                CurrentDirectory = Model.GetInstallRootDirectory(),
+                                CurrentDirectory = IOHelper.GetPhysicalDirectory(InstallRootDirectoryPath),
                             };
                             Messenger.Send(message);
 

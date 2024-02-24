@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\IOHelperTest.cs" />
     <Compile Include="Models\Logger\ILoggerExtensionsTest.cs" />
     <Compile Include="Models\Mvvm\Binding\BindModelBaseTest.cs" />
     <Compile Include="Models\Configuration\AppConfigurationTest.cs" />

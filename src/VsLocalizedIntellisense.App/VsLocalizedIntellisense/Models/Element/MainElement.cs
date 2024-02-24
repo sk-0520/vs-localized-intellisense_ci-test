@@ -29,22 +29,6 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #region function
 
-        public DirectoryInfo GetInstallRootDirectory()
-        {
-            if (string.IsNullOrWhiteSpace(InstallRootDirectoryPath))
-            {
-                return null;
-            }
-
-            var dir = Environment.ExpandEnvironmentVariables(InstallRootDirectoryPath);
-            if (!Directory.Exists(dir))
-            {
-                return null;
-            }
-
-            return new DirectoryInfo(dir);
-        }
-
         #endregion
     }
 }
