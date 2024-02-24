@@ -31,7 +31,8 @@ namespace VsLocalizedIntellisense.Views
             {
                 m.Register<OpenFileDialogMessage>(a =>
                 {
-                    MessageBox.Show(nameof(OpenFileDialogMessage));
+                    var dir = a.OpenDirectory(this);
+                    a.ResultDirectory = dir;
                 });
             });
         }

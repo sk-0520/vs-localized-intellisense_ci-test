@@ -52,8 +52,15 @@ namespace VsLocalizedIntellisense.ViewModels
                         {
                             var message = new OpenFileDialogMessage()
                             {
+                                Kind = OpenFileDialogKind.Directory,
+                                CurrentDirectory = Model.GetInstallRootDirectory(),
                             };
                             Messenger.Send(message);
+
+                            if (message.ResultDirectory != null)
+                            {
+                                InstallRootDirectoryPath = message.ResultDirectory.FullName;
+                            }
                         }
                     );
                 }
