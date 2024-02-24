@@ -125,3 +125,34 @@ jobs:
             code-coverage
             result.xml
 
+  document:
+    name: Document
+
+    runs-on: windows-latest
+
+    steps:
+      - name: <Checkout> Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            src
+
+      - name: <Install> DocFX
+        shell: pwsh
+        run: |
+          mkdir .\.dotnet-tools
+          dotnet tool install --tool-path .\.dotnet-tools docfx
+
+      - name: <Build> Document
+        shell: pwsh
+        run: |
+          .\.dotnet-tools\docfx docfx.json --warningsAsErrors --template statictoc
+
+      - name: <Artifact> Document
+        uses: actions/upload-artifact@v4
+        with:
+          name: Document
+          path: |
+            metadata
+            document

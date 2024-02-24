@@ -10,7 +10,7 @@ namespace VsLocalizedIntellisense.Models.Logger
     /// <summary>
     /// ログの重大度レベルを定義します。
     /// </summary>
-    /// <see cref="https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.loglevel?view=dotnet-plat-ext-8.0"/>
+    /// <see href="https://learn.microsoft.com/ja-jp/dotnet/api/microsoft.extensions.logging.loglevel?view=dotnet-plat-ext-8.0"/>
     public enum LogLevel
     {
         /// <summary>

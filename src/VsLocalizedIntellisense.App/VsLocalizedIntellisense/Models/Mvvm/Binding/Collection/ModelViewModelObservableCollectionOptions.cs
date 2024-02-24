@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -181,7 +182,7 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding.Collection
         public SynchronizationContext SynchronizationContext { get; set; } = SynchronizationContext.Current;
 
         /// <summary>
-        /// アイテム削除時に対象 ViewModel の <see cref="TViewModel.Dispose"/> を呼び出すか。
+        /// アイテム削除時に対象 ViewModel の <see cref="IDisposable.Dispose"/> を呼び出すか。
         /// <para>置き換え時(<c>list[n] = newViewModel</c>)には破棄されない点に注意。</para>
         /// </summary>
         public bool AutoDisposeViewModel { get; set; } = true;
