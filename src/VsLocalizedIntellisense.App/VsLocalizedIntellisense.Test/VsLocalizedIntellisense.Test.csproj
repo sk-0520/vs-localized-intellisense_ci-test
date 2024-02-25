@@ -122,6 +122,7 @@
     <Compile Include="Models\Mvvm\Binding\SingleModelViewModelBaseTest.cs" />
     <Compile Include="Models\Mvvm\Command\CommandBaseTest.cs" />
     <Compile Include="Models\Mvvm\Command\AsyncDelegateCommandTest.cs" />
+    <Compile Include="Models\Mvvm\Command\CommandExtensionsTest.cs" />
     <Compile Include="Models\Mvvm\Command\DelegateCommandTest.cs" />
     <Compile Include="Models\Mvvm\Message\MessengerHelperTest.cs" />
     <Compile Include="Models\Mvvm\Message\MessengerTest.cs" />
