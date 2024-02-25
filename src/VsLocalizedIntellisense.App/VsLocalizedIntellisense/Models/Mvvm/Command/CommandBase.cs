@@ -32,11 +32,11 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Command
         {
             if (SynchronizationContext != SynchronizationContext.Current)
             {
-                SynchronizationContext.Post(o => CanExecuteChanged.Invoke(this, EventArgs.Empty), null);
+                SynchronizationContext.Post(o => CanExecuteChanged?.Invoke(this, EventArgs.Empty), null);
             }
             else
             {
-                CanExecuteChanged.Invoke(this, EventArgs.Empty);
+                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -49,9 +49,7 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Command
 
         #region ICommand
 
-#pragma warning disable CS0067 // イベント 'CommandBase.CanExecuteChanged' は使用されていません
         public event EventHandler CanExecuteChanged;
-#pragma warning restore CS0067
 
         public abstract void Execute(object parameter);
 
