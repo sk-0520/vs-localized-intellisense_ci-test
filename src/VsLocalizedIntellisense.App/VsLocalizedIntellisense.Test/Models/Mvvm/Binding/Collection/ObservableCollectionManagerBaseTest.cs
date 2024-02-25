@@ -100,6 +100,12 @@ namespace VsLocalizedIntellisense.Test.Models.Mvvm.Binding.Collection
         }
 
         [TestMethod]
+        public void Constructor_throw_Test()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new TestObservableCollectionManager<int>((ReadOnlyObservableCollection<int>)null));
+        }
+
+        [TestMethod]
         public void AddTest()
         {
             var collection = Create(1, 2, 3);
@@ -166,7 +172,7 @@ namespace VsLocalizedIntellisense.Test.Models.Mvvm.Binding.Collection
         {
             var collection = Create(10, 20, 30);
             var actual = collection.Manager.IndexOf(value);
-            Assert.AreEqual(expected, actual);  
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion

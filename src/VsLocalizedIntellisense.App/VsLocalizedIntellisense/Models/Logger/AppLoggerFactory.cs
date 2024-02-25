@@ -7,14 +7,8 @@ using VsLocalizedIntellisense.Models.Configuration;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    internal class AppLoggerFactory : ILoggerFactory
+    internal class AppLoggerFactory : DisposerBase, ILoggerFactory
     {
-        #region variable
-
-        private bool _disposedValue;
-
-        #endregion
-
         public AppLoggerFactory(AppConfiguration configuration)
         {
             var multiLogOptions = new MultiLogOptions();
@@ -58,13 +52,6 @@ namespace VsLocalizedIntellisense.Models.Logger
             MultiLogOptions = multiLogOptions;
         }
 
-        // TODO: 'Dispose(bool disposing)' にアンマネージド リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします
-        ~AppLoggerFactory()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
-            Dispose(disposing: false);
-        }
-
         #region property
 
         private MultiLogOptions MultiLogOptions { get; }
@@ -73,19 +60,6 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this._disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: マネージド状態を破棄します (マネージド オブジェクト)
-                }
-
-                this._disposedValue = true;
-            }
-        }
-
         #endregion
 
         #region ILoggerFactory
@@ -93,13 +67,6 @@ namespace VsLocalizedIntellisense.Models.Logger
         public ILogger CreateLogger(string categoryName)
         {
             return new MultiLogger(categoryName, MultiLogOptions);
-        }
-
-        public void Dispose()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを 'Dispose(bool disposing)' メソッドに記述します
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
 
         #endregion

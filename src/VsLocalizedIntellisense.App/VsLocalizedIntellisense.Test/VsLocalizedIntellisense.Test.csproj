@@ -110,6 +110,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Configuration\AppConfigurationExtensionsTest.cs" />
     <Compile Include="Models\IOHelperTest.cs" />
     <Compile Include="Models\Logger\ILoggerExtensionsTest.cs" />
     <Compile Include="Models\Mvvm\Binding\BindModelBaseTest.cs" />
@@ -135,6 +136,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Models\Configuration\AppConfigurationExtensionsTest.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Models\Configuration\AppConfigurationTest.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
