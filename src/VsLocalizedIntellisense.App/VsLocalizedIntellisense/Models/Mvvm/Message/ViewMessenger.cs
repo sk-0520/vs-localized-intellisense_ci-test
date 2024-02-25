@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Windows;
 
@@ -12,11 +12,15 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Message
             Element = element;
             ResisterAction = resisterAction;
 
-            element.Unloaded += Element_Unloaded;
+            Element.Unloaded += Element_Unloaded;
+            if(Element is Window window)
+            {
+                window.Closed += Window_Closed;
+            }
 
-            element.DataContextChanged += Element_DataContextChanged;
+            Element.DataContextChanged += Element_DataContextChanged;
 
-            if (element.IsLoaded)
+            if (Element.IsLoaded)
             {
                 Register();
             }
@@ -36,6 +40,11 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Message
         {
             ThrowIfDisposed();
 
+            if(Element.DataContext == null)
+            {
+                return;
+            }
+
             Messenger = (ScopedMessenger)MessengerHelper.GetMessengerFromProperty(Element.DataContext);
             ResisterAction(Messenger);
         }
@@ -51,6 +60,11 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Message
                 if (Element != null)
                 {
                     Element.DataContextChanged -= Element_DataContextChanged;
+
+                    if (Element is Window window)
+                    {
+                        window.Closed -= Window_Closed;
+                    }
                 }
                 Element = null;
 
@@ -81,5 +95,11 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Message
         {
             Dispose();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Dispose();
+        }
+
     }
 }

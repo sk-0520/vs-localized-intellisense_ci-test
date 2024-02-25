@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using System.Reflection;
 
 namespace VsLocalizedIntellisense.Models.Mvvm.Message
@@ -16,6 +17,11 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Message
         /// <returns>取得した<see cref="IMessenger"/>。取得できなかった場合は<see langword="null"/>を返す。</returns>
         public static IMessenger GetMessengerFromProperty(object dataContext, bool rawMessenger = false)
         {
+            if(dataContext == null)
+            {
+                throw new InvalidOperationException(nameof(dataContext));
+            }
+
             var type = dataContext.GetType();
             var properties = type.GetProperties();
             var messengerAttribute = properties
