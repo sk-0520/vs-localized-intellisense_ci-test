@@ -6,5 +6,39 @@
 >
   <Application.Resources>
 
+
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+      <Style.Triggers>
+        <Trigger Property="Validation.HasError" Value="true">
+          <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+              <ControlTemplate>
+                <StackPanel>
+                  <AdornedElementPlaceholder x:Name="target" Grid.Row="0" />
+
+                  <ItemsControl ItemsSource="{Binding AdornedElement.(Validation.Errors), ElementName=target}">
+                    <ItemsControl.ItemsPanel>
+                      <ItemsPanelTemplate>
+                        <StackPanel />
+                      </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding ErrorContent}" />
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </StackPanel>
+              </ControlTemplate>
+            </Setter.Value>
+          </Setter>
+        </Trigger>
+      </Style.Triggers>
+
+      <Setter Property="Background" Value="Lime" />
+    </Style>
+
+    <!-- 1要素だけだとダメっぽいっていう謎挙動対応 -->
+    <Style x:Key="!" />
   </Application.Resources>
 </Application>

@@ -10,13 +10,17 @@ using System.Windows.Media.Media3D;
 using System.Xml.Linq;
 using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Logger;
+using System.ComponentModel;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using VsLocalizedIntellisense.ViewModels;
 
 namespace VsLocalizedIntellisense.Models.Mvvm.Binding
 {
     /// <summary>
     /// ビューモデルの基底。
     /// </summary>
-    public abstract class ViewModelBase : BindModelBase
+    public abstract class ViewModelBase : BindModelBase, INotifyDataErrorInfo
     {
         protected ViewModelBase(ILoggerFactory loggerFactory)
         {
@@ -26,6 +30,8 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding
         #region property
 
         protected ILogger Logger { get; }
+
+        protected Dictionary<string, IList<ValidateMessage>> Errors { get; } = new Dictionary<string, IList<ValidateMessage>>();
 
         #endregion
 
@@ -52,9 +58,9 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding
 
             objectProperty.SetValue(obj, value);
             OnPropertyChanged(notifyPropertyName);
+            ValidateProperty(obj, value, objectProperty, notifyPropertyName);
 
             return true;
-
         }
 
         /// <summary>
@@ -77,6 +83,68 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding
             Debug.Assert(prop != null);
 
             return ChangePropertyValue(model, value, prop, notifyPropertyName);
+        }
+
+        protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = "")
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        private void ValidateProperty<TObject, TValue>(TObject obj, TValue value, PropertyInfo objectProperty, string notifyPropertyName)
+        {
+            var context = new ValidationContext(this)
+            {
+                MemberName = notifyPropertyName
+            };
+
+            var validationErrors = new List<ValidationResult>();
+            if (!Validator.TryValidateProperty(value, context, validationErrors))
+            {
+                foreach (var validationError in validationErrors)
+                {
+                    AddError(notifyPropertyName, new ValidateMessage(validationError.ErrorMessage));
+                }
+            }
+            else
+            {
+                RemoveError(notifyPropertyName);
+            }
+        }
+
+        protected void AddError(string propertyName, ValidateMessage validateMessage)
+        {
+            if (!Errors.TryGetValue(propertyName, out var errorMessages))
+            {
+                errorMessages = new List<ValidateMessage>();
+                Errors.Add(propertyName, errorMessages);
+            }
+            errorMessages.Add(validateMessage);
+
+            OnErrorsChanged(propertyName);
+        }
+
+        protected void RemoveError(string propertyName)
+        {
+            Errors.Remove(propertyName);
+            OnErrorsChanged(propertyName);
+        }
+
+        #endregion
+
+        #region INotifyDataErrorInfo
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool HasErrors => Errors.Any();
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            if (Errors.TryGetValue(propertyName, out var errors))
+            {
+                return errors;
+            }
+
+            return Array.Empty<DataErrorsChangedEventArgs>();
         }
 
         #endregion

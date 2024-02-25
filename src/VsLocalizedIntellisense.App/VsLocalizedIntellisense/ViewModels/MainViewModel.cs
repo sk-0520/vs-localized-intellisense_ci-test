@@ -12,6 +12,7 @@ using VsLocalizedIntellisense.Models.Mvvm.Binding;
 using VsLocalizedIntellisense.Models.Mvvm.Command;
 using VsLocalizedIntellisense.Models.Mvvm.Message;
 using VsLocalizedIntellisense.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -32,6 +33,7 @@ namespace VsLocalizedIntellisense.ViewModels
         [Messenger]
         public Messenger Messenger { get; } = new Messenger();
 
+        [Required]
         public string InstallRootDirectoryPath
         {
             get => Model.InstallRootDirectoryPath;
