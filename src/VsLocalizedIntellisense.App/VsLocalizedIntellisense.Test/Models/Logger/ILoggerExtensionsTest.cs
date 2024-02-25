@@ -29,7 +29,7 @@ namespace VsLocalizedIntellisense.Test.Models.Logger
 
             public IList<LogItem> Items { get; } = new List<LogItem>();
 
-            protected override void OutputLog(in LogItem logItem)
+            public override void OutputLog(in LogItem logItem)
             {
                 Items.Add(logItem);
             }

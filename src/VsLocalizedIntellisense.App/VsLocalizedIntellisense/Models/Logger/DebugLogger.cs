@@ -16,7 +16,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region OutputLoggerBase
 
-        protected internal override void OutputLog(in LogItem logItem)
+        public override void OutputLog(in LogItem logItem)
         {
             var log = Logging.Format(Category, logItem, Options);
             Debug.WriteLine(log);

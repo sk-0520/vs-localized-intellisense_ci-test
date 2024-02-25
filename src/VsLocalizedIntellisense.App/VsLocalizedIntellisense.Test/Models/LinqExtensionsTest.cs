@@ -25,13 +25,13 @@ namespace VsLocalizedIntellisense.Test.Models
 
         private class Test_IndexOf_IReadOnlyCollection : IReadOnlyCollection<int>
         {
-            private int[] _items = new[] { 10, 20, 30 };
+            private static int[] Items { get; } = new[] { 10, 20, 30 };
 
-            public int Count => this._items.Length;
+            public int Count => Items.Length;
 
             public IEnumerator<int> GetEnumerator()
             {
-                return this._items.AsEnumerable().GetEnumerator();
+                return Items.AsEnumerable().GetEnumerator();
             }
 
             IEnumerator IEnumerable.GetEnumerator()

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    internal sealed class MultiLogger : ILogger
+    internal sealed class MultiLogger : DisposerBase, ILogger
     {
         public MultiLogger(string category, MultiLogOptions multiLogOptions)
         {
@@ -63,6 +63,26 @@ namespace VsLocalizedIntellisense.Models.Logger
                     logger.OutputLog(logItem);
                 }
             }
+        }
+
+        #endregion
+
+        #region DisposerBase
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                foreach (var logger in Loggers)
+                {
+                    if (logger is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                }
+            }
+
+            base.Dispose(disposing);
         }
 
         #endregion

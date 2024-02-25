@@ -27,8 +27,16 @@ namespace VsLocalizedIntellisense.Models.Logger
             else
             {
                 var parentDir = Path.GetDirectoryName(Options.FilePath);
-                Directory.CreateDirectory(parentDir);
-                Stream = new FileStream(Options.FilePath, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
+                // スペシャルファイル対策
+                if (!string.IsNullOrEmpty(parentDir))
+                {
+                    Directory.CreateDirectory(parentDir);
+                    Stream = new FileStream(Options.FilePath, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
+                }
+                else
+                {
+                    Stream = FileStream.Null;
+                }
             }
 
             Writer = new StreamWriter(Stream);
@@ -48,7 +56,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region LoggerBase
 
-        protected internal override void OutputLog(in LogItem logItem)
+        public override void OutputLog(in LogItem logItem)
         {
             var log = Logging.Format(Category, logItem, Options);
             Stream.Seek(0, SeekOrigin.End);
