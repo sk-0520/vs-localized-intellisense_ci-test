@@ -37,21 +37,6 @@ namespace VsLocalizedIntellisense.Models.Logger
         #endregion
     }
 
-    public class TraceLogOptions : LogOptionsBase, ILogFormatOptions
-    {
-        #region proeprty
-
-        public string FilePath { get; set; } = string.Empty;
-
-        #endregion
-
-        #region ILogFormatOptions
-
-        public string Format { get; set; } = string.Empty;
-
-        #endregion
-    }
-
     public class FileLogOptions : LogOptionsBase, ILogFormatOptions
     {
         #region proeprty

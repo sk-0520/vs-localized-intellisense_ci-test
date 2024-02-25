@@ -26,17 +26,6 @@ namespace VsLocalizedIntellisense.Models.Logger
                 multiLogOptions.Options[nameof(DebugLogOptions)] = options;
             }
 
-            if (configuration.IsEnableTraceLog())
-            {
-                var options = new TraceLogOptions()
-                {
-                    Level = level,
-                    Format = configuration.GetLogTraceFormat(),
-                };
-
-                multiLogOptions.Options[nameof(TraceLogOptions)] = options;
-            }
-
             if (configuration.IsEnableFileLog())
             {
                 var options = new FileLogOptions()

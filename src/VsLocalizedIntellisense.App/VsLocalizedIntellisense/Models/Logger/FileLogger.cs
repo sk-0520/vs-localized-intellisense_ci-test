@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    public sealed class FileLogger : OutputLoggerBase<FileLogOptions>, IDisposable
+    public sealed class FileLogger : LoggerBase<FileLogOptions>, IDisposable
     {
         #region variable
 

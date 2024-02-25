@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
-    public sealed class DebugLogger : OutputLoggerBase<DebugLogOptions>
+    public sealed class DebugLogger : LoggerBase<DebugLogOptions>
     {
         public DebugLogger(string category, DebugLogOptions options)
             : base(category, options)
