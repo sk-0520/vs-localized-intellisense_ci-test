@@ -76,6 +76,15 @@ jobs:
       - name: <Add> msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
+      - name: <Cache> result.xml
+        uses: actions/cache@v4
+        with:
+          path: result.xml
+          key: test-result-${{ github.job }}-${{ runner.os }}
+          restore-keys: |
+            test-result-${{ github.job }}-${{ runner.os }}
+
+
       - name: <Restore> Application
         shell: cmd
         run: |
@@ -97,12 +106,13 @@ jobs:
 
           Write-Host "OpenCover"
           ${{ env.NUGET_TOOL_OpenCover }} `
+            -register:user `
             -target:"${{ env.VS_TEST_CONSOLE_PATH }}\VSTest.Console.exe" `
             -targetdir:"${testDir}" `
             -targetargs:"""${{ env.TEST_BIN_NAME }}""" `
             -filter:"+[VsLocalizedIntellisense*]* -[VsLocalizedIntellisense.Test]* " `
             -output:"result.xml" `
-            -register:user
+            -mergebyhash
           if(-not $?) {
             throw 'error: OpenCover'
           }
