@@ -76,15 +76,6 @@ jobs:
       - name: <Add> msbuild to PATH
         uses: microsoft/setup-msbuild@v2
 
-      - name: <Cache> result.xml
-        uses: actions/cache@v4
-        with:
-          path: result.xml
-          key: test-result-${{ github.job }}-${{ runner.os }}
-          restore-keys: |
-            test-result-${{ github.job }}-${{ runner.os }}
-
-
       - name: <Restore> Application
         shell: cmd
         run: |
