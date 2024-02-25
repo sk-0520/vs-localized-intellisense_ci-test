@@ -20,20 +20,18 @@ namespace VsLocalizedIntellisense.Models.Logger
         public FileLogger(string category, FileLogOptions options)
             : base(category, options)
         {
-            Stream stream;
-
             if (File.Exists(Options.FilePath))
             {
-                stream = new FileStream(Options.FilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
+                Stream = new FileStream(Options.FilePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite);
             }
             else
             {
                 var parentDir = Path.GetDirectoryName(Options.FilePath);
                 Directory.CreateDirectory(parentDir);
-                stream = new FileStream(Options.FilePath, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
+                Stream = new FileStream(Options.FilePath, FileMode.CreateNew, FileAccess.Write, FileShare.ReadWrite);
             }
 
-            Writer = new StreamWriter(stream);
+            Writer = new StreamWriter(Stream);
         }
 
         ~FileLogger()
@@ -43,6 +41,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region proeprty
 
+        private Stream Stream { get; }
         private TextWriter Writer { get; }
 
         #endregion
@@ -52,6 +51,7 @@ namespace VsLocalizedIntellisense.Models.Logger
         protected internal override void OutputLog(in LogItem logItem)
         {
             var log = Logging.Format(Category, logItem, Options);
+            Stream.Seek(0, SeekOrigin.End);
             Writer.WriteLine(log);
             Writer.Flush();
         }

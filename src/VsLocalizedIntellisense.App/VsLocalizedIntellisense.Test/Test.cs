@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,11 @@ namespace VsLocalizedIntellisense.Test
 {
     internal class Test
     {
+        static Test()
+        {
+
+        }
+
         public static DirectoryInfo GetProjectDirectory()
         {
             var projectTestPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)/*!*/;
@@ -26,7 +32,7 @@ namespace VsLocalizedIntellisense.Test
             return new DirectoryInfo(classTestDirPath);
         }
 
-        public static DirectoryInfo GetMethodDirectory(object test, string callerMemberName, int callerLineNumber)
+        public static DirectoryInfo GetMethodDirectory(object test, [CallerMemberName] string callerMemberName = "", [CallerLineNumberAttribute] int callerLineNumber = 0)
         {
             var classTestDirPath = GetClassDirectory(test);
             var methodTestDirPath = Path.Combine(classTestDirPath.FullName, callerMemberName + "-L" + callerLineNumber.ToString(CultureInfo.InvariantCulture));
