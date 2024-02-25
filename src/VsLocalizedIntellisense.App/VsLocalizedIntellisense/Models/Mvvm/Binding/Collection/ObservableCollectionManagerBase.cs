@@ -189,21 +189,7 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding.Collection
         {
             ThrowIfDisposed();
 
-            if (Collection is IList<TValue> list)
-            {
-                return list.IndexOf(value);
-            }
-
-            var items = Collection.Select((v, i) => (index: i, value: v));
-            foreach (var item in items)
-            {
-                if (object.Equals(item.value, value))
-                {
-                    return item.index;
-                }
-            }
-
-            return -1;
+            return Collection.IndexOf(value);
         }
 
 
