@@ -51,6 +51,7 @@ namespace VsLocalizedIntellisense
             base.OnExit(e);
 
             Logger?.LogInformation("EXIT");
+            Logging.Shutdown();
         }
 
         #endregion

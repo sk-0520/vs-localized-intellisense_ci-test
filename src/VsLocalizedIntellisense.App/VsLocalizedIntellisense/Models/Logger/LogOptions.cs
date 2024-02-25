@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
+    /// <summary>
+    /// ログオプション。
+    /// </summary>
     public abstract class LogOptionsBase
     {
         #region property
@@ -19,15 +22,25 @@ namespace VsLocalizedIntellisense.Models.Logger
         #endregion
     }
 
+    /// <summary>
+    /// ログ出力時のフォーマット指定。
+    /// <para>本インターフェイスを実装しない、もしくは空の場合、標準のフォーマットが使用される。</para>
+    /// </summary>
     public interface ILogFormatOptions
     {
         #region property
 
+        /// <summary>
+        /// 書式設定。
+        /// </summary>
         string Format { get; set; }
 
         #endregion
     }
 
+    /// <summary>
+    /// <see cref="DebugLogger"/> で使用されるオプション。
+    /// </summary>
     public class DebugLogOptions : LogOptionsBase, ILogFormatOptions
     {
         #region ILogFormatOptions
@@ -37,6 +50,9 @@ namespace VsLocalizedIntellisense.Models.Logger
         #endregion
     }
 
+    /// <summary>
+    /// <see cref="FileLogger"/> で使用されるオプション。
+    /// </summary>
     public class FileLogOptions : LogOptionsBase, ILogFormatOptions
     {
         #region proeprty
@@ -52,6 +68,10 @@ namespace VsLocalizedIntellisense.Models.Logger
         #endregion
     }
 
+    /// <summary>
+    /// 複数出力ログオプション。
+    /// <para>明示的に使用することはない。</para>
+    /// </summary>
     public sealed class MultiLogOptions
     {
         #region property

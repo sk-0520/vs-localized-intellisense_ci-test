@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -74,6 +76,77 @@ namespace VsLocalizedIntellisense.Test.Models.Logger
         {
             var actual = Logging.IsEnabled(defaultLevel, compareLevel);
             Assert.AreEqual(expected, actual);
+        }
+
+        private class LogFormatOptions : LogOptionsBase, ILogFormatOptions
+        {
+            public string Format { get; set; }
+        }
+
+        public class FormatTestItem
+        {
+            public static readonly FormatTestItem Default = new FormatTestItem(string.Empty, string.Empty)
+            {
+                Category = "FormatTest",
+                Format = null,
+                Level = LogLevel.Information,
+                Timestamp = new DateTime(2024, 2, 25, 11, 22, 33, 123, DateTimeKind.Utc),
+                CallerMemberName = "Function",
+                CallerFilePath = "Z:\\directory\\📁\\a z\\NUL.cs",
+                CallerLineNumber = 42,
+            };
+
+            public FormatTestItem(string expected, string message)
+            {
+                Expected = expected;
+                Message = message;
+            }
+
+            public string Expected { get; private set; }
+            public string Message { get; private set; }
+
+            public string Category { get; set; } = Default?.Category ?? default;
+            public string Format { get; set; } = Default?.Message ?? default;
+
+
+            public LogLevel Level { get; set; } = Default?.Level ?? default;
+
+            public DateTime Timestamp { get; set; } = Default?.Timestamp ?? default;
+
+            public string CallerMemberName { get; set; } = Default?.CallerMemberName ?? default;
+            public string CallerFilePath { get; set; } = Default?.CallerFilePath ?? default;
+            public int CallerLineNumber { get; set; } = Default?.CallerLineNumber ?? default;
+        }
+
+        private static IEnumerable<object[]> FormatTestData => new object[][]
+        {
+            new []
+            {
+                new FormatTestItem(
+                    $"2024-02-25T11:22:33.123 {FormatTestItem.Default.Level} {FormatTestItem.Default.Category} message {FormatTestItem.Default.CallerFilePath}({FormatTestItem.Default.CallerLineNumber})",
+                    "message"
+                ),
+            }
+        };
+
+        [TestMethod]
+        [DynamicData(nameof(FormatTestData))]
+        public void FormatTest(FormatTestItem item)
+        {
+            LogItem logItem = new LogItem(
+                item.Timestamp,
+                item.Level,
+                item.Message,
+                item.CallerMemberName,
+                item.CallerFilePath,
+                item.CallerLineNumber
+            );
+            var options = new LogFormatOptions()
+            {
+                Format = item.Format,
+            };
+            var actual = Logging.Format(item.Category, logItem, options);
+            Assert.AreEqual(item.Expected, actual);
         }
 
         #endregion

@@ -8,13 +8,33 @@ using VsLocalizedIntellisense.Models.Configuration;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
+    /// <summary>
+    /// ログ周りの共通処理。
+    /// </summary>
     public static class Logging
     {
+        #region define
+
+        private class DefaultLogFormatOptions : ILogFormatOptions
+        {
+            public string Format { get; set; } = "${TIMESTAMP:UTC} ${LEVEL} ${CATEGORY} ${MESSAGE} ${FILE}(${LINE})";
+        }
+
+        #endregion
+
         #region property
 
+        private static ILogFormatOptions DefaultLogFormatOptionsInstance { get; } = new DefaultLogFormatOptions();
+
+        /// <summary>
+        /// <see cref="Instance"/> 実体。
+        /// </summary>
         private static AppLoggerFactory AppLoggerFactory { get; set; }
 
-
+        /// <summary>
+        /// アプリケーション全体で保持する <see cref="ILoggerFactory"/> を取得。
+        /// <para><seealso cref="Initialize">初期化処理</seealso>が終わっていることが前提となる。</para>
+        /// </summary>
         internal static ILoggerFactory Instance
         {
             get
@@ -28,12 +48,33 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region function
 
-        public static ILoggerFactory Initialize(AppConfiguration configuration)
+        /// <summary>
+        /// <see cref="Instance"/> を使用するための初期化処理。
+        /// <para>使い終わったら<seealso cref="Shutdown">片付ける</seealso>。</para>
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns>アプリケーション全体で使用可能な<see cref="ILoggerFactory"/></returns>
+        internal static ILoggerFactory Initialize(AppConfiguration configuration)
         {
             AppLoggerFactory = new AppLoggerFactory(configuration);
             return AppLoggerFactory;
         }
 
+        /// <summary>
+        /// 初期化済みリソースの破棄。
+        /// </summary>
+        /// <remarks>べつに何もしてないけど。</remarks>
+        internal static void Shutdown()
+        {
+            AppLoggerFactory?.Dispose();
+        }
+
+        /// <summary>
+        /// 指定したログレベルはデフォルトレベルで有効か。
+        /// </summary>
+        /// <param name="defaultLevel">デフォルトログレベル。</param>
+        /// <param name="compareLevel">確認するログレベル。</param>
+        /// <returns></returns>
         public static bool IsEnabled(LogLevel defaultLevel, LogLevel compareLevel)
         {
             return compareLevel != LogLevel.None && defaultLevel <= compareLevel;
@@ -43,9 +84,12 @@ namespace VsLocalizedIntellisense.Models.Logger
         {
             Debug.Assert(!string.IsNullOrEmpty(formatOptions.Format));
 
+            var localTimestamp = logItem.Timestamp.ToLocalTime();
+
             var map = new Dictionary<string, string>()
             {
-                ["TIMESTAMP:LOCAL"] = logItem.Timestamp.ToLocalTime().ToString("u"),
+                ["TIMESTAMP:LOCAL"] = localTimestamp.ToString("yyyy-MM-dd'T'HH:mm:ss.fff"),
+                ["TIMESTAMP:UTC"] = logItem.Timestamp.ToString("yyyy-MM-dd'T'HH:mm:ss.fff"),
                 ["LEVEL"] = logItem.Level.ToString(),
                 ["CATEGORY"] = category,
                 ["MESSAGE"] = logItem.Message,
@@ -57,6 +101,11 @@ namespace VsLocalizedIntellisense.Models.Logger
             return message;
         }
 
+        private static string FormatDefault(string category, in LogItem logItem, LogOptionsBase options)
+        {
+            return FormatFromFormatOptions(category, logItem, options, DefaultLogFormatOptionsInstance);
+        }
+
         public static string Format(string category, in LogItem logItem, LogOptionsBase options)
         {
             if (options is ILogFormatOptions formatOptions && !string.IsNullOrEmpty(formatOptions.Format))
@@ -64,7 +113,7 @@ namespace VsLocalizedIntellisense.Models.Logger
                 return FormatFromFormatOptions(category, logItem, options, formatOptions);
             }
 
-            return logItem.Message;
+            return FormatDefault(category, logItem, options);
         }
 
         #endregion
