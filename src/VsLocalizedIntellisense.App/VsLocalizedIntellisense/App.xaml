@@ -6,36 +6,82 @@
 >
   <Application.Resources>
 
+    <ControlTemplate x:Key="ErrorTemplate">
+      <Grid>
+        <AdornedElementPlaceholder x:Name="target" />
+        <Grid VerticalAlignment="Center" HorizontalAlignment="Right" >
+          <ToggleButton
+            x:Name="popup"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            IsTabStop="False"
+            Focusable="False"
+          >
+            <ToggleButton.Template>
+              <ControlTemplate>
+                <!-- VS2019 Image Library: StatusInvalid -->
+                <Viewbox Width="16" Height="16">
+                  <Rectangle Width="16" Height="16">
+                    <Rectangle.Fill>
+                      <DrawingBrush>
+                        <DrawingBrush.Drawing>
+                          <DrawingGroup>
+                            <DrawingGroup.Children>
+                              <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                              <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M8,16C3.589,16 0,12.411 0,8 0,3.589 3.589,0 8,0 12.411,0 16,3.589 16,8 16,12.411 12.411,16 8,16" />
+                              <GeometryDrawing Brush="#FFE41400" Geometry="F1M9,10L7,10 7,3 9,3z M9,13L7,13 7,11 9,11z M8,1C4.134,1 1,4.134 1,8 1,11.865 4.134,15 8,15 11.865,15 15,11.865 15,8 15,4.134 11.865,1 8,1" />
+                              <GeometryDrawing Brush="#FFEFEFF0" Geometry="F1M9,11L7,11 7,13 9,13z M9,10L7,10 7,3 9,3z" />
+                            </DrawingGroup.Children>
+                          </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                      </DrawingBrush>
+                    </Rectangle.Fill>
+                  </Rectangle>
+                </Viewbox>
+              </ControlTemplate>
+            </ToggleButton.Template>
+          </ToggleButton>
+          <Popup
+            IsOpen="{Binding IsChecked, ElementName=popup}"
+            AllowsTransparency="True"
+            StaysOpen="False"
+            Focusable="False"
+          >
+            <Border
+              TextElement.Foreground="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}"
+              TextElement.FontFamily="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"
+              TextElement.FontSize="{DynamicResource {x:Static SystemFonts.MenuFontSizeKey}}"
+              TextElement.FontStyle="{DynamicResource {x:Static SystemFonts.MenuFontStyleKey}}"
+              BorderBrush="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}"
+              Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}"
+              BorderThickness="1"
+              Padding="4"
+              CornerRadius="4"
+            >
+              <ItemsControl ItemsSource="{Binding AdornedElement.(Validation.Errors), ElementName=target}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <TextBlock Text="{Binding ErrorContent}" />
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Border>
+          </Popup>
+        </Grid>
+      </Grid>
+    </ControlTemplate>
 
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
       <Style.Triggers>
-        <Trigger Property="Validation.HasError" Value="true">
-          <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-              <ControlTemplate>
-                <StackPanel>
-                  <AdornedElementPlaceholder x:Name="target" Grid.Row="0" />
-
-                  <ItemsControl ItemsSource="{Binding AdornedElement.(Validation.Errors), ElementName=target}">
-                    <ItemsControl.ItemsPanel>
-                      <ItemsPanelTemplate>
-                        <StackPanel />
-                      </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <TextBlock Text="{Binding ErrorContent}" />
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                </StackPanel>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
+        <Trigger Property="Validation.HasError" Value="True">
+          <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
         </Trigger>
       </Style.Triggers>
-
-      <Setter Property="Background" Value="Lime" />
     </Style>
 
     <!-- 1要素だけだとダメっぽいっていう謎挙動対応 -->
