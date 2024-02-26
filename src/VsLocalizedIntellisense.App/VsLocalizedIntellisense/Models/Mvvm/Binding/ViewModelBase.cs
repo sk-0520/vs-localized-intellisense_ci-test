@@ -24,11 +24,13 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding
     {
         protected ViewModelBase(ILoggerFactory loggerFactory)
         {
+            LoggerFactory = loggerFactory;
             Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #region property
 
+        protected ILoggerFactory LoggerFactory { get; }
         protected ILogger Logger { get; }
 
         protected Dictionary<string, IList<ValidateMessage>> Errors { get; } = new Dictionary<string, IList<ValidateMessage>>();

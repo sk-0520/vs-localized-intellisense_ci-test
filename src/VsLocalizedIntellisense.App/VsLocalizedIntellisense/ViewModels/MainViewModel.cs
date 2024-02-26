@@ -13,6 +13,8 @@ using VsLocalizedIntellisense.Models.Mvvm.Command;
 using VsLocalizedIntellisense.Models.Mvvm.Message;
 using VsLocalizedIntellisense.Models;
 using System.ComponentModel.DataAnnotations;
+using VsLocalizedIntellisense.Models.Mvvm.Binding.Collection;
+using System.ComponentModel;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -26,7 +28,12 @@ namespace VsLocalizedIntellisense.ViewModels
 
         public MainViewModel(MainElement model, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
-        { }
+        {
+            IntellisenseDirectoryCollection = new ModelViewModelObservableCollectionManager<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel>(Model.IntellisenseDirectoryElements, new ModelViewModelObservableCollectionOptions<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel>()
+            {
+                ToViewModel = m => new IntellisenseDirectoryViewModel(m, LoggerFactory),
+            });
+        }
 
         #region property
 
@@ -39,6 +46,9 @@ namespace VsLocalizedIntellisense.ViewModels
             get => Model.InstallRootDirectoryPath;
             set => SetModel(value);
         }
+
+        private ModelViewModelObservableCollectionManager<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel> IntellisenseDirectoryCollection { get; }
+        public ICollectionView IntellisenseDirectoryItems => IntellisenseDirectoryCollection.GetDefaultView();
 
         #endregion
 

@@ -13,11 +13,13 @@ namespace VsLocalizedIntellisense.Models.Element
     {
         protected ElementBase(ILoggerFactory loggerFactory)
         {
+            LoggerFactory = loggerFactory;
             Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #region property
 
+        protected ILoggerFactory LoggerFactory { get; }
         protected ILogger Logger { get; }
 
         #endregion

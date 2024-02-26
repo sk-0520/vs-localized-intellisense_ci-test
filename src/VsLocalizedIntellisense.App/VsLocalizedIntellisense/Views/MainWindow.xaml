@@ -15,11 +15,11 @@
   mc:Ignorable="d"
 >
   <Grid>
-    <StackPanel>
+    <StackPanel Grid.IsSharedSizeScope="True">
       <Grid>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" SharedSizeGroup="GridLabel" />
-          <ColumnDefinition Width="*"  SharedSizeGroup="GridContent" />
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0">install</Label>
         <Grid Grid.Column="1">
@@ -29,6 +29,57 @@
           </Grid.ColumnDefinitions>
           <TextBox Grid.Column="0" Text="{Binding InstallRootDirectoryPath, UpdateSourceTrigger=PropertyChanged}" />
           <Button Grid.Column="1" Command="{Binding SelectInstallRootDirectoryPathCommand}">select</Button>
+        </Grid>
+      </Grid>
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0">dirs</Label>
+        <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
+          <ItemsControl ItemsSource="{Binding IntellisenseDirectoryItems}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="DirectoryName" />
+                    <ColumnDefinition Width="*" SharedSizeGroup="DirectoryVersion" />
+                  </Grid.ColumnDefinitions>
+
+                  <Label Grid.Column="0" Content="{Binding DirectoryName}" />
+
+                  <ComboBox Grid.Column="1" ItemsSource="{Binding VersionItems}" SelectedItem="{Binding SelectedVersion}">
+                    <ComboBox.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding Version}" />
+                      </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                  </ComboBox>
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          <!--<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding IntellisenseDirectoryItems}">
+            <DataGrid.Columns>
+              <DataGridTextColumn
+                Header="Directory"
+                Binding=
+              />
+              <DataGridComboBoxColumn
+                Header="VersionItems"
+                ItemsSource="{Binding VersionItems}"
+                SelectedItemBinding="{Binding SelectedVersion}"
+              />
+            </DataGrid.Columns>
+          </DataGrid>-->
         </Grid>
       </Grid>
 

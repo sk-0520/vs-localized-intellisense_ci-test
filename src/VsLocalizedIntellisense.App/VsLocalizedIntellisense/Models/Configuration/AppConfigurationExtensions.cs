@@ -25,6 +25,8 @@ namespace VsLocalizedIntellisense.Models.Configuration
 
         public static string GetInstallRootDirectoryPath(this AppConfiguration configuration) => configuration.GetValue<string>("install-root-directory");
 
+        public static string[] GetIntellisenseDirectories(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-directories", '|');
+
         public static LogLevel GetLogDefaultLevel(this AppConfiguration configuration) => configuration.GetValue<LogLevel>("log-default-level");
 
         public static bool IsEnableDebugLog(this AppConfiguration configuration)
