@@ -82,6 +82,7 @@
           <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}" />
         </Trigger>
       </Style.Triggers>
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <!-- 1要素だけだとダメっぽいっていう謎挙動対応 -->

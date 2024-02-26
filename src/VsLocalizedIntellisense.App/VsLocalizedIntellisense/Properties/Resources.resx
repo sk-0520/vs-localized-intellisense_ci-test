@@ -120,4 +120,7 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>VsLocalizedIntellisense</value>
   </data>
+  <data name="UI_Validation_Required" xml:space="preserve">
+    <value>入力必須項目です</value>
+  </data>
 </root>

@@ -16,12 +16,21 @@
 >
   <Grid>
     <StackPanel>
-      <Label>install</Label>
-      <TextBox
-        Text="{Binding InstallRootDirectoryPath, UpdateSourceTrigger=PropertyChanged}"
-      />
-
-      <Button Command="{Binding SelectInstallRootDirectoryPathCommand}">select</Button>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="GridLabel" />
+          <ColumnDefinition Width="*"  SharedSizeGroup="GridContent" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0">install</Label>
+        <Grid Grid.Column="1">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBox Grid.Column="0" Text="{Binding InstallRootDirectoryPath, UpdateSourceTrigger=PropertyChanged}" />
+          <Button Grid.Column="1" Command="{Binding SelectInstallRootDirectoryPathCommand}">select</Button>
+        </Grid>
+      </Grid>
 
     </StackPanel>
   </Grid>

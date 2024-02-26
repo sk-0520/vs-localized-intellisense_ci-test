@@ -68,5 +68,14 @@ namespace VsLocalizedIntellisense.Properties {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   入力必須項目です に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Validation_Required {
+            get {
+                return ResourceManager.GetString("UI_Validation_Required", resourceCulture);
+            }
+        }
     }
 }

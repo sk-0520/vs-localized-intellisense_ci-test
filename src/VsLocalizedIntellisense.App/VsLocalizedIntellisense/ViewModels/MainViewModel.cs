@@ -33,7 +33,7 @@ namespace VsLocalizedIntellisense.ViewModels
         [Messenger]
         public Messenger Messenger { get; } = new Messenger();
 
-        [Required]
+        [Required(ErrorMessageResourceName = nameof(Properties.Resources.UI_Validation_Required), ErrorMessageResourceType = typeof(Properties.Resources))]
         public string InstallRootDirectoryPath
         {
             get => Model.InstallRootDirectoryPath;
