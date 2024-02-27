@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Logger;
@@ -14,6 +15,19 @@ namespace VsLocalizedIntellisense.Models.Configuration
         private static TResult GetValueOrEmptyInit<TResult>(AppConfiguration configuration, string key)
         {
             return configuration.Contains(key) ? configuration.GetValue<TResult>(key) : default;
+        }
+
+        public static string GetHttpUserAgent(this AppConfiguration configuration)
+        {
+            var rawHttpUserAgent = configuration.GetValue<string>("http-user-agent");
+            var assembly = Assembly.GetExecutingAssembly();
+            var assemblyName = assembly.GetName();
+            var map = new Dictionary<string, string>()
+            {
+                ["APP:NAME"] = assemblyName.Name,
+                ["APP:VERSION"] = assemblyName.Version.ToString(),
+            };
+            return Strings.ReplaceFromDictionary(rawHttpUserAgent, map);
         }
 
         /// <summary>

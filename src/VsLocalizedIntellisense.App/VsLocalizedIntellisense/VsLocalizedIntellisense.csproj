@@ -126,7 +126,9 @@
     <Compile Include="Models\Mvvm\Message\ScopedMessenger.cs" />
     <Compile Include="Models\Mvvm\Message\ViewMessenger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
+    <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubRepository.cs" />
+    <Compile Include="Models\Service\GitHub\GitHubResponseLink.cs" />
     <Compile Include="Models\Service\GitHub\GitHubService.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\IntellisenseDirectoryViewModel.cs" />

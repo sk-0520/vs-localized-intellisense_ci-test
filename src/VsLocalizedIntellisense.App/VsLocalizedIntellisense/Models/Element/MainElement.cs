@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.Models.Service.GitHub;
 
 namespace VsLocalizedIntellisense.Models.Element
 {
@@ -67,9 +68,11 @@ namespace VsLocalizedIntellisense.Models.Element
             }
         }
 
-        public Task LoadAsync()
+        public async Task LoadAsync()
         {
-            return Task.CompletedTask;
+            var ghs = new GitHubService(new GitHubRepository("sk-0520", "vs-localized-intellisense"), Configuration);
+            var aaa = await ghs.GetTreeAsync("intellisense");
+            return;
         }
 
         #endregion

@@ -38,6 +38,8 @@ namespace VsLocalizedIntellisense
             Logger.LogInformation("START");
 
             var mainElement = new MainElement(appConfiguration, Logging.Instance);
+            mainElement.LoadAsync();
+
             var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();
 
