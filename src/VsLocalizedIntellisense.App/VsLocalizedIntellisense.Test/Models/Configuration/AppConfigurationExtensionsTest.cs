@@ -77,6 +77,20 @@ namespace VsLocalizedIntellisense.Test.Models.Configuration
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        [DataRow(new string[] { "" }, "")]
+        [DataRow(new string[] { "A" }, "A")]
+        [DataRow(new string[] { "A", "B" }, "A|B")]
+        public void GetIntellisenseDirectoriesTest(string[] expected, string input)
+        {
+            var xml = $@"
+            <appSettings>
+                <add key=""intellisense-directories"" value=""{input}""/>
+            </appSettings>";
+            var config = Create(xml, new AppConfigurationInitializeParameters(DateTime.UtcNow));
+            var actual = config.GetIntellisenseDirectories();
+            CollectionAssert.AreEqual(expected, actual);
+        }
 
         [TestMethod]
         [DataRow(LogLevel.Information, nameof(LogLevel.Information))]

@@ -67,6 +67,11 @@ namespace VsLocalizedIntellisense.Models.Element
             }
         }
 
+        public Task LoadAsync()
+        {
+            return Task.CompletedTask;
+        }
+
         #endregion
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
