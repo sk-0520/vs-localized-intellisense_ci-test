@@ -131,7 +131,7 @@
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />
     <Compile Include="Models\Service\GitHub\GitHubRepository.cs" />
     <Compile Include="Models\Service\GitHub\GitHubResponseLink.cs" />
-    <Compile Include="Models\Service\GitHub\AppGitHubService.cs" />
+    <Compile Include="Models\Service\Application\AppGitHubService.cs" />
     <Compile Include="Models\Service\GitHub\GitHubService.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\IntellisenseDirectoryViewModel.cs" />

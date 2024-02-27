@@ -6,8 +6,9 @@ using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
+using VsLocalizedIntellisense.Models.Service.GitHub;
 
-namespace VsLocalizedIntellisense.Models.Service.GitHub
+namespace VsLocalizedIntellisense.Models.Service.Application
 {
     public class AppGitHubService : GitHubService
     {

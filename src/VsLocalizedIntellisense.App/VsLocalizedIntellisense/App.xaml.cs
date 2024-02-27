@@ -9,6 +9,7 @@ using VsLocalizedIntellisense.Models;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Element;
 using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.Models.Service.Application;
 using VsLocalizedIntellisense.Models.Service.GitHub;
 using VsLocalizedIntellisense.ViewModels;
 using VsLocalizedIntellisense.Views;
