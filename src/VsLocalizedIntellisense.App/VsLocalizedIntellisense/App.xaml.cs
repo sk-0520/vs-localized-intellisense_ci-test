@@ -9,6 +9,7 @@ using VsLocalizedIntellisense.Models;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Element;
 using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.Models.Service.GitHub;
 using VsLocalizedIntellisense.ViewModels;
 using VsLocalizedIntellisense.Views;
 
@@ -27,7 +28,7 @@ namespace VsLocalizedIntellisense
 
         #region Application
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -37,8 +38,10 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            var mainElement = new MainElement(appConfiguration, Logging.Instance);
-            mainElement.LoadAsync();
+            var ghs = new AppGitHubService(appConfiguration);
+            var intellisenseItems = await ghs.GetContentsAsync("intellisense");
+
+            var mainElement = new MainElement(appConfiguration, intellisenseItems, Logging.Instance);
 
             var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();

@@ -11,23 +11,23 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
     public class GitHubContentResponseItem
     {
         [DataMember(Name = "name")]
-        public string name { get; set; }
+        public string Name { get; set; }
         [DataMember(Name = "path")]
-        public string path { get; set; }
+        public string Path { get; set; }
         [DataMember(Name = "sha")]
-        public string sha { get; set; }
+        public string Sha { get; set; }
         [DataMember(Name = "size")]
-        public int size { get; set; }
+        public long Size { get; set; }
         [DataMember(Name = "url")]
-        public string url { get; set; }
+        public string Url { get; set; }
         [DataMember(Name = "html_url")]
-        public string html_url { get; set; }
+        public string HtmlUrl { get; set; }
         [DataMember(Name = "git_url")]
-        public string git_url { get; set; }
+        public string GitUrl { get; set; }
         [DataMember(Name = "download_url")]
-        public object download_url { get; set; }
+        public object DownloadUrl { get; set; }
         [DataMember(Name = "type")]
-        public string type { get; set; }
+        public string Type { get; set; }
 
         [DataMember(Name = "_links")]
         public GitHubResponseLink Link { get; set; }

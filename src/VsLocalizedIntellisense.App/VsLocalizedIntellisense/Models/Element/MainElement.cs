@@ -21,10 +21,11 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #endregion
 
-        public MainElement(AppConfiguration configuration, ILoggerFactory loggerFactory)
+        public MainElement(AppConfiguration configuration, IReadOnlyList<GitHubContentResponseItem> intellisenseItems, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             Configuration = configuration;
+            IntellisenseItems = intellisenseItems;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -33,7 +34,9 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #region property
 
-        public AppConfiguration Configuration { get; }
+        private AppConfiguration Configuration { get; }
+
+        private IReadOnlyList<GitHubContentResponseItem> IntellisenseItems { get; }
 
         public string InstallRootDirectoryPath
         {
@@ -66,13 +69,6 @@ namespace VsLocalizedIntellisense.Models.Element
                     yield return new IntellisenseDirectoryElement(targetDir, LoggerFactory);
                 }
             }
-        }
-
-        public async Task LoadAsync()
-        {
-            var ghs = new AppGitHubService(Configuration);
-            var aaa = await ghs.GetContentsAsync("intellisense");
-            return;
         }
 
         #endregion

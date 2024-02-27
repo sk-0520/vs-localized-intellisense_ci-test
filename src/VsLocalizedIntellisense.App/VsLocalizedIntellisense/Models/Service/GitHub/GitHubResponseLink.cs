@@ -11,10 +11,10 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
     public class GitHubResponseLink
     {
         [DataMember(Name = "self")]
-        public string self { get; set; }
+        public string Self { get; set; }
         [DataMember(Name = "git")]
-        public string git { get; set; }
+        public string Git { get; set; }
         [DataMember(Name = "html")]
-        public string html { get; set; }
+        public string Html { get; set; }
     }
 }

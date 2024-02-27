@@ -49,14 +49,13 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
         private async Task<T> RequestAsync<T>(HttpRequestMessage request)
         {
             var response = await HttpClient.SendAsync(request);
-            var rawContent = await response.Content.ReadAsStreamAsync();
+            var stream = await response.Content.ReadAsStreamAsync();
             var serializer = new DataContractJsonSerializer(typeof(T));
-            var content = (T)serializer.ReadObject(rawContent);
-            return content;
-
+            var rawContent = serializer.ReadObject(stream);
+            return (T)rawContent;
         }
 
-        public Task<GitHubContentResponseItem[]> GetContentsAsync(string path)
+        public async Task<IReadOnlyList<GitHubContentResponseItem>> GetContentsAsync(string path)
         {
             var url = Strings.ReplaceFromDictionary(
                 "https://api.github.com/repos/${OWNER}/${NAME}/contents/${PATH}",
@@ -68,7 +67,8 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
                 }
             );
             var request = CreateRequestMessage(HttpMethod.Get, url);
-            return RequestAsync<GitHubContentResponseItem[]>(request);
+            var response = await RequestAsync<GitHubContentResponseItem[]>(request);
+            return response;
         }
 
         #endregion
