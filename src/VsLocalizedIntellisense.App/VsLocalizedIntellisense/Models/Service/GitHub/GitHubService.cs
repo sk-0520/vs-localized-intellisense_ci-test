@@ -13,7 +13,7 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 {
     public class GitHubService
     {
-        public GitHubService(GitHubRepository repository, GitHubAuthentication Authentication, GitHubOptions options)
+        public GitHubService(GitHubRepository repository, GitHubOptions options)
         {
             Repository = repository;
             Options = options;
@@ -23,7 +23,6 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 
         private HttpClient HttpClient { get; } = new HttpClient();
         private GitHubRepository Repository { get; }
-        private GitHubAuthentication Authentication { get; }
         private GitHubOptions Options { get; }
 
         #endregion

@@ -16,7 +16,6 @@ namespace VsLocalizedIntellisense.Models.Service.Application
         public AppGitHubService(AppConfiguration configuration)
             : base(
                  new GitHubRepository(configuration.GetRepositoryOwner(), configuration.GetRepositoryName()),
-                 new GitHubAuthentication(),
                  new GitHubOptions()
                  {
                      RequestHeaders = new Dictionary<string, string>()

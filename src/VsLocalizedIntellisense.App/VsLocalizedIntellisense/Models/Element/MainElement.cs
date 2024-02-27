@@ -21,11 +21,11 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #endregion
 
-        public MainElement(AppConfiguration configuration, IReadOnlyList<string> intellisenseVersions, ILoggerFactory loggerFactory)
+        public MainElement(AppConfiguration configuration, IReadOnlyList<string> intellisenseVersionItems, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             Configuration = configuration;
-            IntellisenseVersions = intellisenseVersions;
+            IntellisenseVersionItems = intellisenseVersionItems;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -36,7 +36,7 @@ namespace VsLocalizedIntellisense.Models.Element
 
         private AppConfiguration Configuration { get; }
 
-        private IReadOnlyList<string> IntellisenseVersions { get; }
+        private IReadOnlyList<string> IntellisenseVersionItems { get; }
 
         public string InstallRootDirectoryPath
         {
