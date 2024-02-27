@@ -41,6 +41,10 @@ namespace VsLocalizedIntellisense.Models.Configuration
 
         public static string[] GetIntellisenseDirectories(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-directories", '|');
 
+        public static string GetRepositoryRevision(this AppConfiguration configuration) => configuration.GetValue<string>("repository-revision");
+        public static string GetRepositoryOwner(this AppConfiguration configuration) => configuration.GetValue<string>("repository-owner");
+        public static string GetRepositoryName(this AppConfiguration configuration) => configuration.GetValue<string>("repository-name");
+
         public static LogLevel GetLogDefaultLevel(this AppConfiguration configuration) => configuration.GetValue<LogLevel>("log-default-level");
 
         public static bool IsEnableDebugLog(this AppConfiguration configuration)

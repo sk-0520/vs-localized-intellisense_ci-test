@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
@@ -11,16 +12,18 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 {
     public class GitHubService
     {
-        public GitHubService(GitHubRepository repository, AppConfiguration configuration)
+        public GitHubService(GitHubRepository repository, GitHubAuthentication Authentication, GitHubOptions options)
         {
             Repository = repository;
-            Configuration = configuration;
+            Options = options;
         }
 
         #region proeprty
 
+        private HttpClient HttpClient { get; } = new HttpClient();
         private GitHubRepository Repository { get; }
-        private AppConfiguration Configuration { get; }
+        private GitHubAuthentication Authentication { get; }
+        private GitHubOptions Options { get; }
 
         #endregion
 
@@ -28,7 +31,32 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 
         //"https://api.github.com/repos/sk-0520/vs-localized-intellisense/contents/intellisense"
 
-        public async Task<GitHubContentResponseItem[]> GetTreeAsync(string path)
+        private HttpRequestMessage CreateRequestMessage(HttpMethod method, Uri uri)
+        {
+            var request = new HttpRequestMessage(method, uri);
+
+            foreach (var pair in Options.RequestHeaders)
+            {
+                request.Headers.Add(pair.Key, pair.Value);
+            }
+
+            return request;
+        }
+
+        private HttpRequestMessage CreateRequestMessage(HttpMethod method, string uri)
+            => CreateRequestMessage(method, new Uri(uri));
+
+        private async Task<T> RequestAsync<T>(HttpRequestMessage request)
+        {
+            var response = await HttpClient.SendAsync(request);
+            var rawContent = await response.Content.ReadAsStreamAsync();
+            var serializer = new DataContractJsonSerializer(typeof(T));
+            var content = (T)serializer.ReadObject(rawContent);
+            return content;
+
+        }
+
+        public Task<GitHubContentResponseItem[]> GetContentsAsync(string path)
         {
             var url = Strings.ReplaceFromDictionary(
                 "https://api.github.com/repos/${OWNER}/${NAME}/contents/${PATH}",
@@ -39,19 +67,8 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
                     ["PATH"] = path.Trim('/'),
                 }
             );
-            var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-            request.Headers.Add("User-Agent", Configuration.GetHttpUserAgent());
-            request.Headers.Add("Accept", "application/vnd.github+json");
-            request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
-
-            var response = await client.SendAsync(request);
-            var rawContent = await response.Content.ReadAsStreamAsync();
-
-            var serializer = new DataContractJsonSerializer(typeof(GitHubContentResponseItem[]));
-            var content = serializer.ReadObject(rawContent);
-
-            return (GitHubContentResponseItem[])content;
+            var request = CreateRequestMessage(HttpMethod.Get, url);
+            return RequestAsync<GitHubContentResponseItem[]>(request);
         }
 
         #endregion

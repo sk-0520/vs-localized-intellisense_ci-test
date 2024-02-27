@@ -70,8 +70,8 @@ namespace VsLocalizedIntellisense.Models.Element
 
         public async Task LoadAsync()
         {
-            var ghs = new GitHubService(new GitHubRepository("sk-0520", "vs-localized-intellisense"), Configuration);
-            var aaa = await ghs.GetTreeAsync("intellisense");
+            var ghs = new AppGitHubService(Configuration);
+            var aaa = await ghs.GetContentsAsync("intellisense");
             return;
         }
 
