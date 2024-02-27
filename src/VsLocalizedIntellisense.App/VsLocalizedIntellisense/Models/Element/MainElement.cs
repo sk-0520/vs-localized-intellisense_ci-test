@@ -21,11 +21,11 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #endregion
 
-        public MainElement(AppConfiguration configuration, IReadOnlyList<GitHubContentResponseItem> intellisenseItems, ILoggerFactory loggerFactory)
+        public MainElement(AppConfiguration configuration, IReadOnlyList<string> intellisenseVersions, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             Configuration = configuration;
-            IntellisenseItems = intellisenseItems;
+            IntellisenseVersions = intellisenseVersions;
 
             PropertyChanged += OnPropertyChanged;
 
@@ -36,7 +36,7 @@ namespace VsLocalizedIntellisense.Models.Element
 
         private AppConfiguration Configuration { get; }
 
-        private IReadOnlyList<GitHubContentResponseItem> IntellisenseItems { get; }
+        private IReadOnlyList<string> IntellisenseVersions { get; }
 
         public string InstallRootDirectoryPath
         {

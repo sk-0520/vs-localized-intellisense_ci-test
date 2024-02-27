@@ -39,10 +39,10 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            var gitHubService = new AppGitHubService(appConfiguration);
-            var intellisenseItems = await gitHubService.GetContentsAsync("intellisense");
+            var appGitHubService = new AppGitHubService(appConfiguration);
+            var intellisenseVersions = await appGitHubService.GetVersionItems();
 
-            var mainElement = new MainElement(appConfiguration, intellisenseItems, Logging.Instance);
+            var mainElement = new MainElement(appConfiguration, intellisenseVersions.ToList(), Logging.Instance);
 
             var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();

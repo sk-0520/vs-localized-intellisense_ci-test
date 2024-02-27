@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Service.GitHub;
@@ -27,5 +28,15 @@ namespace VsLocalizedIntellisense.Models.Service.Application
                  }
             )
         { }
+
+        #region function
+
+        public async Task<IEnumerable<string>> GetVersionItems(CancellationToken cancellationToken = default)
+        {
+            var intellisenseItems = await GetContentsAsync("intellisense", cancellationToken);
+            return intellisenseItems.Select(a => a.Name);
+        }
+
+        #endregion
     }
 }

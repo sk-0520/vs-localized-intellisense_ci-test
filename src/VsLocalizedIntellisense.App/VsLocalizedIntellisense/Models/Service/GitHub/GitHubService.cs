@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
 
@@ -46,16 +47,16 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, string uri)
             => CreateRequestMessage(method, new Uri(uri));
 
-        private async Task<T> RequestAsync<T>(HttpRequestMessage request)
+        private async Task<T> RequestAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var response = await HttpClient.SendAsync(request);
+            var response = await HttpClient.SendAsync(request, cancellationToken);
             var stream = await response.Content.ReadAsStreamAsync();
             var serializer = new DataContractJsonSerializer(typeof(T));
             var rawContent = serializer.ReadObject(stream);
             return (T)rawContent;
         }
 
-        public async Task<IReadOnlyList<GitHubContentResponseItem>> GetContentsAsync(string path)
+        public async Task<IReadOnlyList<GitHubContentResponseItem>> GetContentsAsync(string path, CancellationToken cancellationToken = default)
         {
             var url = Strings.ReplaceFromDictionary(
                 "https://api.github.com/repos/${OWNER}/${NAME}/contents/${PATH}",
@@ -67,7 +68,7 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
                 }
             );
             var request = CreateRequestMessage(HttpMethod.Get, url);
-            var response = await RequestAsync<GitHubContentResponseItem[]>(request);
+            var response = await RequestAsync<GitHubContentResponseItem[]>(request, cancellationToken);
             return response;
         }
 
