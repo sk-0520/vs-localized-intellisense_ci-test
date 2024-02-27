@@ -99,8 +99,15 @@ namespace VsLocalizedIntellisense.Models.Mvvm.Binding
                 MemberName = notifyPropertyName
             };
 
+            //TODO: キャッシュするほどじゃないけど、なんだかなぁ感
+            var viewModelProperty = GetType().GetProperty(notifyPropertyName);
+            var validationValue = viewModelProperty.PropertyType != objectProperty.PropertyType
+                ? viewModelProperty.GetValue(this)
+                : value
+            ;
+
             var validationErrors = new List<ValidationResult>();
-            if (!Validator.TryValidateProperty(value, context, validationErrors))
+            if (!Validator.TryValidateProperty(validationValue, context, validationErrors))
             {
                 foreach (var validationError in validationErrors)
                 {
