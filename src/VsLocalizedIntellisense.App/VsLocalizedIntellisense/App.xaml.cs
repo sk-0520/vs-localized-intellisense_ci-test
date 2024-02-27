@@ -38,8 +38,8 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            var ghs = new AppGitHubService(appConfiguration);
-            var intellisenseItems = await ghs.GetContentsAsync("intellisense");
+            var gitHubService = new AppGitHubService(appConfiguration);
+            var intellisenseItems = await gitHubService.GetContentsAsync("intellisense");
 
             var mainElement = new MainElement(appConfiguration, intellisenseItems, Logging.Instance);
 
