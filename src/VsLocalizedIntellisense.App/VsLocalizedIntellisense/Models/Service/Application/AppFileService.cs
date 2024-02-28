@@ -8,19 +8,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Data;
+using VsLocalizedIntellisense.Models.Logger;
 
 namespace VsLocalizedIntellisense.Models.Service.Application
 {
     public class AppFileService
     {
-        public AppFileService(AppConfiguration configuration)
+        public AppFileService(AppConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #region property
 
-        AppConfiguration Configuration { get; }
+        private ILogger Logger { get; }
+        private AppConfiguration Configuration { get; }
 
         private string CacheDirectoryPath
         {

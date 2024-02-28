@@ -8,19 +8,21 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
+using VsLocalizedIntellisense.Models.Logger;
 
 namespace VsLocalizedIntellisense.Models.Service.GitHub
 {
     public class GitHubService
     {
-        public GitHubService(GitHubRepository repository, GitHubOptions options)
+        public GitHubService(GitHubRepository repository, GitHubOptions options, ILoggerFactory loggerFactory)
         {
             Repository = repository;
             Options = options;
+            Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #region proeprty
-
+        protected ILogger Logger { get; }
         private HttpClient HttpClient { get; } = new HttpClient();
         private GitHubRepository Repository { get; }
         private GitHubOptions Options { get; }

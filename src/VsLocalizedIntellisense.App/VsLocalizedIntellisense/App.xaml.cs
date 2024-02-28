@@ -40,11 +40,11 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            var appFileService = new AppFileService(appConfiguration);
+            var appFileService = new AppFileService(appConfiguration, loggerFactory);
             var intellisenseVersionData = appFileService.GetIntellisenseVersionData();
             if (intellisenseVersionData == null)
             {
-                var appGitHubService = new AppGitHubService(appConfiguration);
+                var appGitHubService = new AppGitHubService(appConfiguration, loggerFactory);
                 var intellisenseVersionItems = await appGitHubService.GetVersionItems();
                 intellisenseVersionData = new IntellisenseVersionData();
                 intellisenseVersionData.VersionItems = intellisenseVersionItems.ToArray();
