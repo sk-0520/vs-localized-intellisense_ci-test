@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Logger;
@@ -44,13 +45,13 @@ namespace VsLocalizedIntellisense.Models.Element
             set => SetVariable(ref this._installRootDirectoryPath, value);
         }
 
-        public ObservableCollection<IntellisenseDirectoryElement> IntellisenseDirectoryElements { get; } = new ObservableCollection<IntellisenseDirectoryElement>();
+        public ObservableCollection<DirectoryElement> IntellisenseDirectoryElements { get; } = new ObservableCollection<DirectoryElement>();
 
         #endregion
 
         #region function
 
-        private IEnumerable<IntellisenseDirectoryElement> LoadIntellisenseDirectories(string rootDirectoryPath, IEnumerable<string> intellisenseDirectories)
+        private IEnumerable<DirectoryElement> LoadIntellisenseDirectories(string rootDirectoryPath, IEnumerable<string> intellisenseDirectories, IEnumerable<string> intellisenseVersionItems)
         {
             var dir = IOHelper.GetPhysicalDirectory(rootDirectoryPath);
             if (dir == null)
@@ -59,14 +60,46 @@ namespace VsLocalizedIntellisense.Models.Element
                 yield break;
             }
 
-            var result = new List<IntellisenseDirectoryElement>();
+            var result = new List<DirectoryElement>();
             var targetDirectories = intellisenseDirectories.Select(a => Path.Combine(dir.FullName, a));
             foreach (var targetDirectoryPath in targetDirectories)
             {
                 var targetDir = new DirectoryInfo(targetDirectoryPath);
                 if (targetDir.Exists)
                 {
-                    yield return new IntellisenseDirectoryElement(targetDir, LoggerFactory);
+                    var libraryVersionItems = targetDir.GetDirectories().Select(a => new LibraryVersionElement(a.Name, LoggerFactory)).OrderBy(a => a.Version).ToList();
+
+                    Regex regex = null;
+                    if (Configuration.GetIntellisenseDotNetStandardMappings().Any(a => a == targetDir.Name))
+                    {
+                        regex = Configuration.GetIntellisenseDotNetStandardVersion();
+                    }
+                    else if (Configuration.GetIntellisenseDotNetRuntimeMappings().Any(a => a == targetDir.Name))
+                    {
+                        regex = Configuration.GetIntellisenseDotNetRuntimeVersion();
+                    }
+                    if (regex == null)
+                    {
+                        Logger.LogWarning($"{targetDir.Name}");
+                        continue;
+                    }
+
+                    var intellisenseVersions = new List<IntellisenseVersionElement>();
+                    foreach (var s in intellisenseVersionItems)
+                    {
+                        var match = regex.Match(s);
+                        if (!match.Success)
+                        {
+                            continue;
+                        }
+                        var intellisenseName = match.Groups["NAME"].Value;
+                        var rawIntellisenseVersion = match.Groups["VERSION"].Value;
+                        var intellisenseVersion = new Version(rawIntellisenseVersion);
+                        intellisenseVersions.Add(new IntellisenseVersionElement(intellisenseName, intellisenseVersion, LoggerFactory));
+                    }
+                    intellisenseVersions = intellisenseVersions.OrderBy(a => a.Version).ToList();
+
+                    yield return new DirectoryElement(targetDir, libraryVersionItems, libraryVersionItems.Last(), intellisenseVersions, intellisenseVersions.Last(), LoggerFactory);
                 }
             }
         }
@@ -78,7 +111,7 @@ namespace VsLocalizedIntellisense.Models.Element
             switch (e.PropertyName)
             {
                 case nameof(InstallRootDirectoryPath):
-                    var elements = LoadIntellisenseDirectories(InstallRootDirectoryPath, Configuration.GetIntellisenseDirectories());
+                    var elements = LoadIntellisenseDirectories(InstallRootDirectoryPath, Configuration.GetIntellisenseDirectories(), IntellisenseVersionItems);
                     IntellisenseDirectoryElements.Clear();
                     foreach (var element in elements)
                     {

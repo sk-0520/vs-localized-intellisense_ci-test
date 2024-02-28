@@ -39,7 +39,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="0">dirs</Label>
-        <ListView Grid.Column="1" ItemsSource="{Binding IntellisenseDirectoryItems}">
+        <ListView Grid.Column="1" ItemsSource="{Binding DirectoryItems}">
           <ListView.View>
             <GridView>
               <GridViewColumn Header="DirectoryName">
@@ -49,10 +49,10 @@
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
-              <GridViewColumn Header="VersionItems">
+              <GridViewColumn Header="LibraryVersionItems">
                 <GridViewColumn.CellTemplate>
                   <DataTemplate>
-                    <ComboBox ItemsSource="{Binding VersionItems}" SelectedItem="{Binding SelectedVersion}">
+                    <ComboBox ItemsSource="{Binding LibraryVersionItems}" SelectedItem="{Binding LibraryVersion}">
                       <ComboBox.ItemTemplate>
                         <DataTemplate>
                           <TextBlock Text="{Binding Version}" />
@@ -62,6 +62,21 @@
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
+
+              <GridViewColumn Header="IntellisenseVersionItems">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <ComboBox ItemsSource="{Binding IntellisenseVersionItems}" SelectedItem="{Binding IntellisenseVersion}">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Text="{Binding Version}" />
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
+
             </GridView>
           </ListView.View>
         </ListView>

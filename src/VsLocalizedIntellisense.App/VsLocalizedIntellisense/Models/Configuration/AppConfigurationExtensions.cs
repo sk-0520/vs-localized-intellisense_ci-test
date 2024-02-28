@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Logger;
 
@@ -32,13 +33,19 @@ namespace VsLocalizedIntellisense.Models.Configuration
 
         public static string GetInstallRootDirectoryPath(this AppConfiguration configuration) => configuration.GetValue<string>("install-root-directory");
 
-        public static string GetTemporaryDirectory(this AppConfiguration configuration) => configuration.GetValue<string>("temp-directory");
-        public static string GetWorkingDirectory(this AppConfiguration configuration) => configuration.GetValue<string>("work-directory");
+        public static string GetTemporaryDirectoryPath(this AppConfiguration configuration) => configuration.Replace(configuration.GetValue<string>("temp-directory-path"));
+        public static string GetWorkingDirectoryPath(this AppConfiguration configuration) => configuration.Replace(configuration.GetValue<string>("work-directory-path"));
 
         public static TimeSpan GetCacheTimeoutIntellisenseVersion(this AppConfiguration configuration) => configuration.GetValue<TimeSpan>("cache-timeout-intellisense-version");
-        
+
 
         public static string[] GetIntellisenseDirectories(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-directories", '|');
+
+        public static string[] GetIntellisenseDotNetStandardMappings(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-dotnet-standard-mappings", '|');
+        public static Regex GetIntellisenseDotNetStandardVersion(this AppConfiguration configuration) => new Regex(configuration.GetValue<string>("intellisense-dotnet-standard-version"));
+        public static string[] GetIntellisenseDotNetRuntimeMappings(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-dotnet-runtime-mappings", '|');
+        public static Regex GetIntellisenseDotNetRuntimeVersion(this AppConfiguration configuration) => new Regex(configuration.GetValue<string>("intellisense-dotnet-runtime-version"));
+
 
         public static string GetRepositoryRevision(this AppConfiguration configuration) => configuration.GetValue<string>("repository-revision");
         public static string GetRepositoryOwner(this AppConfiguration configuration) => configuration.GetValue<string>("repository-owner");

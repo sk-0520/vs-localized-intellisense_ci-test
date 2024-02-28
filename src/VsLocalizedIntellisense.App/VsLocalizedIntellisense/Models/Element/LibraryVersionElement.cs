@@ -1,27 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Logger;
 
 namespace VsLocalizedIntellisense.Models.Element
 {
-    public class IntellisenseVersionElement: ElementBase
+    public class LibraryVersionElement : ElementBase
     {
-        public IntellisenseVersionElement(string name, Version version, ILoggerFactory loggerFactory)
+        public LibraryVersionElement(string rawVersion, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
-            Name = name;
-            Version = version;
+            RawVersion = rawVersion;
+            Version = new Version(RawVersion);
         }
 
         #region proeprty
 
-        public string Name { get; }
+        private string RawVersion { get; }
+
         public Version Version { get; }
 
         #endregion
-
     }
 }

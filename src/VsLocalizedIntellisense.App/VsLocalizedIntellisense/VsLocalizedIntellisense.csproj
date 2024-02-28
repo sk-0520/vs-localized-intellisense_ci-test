@@ -88,8 +88,9 @@
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
     <Compile Include="Models\Data\IntellisenseVersionData.cs" />
-    <Compile Include="Models\Element\IntellisenseDirectoryElement.cs" />
+    <Compile Include="Models\Element\DirectoryElement.cs" />
     <Compile Include="Models\Element\IntellisenseVersionElement.cs" />
+    <Compile Include="Models\Element\LibraryVersionElement.cs" />
     <Compile Include="Models\IOHelper.cs" />
     <Compile Include="Models\LinqExtensions.cs" />
     <Compile Include="Models\Logger\ILoggerFactoryExtensions.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Models\Mvvm\Message\ScopedMessenger.cs" />
     <Compile Include="Models\Mvvm\Message\ViewMessenger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
+    <Compile Include="Models\Service\Application\AppFileService.cs" />
     <Compile Include="Models\Service\GitHub\GitHubAuthentication.cs" />
     <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />
@@ -136,8 +138,9 @@
     <Compile Include="Models\Service\Application\AppGitHubService.cs" />
     <Compile Include="Models\Service\GitHub\GitHubService.cs" />
     <Compile Include="Models\Strings.cs" />
-    <Compile Include="ViewModels\IntellisenseDirectoryViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryViewModel.cs" />
     <Compile Include="ViewModels\IntellisenseVersionViewModel.cs" />
+    <Compile Include="ViewModels\LibraryVersionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Models\Mvvm\Binding\ViewModelBase.cs" />
     <Compile Include="ViewModels\Message\OpenFileDialogMessage.cs" />

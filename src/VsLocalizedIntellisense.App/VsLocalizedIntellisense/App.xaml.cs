@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using VsLocalizedIntellisense.Models;
 using VsLocalizedIntellisense.Models.Configuration;
+using VsLocalizedIntellisense.Models.Data;
 using VsLocalizedIntellisense.Models.Element;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.Models.Service.Application;
@@ -39,12 +40,23 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
-            
+            var appFileService = new AppFileService(appConfiguration);
+            var intellisenseVersionData = appFileService.GetIntellisenseVersionData();
+            if (intellisenseVersionData == null)
+            {
+                var appGitHubService = new AppGitHubService(appConfiguration);
+                var intellisenseVersionItems = await appGitHubService.GetVersionItems();
+                intellisenseVersionData = new IntellisenseVersionData();
+                intellisenseVersionData.VersionItems = intellisenseVersionItems.ToArray();
+                appFileService.SaveIntellisenseVersionData(intellisenseVersionData);
+            }
+            if (intellisenseVersionData == null)
+            {
+                throw new Exception(nameof(intellisenseVersionData));
+            }
 
-            var appGitHubService = new AppGitHubService(appConfiguration);
-            var intellisenseVersionItems = await appGitHubService.GetVersionItems();
 
-            var mainElement = new MainElement(appConfiguration, intellisenseVersionItems.ToList(), Logging.Instance);
+            var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, Logging.Instance);
 
             var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
             var mainView = new MainWindow();

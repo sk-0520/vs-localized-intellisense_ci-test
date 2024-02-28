@@ -29,9 +29,9 @@ namespace VsLocalizedIntellisense.ViewModels
         public MainViewModel(MainElement model, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
         {
-            IntellisenseDirectoryCollection = new ModelViewModelObservableCollectionManager<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel>(Model.IntellisenseDirectoryElements, new ModelViewModelObservableCollectionOptions<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel>()
+            DirectoryCollection = new ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel>(Model.IntellisenseDirectoryElements, new ModelViewModelObservableCollectionOptions<DirectoryElement, DirectoryViewModel>()
             {
-                ToViewModel = m => new IntellisenseDirectoryViewModel(m, LoggerFactory),
+                ToViewModel = m => new DirectoryViewModel(m, LoggerFactory),
             });
         }
 
@@ -47,8 +47,8 @@ namespace VsLocalizedIntellisense.ViewModels
             set => SetModel(value);
         }
 
-        private ModelViewModelObservableCollectionManager<IntellisenseDirectoryElement, IntellisenseDirectoryViewModel> IntellisenseDirectoryCollection { get; }
-        public ICollectionView IntellisenseDirectoryItems => IntellisenseDirectoryCollection.GetDefaultView();
+        private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
+        public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
 
         #endregion
 
