@@ -102,8 +102,7 @@ jobs:
             -targetdir:"${testDir}" `
             -targetargs:"""${{ env.TEST_BIN_NAME }}""" `
             -filter:"+[VsLocalizedIntellisense*]* -[VsLocalizedIntellisense.Test]* " `
-            -output:"result.xml" `
-            -mergebyhash
+            -output:"result.xml"
           if(-not $?) {
             throw 'error: OpenCover'
           }
