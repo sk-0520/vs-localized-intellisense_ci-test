@@ -11,7 +11,7 @@ namespace VsLocalizedIntellisense.Models.Element
 {
     public class DirectoryElement : ElementBase
     {
-        public DirectoryElement(DirectoryInfo directory, IEnumerable<LibraryVersionElement> libraryVersionItems, LibraryVersionElement libraryVersion, IEnumerable<IntellisenseVersionElement> intellisenseVersions, IntellisenseVersionElement intellisenseVersion, ILoggerFactory loggerFactory)
+        public DirectoryElement(DirectoryInfo directory, IEnumerable<LibraryVersionElement> libraryVersionItems, LibraryVersionElement libraryVersion, IEnumerable<IntellisenseVersionElement> intellisenseVersions, IntellisenseVersionElement intellisenseVersion, IEnumerable<LanguageElement> languageItems, LanguageElement language, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             Directory = directory;
@@ -20,6 +20,9 @@ namespace VsLocalizedIntellisense.Models.Element
 
             IntellisenseVersionItems = new ObservableCollection<IntellisenseVersionElement>(intellisenseVersions);
             IntellisenseVersion = intellisenseVersion;
+
+            LanguageItems = new ObservableCollection<LanguageElement>(languageItems);
+            Language = language;
         }
 
         #region property
@@ -27,11 +30,13 @@ namespace VsLocalizedIntellisense.Models.Element
         public DirectoryInfo Directory { get; }
 
         public ObservableCollection<LibraryVersionElement> LibraryVersionItems { get; set; }
-
         public LibraryVersionElement LibraryVersion { get; set; }
 
         public ObservableCollection<IntellisenseVersionElement> IntellisenseVersionItems { get; }
         public IntellisenseVersionElement IntellisenseVersion { get; set; }
+
+        public ObservableCollection<LanguageElement> LanguageItems { get; }
+        public LanguageElement Language { get; set; }
 
         #endregion
     }

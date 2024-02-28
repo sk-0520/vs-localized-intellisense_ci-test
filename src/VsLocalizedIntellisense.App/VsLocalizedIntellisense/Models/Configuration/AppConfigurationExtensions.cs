@@ -46,6 +46,7 @@ namespace VsLocalizedIntellisense.Models.Configuration
         public static string[] GetIntellisenseDotNetRuntimeMappings(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-dotnet-runtime-mappings", '|');
         public static Regex GetIntellisenseDotNetRuntimeVersion(this AppConfiguration configuration) => new Regex(configuration.GetValue<string>("intellisense-dotnet-runtime-version"));
 
+        public static string[] GetLanguageItems(this AppConfiguration configuration) => configuration.GetValues<string>("language-items");
 
         public static string GetRepositoryRevision(this AppConfiguration configuration) => configuration.GetValue<string>("repository-revision");
         public static string GetRepositoryOwner(this AppConfiguration configuration) => configuration.GetValue<string>("repository-owner");

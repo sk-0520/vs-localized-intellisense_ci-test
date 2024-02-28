@@ -89,6 +89,7 @@
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
     <Compile Include="Models\Data\IntellisenseVersionData.cs" />
     <Compile Include="Models\Element\DirectoryElement.cs" />
+    <Compile Include="Models\Element\LanguageElement.cs" />
     <Compile Include="Models\Element\IntellisenseVersionElement.cs" />
     <Compile Include="Models\Element\LibraryVersionElement.cs" />
     <Compile Include="Models\IOHelper.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="Models\Service\GitHub\GitHubService.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\DirectoryViewModel.cs" />
+    <Compile Include="ViewModels\LanguageViewModel.cs" />
     <Compile Include="ViewModels\IntellisenseVersionViewModel.cs" />
     <Compile Include="ViewModels\LibraryVersionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

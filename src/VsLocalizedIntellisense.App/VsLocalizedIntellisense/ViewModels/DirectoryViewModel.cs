@@ -28,6 +28,11 @@ namespace VsLocalizedIntellisense.ViewModels
             {
                 ToViewModel = m => new IntellisenseVersionViewModel(m, LoggerFactory),
             });
+
+            LanguageCollection = new ModelViewModelObservableCollectionManager<LanguageElement, LanguageViewModel>(Model.LanguageItems, new ModelViewModelObservableCollectionOptions<LanguageElement, LanguageViewModel>()
+            {
+                ToViewModel = m => new LanguageViewModel(m, LoggerFactory),
+            });
         }
 
         #region property
@@ -65,6 +70,20 @@ namespace VsLocalizedIntellisense.ViewModels
             }
         }
 
+        private ModelViewModelObservableCollectionManager<LanguageElement, LanguageViewModel> LanguageCollection { get; }
+        public ICollectionView LanguageItems => LanguageCollection.GetDefaultView();
+        public LanguageViewModel Language
+        {
+            get
+            {
+                return LanguageCollection.GetViewModel(Model.Language);
+            }
+            set
+            {
+                var model = LanguageCollection.GetModel(value);
+                SetModel(model);
+            }
+        }
 
         #endregion
     }

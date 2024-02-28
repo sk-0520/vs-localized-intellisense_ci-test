@@ -77,6 +77,19 @@
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
 
+              <GridViewColumn Header="LanguageItems">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <ComboBox ItemsSource="{Binding LanguageItems}" SelectedItem="{Binding Language}">
+                      <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                          <TextBlock Text="{Binding Language}" />
+                        </DataTemplate>
+                      </ComboBox.ItemTemplate>
+                    </ComboBox>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
             </GridView>
           </ListView.View>
         </ListView>

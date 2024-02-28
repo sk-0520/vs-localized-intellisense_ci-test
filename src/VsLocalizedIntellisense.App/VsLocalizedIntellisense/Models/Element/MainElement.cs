@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,11 @@ namespace VsLocalizedIntellisense.Models.Element
             Configuration = configuration;
             IntellisenseVersionItems = intellisenseVersionItems;
 
+            LanguageItems = new ObservableCollection<LanguageElement>(Configuration.GetLanguageItems().Select(a => new LanguageElement(a, LoggerFactory)));
+            //TODO: 言語選定は要外部化
+            var language = LanguageItems.FirstOrDefault(a => CultureInfo.CurrentCulture.Name == a.Language || CultureInfo.CurrentCulture.Name.StartsWith(a.Language));
+            CurrentLanguage = language ?? LanguageItems.First();
+
             PropertyChanged += OnPropertyChanged;
 
             InstallRootDirectoryPath = Configuration.GetInstallRootDirectoryPath();
@@ -46,6 +52,9 @@ namespace VsLocalizedIntellisense.Models.Element
         }
 
         public ObservableCollection<DirectoryElement> IntellisenseDirectoryElements { get; } = new ObservableCollection<DirectoryElement>();
+
+        private ObservableCollection<LanguageElement> LanguageItems { get; }
+        private LanguageElement CurrentLanguage { get; }
 
         #endregion
 
@@ -99,7 +108,7 @@ namespace VsLocalizedIntellisense.Models.Element
                     }
                     intellisenseVersions = intellisenseVersions.OrderBy(a => a.Version).ToList();
 
-                    yield return new DirectoryElement(targetDir, libraryVersionItems, libraryVersionItems.Last(), intellisenseVersions, intellisenseVersions.Last(), LoggerFactory);
+                    yield return new DirectoryElement(targetDir, libraryVersionItems, libraryVersionItems.Last(), intellisenseVersions, intellisenseVersions.Last(), LanguageItems, CurrentLanguage, LoggerFactory);
                 }
             }
         }
