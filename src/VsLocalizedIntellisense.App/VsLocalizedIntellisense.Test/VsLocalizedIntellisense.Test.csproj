@@ -113,6 +113,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\CacheFileTest.cs" />
     <Compile Include="Models\Configuration\AppConfigurationExtensionsTest.cs" />
     <Compile Include="Models\IOHelperTest.cs" />
     <Compile Include="Models\LinqExtensionsTest.cs" />

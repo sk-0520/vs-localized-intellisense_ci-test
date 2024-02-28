@@ -39,6 +39,8 @@ namespace VsLocalizedIntellisense
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
+            
+
             var appGitHubService = new AppGitHubService(appConfiguration);
             var intellisenseVersionItems = await appGitHubService.GetVersionItems();
 

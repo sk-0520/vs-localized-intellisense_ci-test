@@ -20,14 +20,7 @@ namespace VsLocalizedIntellisense.Models.Configuration
         public static string GetHttpUserAgent(this AppConfiguration configuration)
         {
             var rawHttpUserAgent = configuration.GetValue<string>("http-user-agent");
-            var assembly = Assembly.GetExecutingAssembly();
-            var assemblyName = assembly.GetName();
-            var map = new Dictionary<string, string>()
-            {
-                ["APP:NAME"] = assemblyName.Name,
-                ["APP:VERSION"] = assemblyName.Version.ToString(),
-            };
-            return Strings.ReplaceFromDictionary(rawHttpUserAgent, map);
+            return configuration.Replace(rawHttpUserAgent);
         }
 
         /// <summary>
@@ -38,6 +31,12 @@ namespace VsLocalizedIntellisense.Models.Configuration
         public static Uri GetUpdateCheckUri(this AppConfiguration configuration) => configuration.GetValue<Uri>("update-check-uri");
 
         public static string GetInstallRootDirectoryPath(this AppConfiguration configuration) => configuration.GetValue<string>("install-root-directory");
+
+        public static string GetTemporaryDirectory(this AppConfiguration configuration) => configuration.GetValue<string>("temp-directory");
+        public static string GetWorkingDirectory(this AppConfiguration configuration) => configuration.GetValue<string>("work-directory");
+
+        public static TimeSpan GetCacheTimeoutIntellisenseVersion(this AppConfiguration configuration) => configuration.GetValue<TimeSpan>("cache-timeout-intellisense-version");
+        
 
         public static string[] GetIntellisenseDirectories(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-directories", '|');
 

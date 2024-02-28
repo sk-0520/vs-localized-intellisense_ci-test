@@ -9,6 +9,7 @@ using System.Dynamic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace VsLocalizedIntellisense.Models.Configuration
 {
@@ -209,8 +210,10 @@ namespace VsLocalizedIntellisense.Models.Configuration
         {
             var map = new Dictionary<string, string>()
             {
-                ["APP-DIR"] = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                ["DIR:APP"] = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
                 ["STARTUP-TIMESTAMP:LOCAL:FILE"] = parameters.UtcTimestamp.ToLocalTime().ToString("yyyy-MM-dd_HHmmss"),
+                ["APP:NAME"] = parameters.AssemblyName.Name,
+                ["APP:VERSION"] = parameters.AssemblyName.Version.ToString(),
             };
 
             return map;

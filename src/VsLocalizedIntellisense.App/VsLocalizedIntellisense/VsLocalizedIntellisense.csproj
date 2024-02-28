@@ -84,8 +84,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\CacheFile.cs" />
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
+    <Compile Include="Models\Data\IntellisenseVersionData.cs" />
     <Compile Include="Models\Element\IntellisenseDirectoryElement.cs" />
     <Compile Include="Models\Element\IntellisenseVersionElement.cs" />
     <Compile Include="Models\IOHelper.cs" />
@@ -178,6 +180,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="TransformXml" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Web\Microsoft.Web.Publishing.Tasks.dll" />
   <Target Name="AfterCompile" Condition="exists('app.$(Configuration).config')">
