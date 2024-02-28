@@ -108,6 +108,8 @@ namespace VsLocalizedIntellisense.Models.Element
                     }
                     intellisenseVersions = intellisenseVersions.OrderBy(a => a.Version).ToList();
 
+                    //TODO: ライブラリとインテリセンスのバージョン紐づけ(外部処理かなぁ)
+
                     yield return new DirectoryElement(targetDir, libraryVersionItems, libraryVersionItems.Last(), intellisenseVersions, intellisenseVersions.Last(), LanguageItems, CurrentLanguage, LoggerFactory);
                 }
             }
