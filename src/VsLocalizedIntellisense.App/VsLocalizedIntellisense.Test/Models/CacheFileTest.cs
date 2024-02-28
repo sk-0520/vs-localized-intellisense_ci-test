@@ -11,6 +11,7 @@ using VsLocalizedIntellisense.Models;
 
 namespace VsLocalizedIntellisense.Test.Models
 {
+    [TestClass]
     public class CacheFileTest
     {
         #region define
@@ -37,6 +38,7 @@ namespace VsLocalizedIntellisense.Test.Models
             }
         }
 
+        [TestMethod]
         public void Read_notFound_Test()
         {
             var dir = Test.GetMethodDirectory(this);
@@ -49,6 +51,7 @@ namespace VsLocalizedIntellisense.Test.Models
             Assert.IsNull(actual);
         }
 
+        [TestMethod]
         public void Read_EnabledTime_Test()
         {
             var dir = Test.GetMethodDirectory(this);
@@ -72,6 +75,7 @@ namespace VsLocalizedIntellisense.Test.Models
             Assert.AreEqual(nameof(Read_EnabledTime_Test), actual.Value);
         }
 
+        [TestMethod]
         public void Read_DisableTime_Test()
         {
             var dir = Test.GetMethodDirectory(this);
@@ -94,6 +98,7 @@ namespace VsLocalizedIntellisense.Test.Models
             Assert.IsNull(actual);
         }
 
+        [TestMethod]
         public void Read_old_Test()
         {
             var dir = Test.GetMethodDirectory(this);
