@@ -71,7 +71,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!IsDisposed && Loggers != null)
             {
                 foreach (var logger in Loggers)
                 {
