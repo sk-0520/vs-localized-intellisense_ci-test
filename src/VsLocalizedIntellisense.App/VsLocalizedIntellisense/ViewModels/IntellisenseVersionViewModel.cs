@@ -17,7 +17,7 @@ namespace VsLocalizedIntellisense.ViewModels
 
         #region property
 
-        public string Version => Model.Version;
+        public Version Version => Model.Version;
 
         #endregion
     }

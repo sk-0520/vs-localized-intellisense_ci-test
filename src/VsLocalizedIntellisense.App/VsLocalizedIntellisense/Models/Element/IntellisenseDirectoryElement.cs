@@ -15,7 +15,7 @@ namespace VsLocalizedIntellisense.Models.Element
             : base(loggerFactory)
         {
             Directory = directory;
-            VersionItems = new ObservableCollection<IntellisenseVersionElement>(Directory.GetDirectories().Select(a => new IntellisenseVersionElement(a.Name, LoggerFactory)));
+            VersionItems = new ObservableCollection<IntellisenseVersionElement>(Directory.GetDirectories().Select(a => new IntellisenseVersionElement(a.Name, LoggerFactory)).OrderBy(a => a.Version));
             SelectedVersion = VersionItems.Last();
         }
 

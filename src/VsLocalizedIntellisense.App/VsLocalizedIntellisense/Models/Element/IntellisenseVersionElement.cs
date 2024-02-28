@@ -11,15 +11,18 @@ namespace VsLocalizedIntellisense.Models.Element
 {
     public class IntellisenseVersionElement : ElementBase
     {
-        public IntellisenseVersionElement(string version, ILoggerFactory loggerFactory)
+        public IntellisenseVersionElement(string rawVersion, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
-            Version = version;
+            RawVersion = rawVersion;
+            Version = new Version(RawVersion);
         }
 
         #region proeprty
 
-        public string Version { get; }
+        private string RawVersion { get; }
+
+        public Version Version { get; }
 
         #endregion
     }
