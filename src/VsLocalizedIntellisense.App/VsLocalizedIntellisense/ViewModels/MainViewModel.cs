@@ -15,6 +15,7 @@ using VsLocalizedIntellisense.Models;
 using System.ComponentModel.DataAnnotations;
 using VsLocalizedIntellisense.Models.Mvvm.Binding.Collection;
 using System.ComponentModel;
+using VsLocalizedIntellisense.Models.Configuration;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -26,9 +27,10 @@ namespace VsLocalizedIntellisense.ViewModels
 
         #endregion
 
-        public MainViewModel(MainElement model, ILoggerFactory loggerFactory)
+        public MainViewModel(MainElement model, AppConfiguration configuration, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
         {
+            Configuration = configuration;
             DirectoryCollection = new ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel>(Model.IntellisenseDirectoryElements, new ModelViewModelObservableCollectionOptions<DirectoryElement, DirectoryViewModel>()
             {
                 ToViewModel = m => new DirectoryViewModel(m, LoggerFactory),
@@ -40,6 +42,8 @@ namespace VsLocalizedIntellisense.ViewModels
         [Messenger]
         public Messenger Messenger { get; } = new Messenger();
 
+        private AppConfiguration Configuration { get; }
+
         [Required(ErrorMessageResourceName = nameof(Properties.Resources.UI_Validation_Required), ErrorMessageResourceType = typeof(Properties.Resources))]
         public string InstallRootDirectoryPath
         {
@@ -49,6 +53,8 @@ namespace VsLocalizedIntellisense.ViewModels
 
         private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
         public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
+
+        public string AppVersion => Configuration.Replace("${APP:VERSION}");
 
         #endregion
 

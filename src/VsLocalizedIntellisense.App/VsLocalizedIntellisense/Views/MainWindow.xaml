@@ -9,13 +9,21 @@
   Height="450"
   Width="800"
   WindowStartupLocation="CenterScreen"
+  ResizeMode="CanResizeWithGrip"
 
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:datacontext="clr-namespace:VsLocalizedIntellisense.ViewModels" d:DataContext="{d:DesignInstance Type=datacontext:MainViewModel}"
   mc:Ignorable="d"
 >
   <Grid>
-    <StackPanel Grid.IsSharedSizeScope="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    
+    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
@@ -96,5 +104,13 @@
       </Grid>
 
     </StackPanel>
+
+    <Grid Grid.Row="2">
+      <Button>exec</Button>
+    </Grid>
+
+    <StatusBar Grid.Row="3">
+      <TextBlock Text="{Binding AppVersion, Mode=OneTime}" />
+    </StatusBar>
   </Grid>
 </Window>

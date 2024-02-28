@@ -56,9 +56,9 @@ namespace VsLocalizedIntellisense
             }
 
 
-            var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, Logging.Instance);
+            var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, loggerFactory);
 
-            var mainViewModel = new MainViewModel(mainElement, Logging.Instance);
+            var mainViewModel = new MainViewModel(mainElement, appConfiguration, loggerFactory);
             var mainView = new MainWindow();
 
             MainWindow = mainView;

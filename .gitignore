@@ -25,5 +25,11 @@ node_modules/
 *.temp
 *.lnk
 
+@*
+-*
+_*
+
 desktop.ini
 Thumbs.db
+/code-coverage
+
