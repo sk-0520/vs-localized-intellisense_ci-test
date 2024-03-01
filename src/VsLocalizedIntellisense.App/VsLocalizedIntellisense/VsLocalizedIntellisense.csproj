@@ -92,9 +92,11 @@
     <Compile Include="Models\Element\LanguageElement.cs" />
     <Compile Include="Models\Element\IntellisenseVersionElement.cs" />
     <Compile Include="Models\Element\LibraryVersionElement.cs" />
+    <Compile Include="Models\Element\LogItemElement.cs" />
     <Compile Include="Models\IOHelper.cs" />
     <Compile Include="Models\LinqExtensions.cs" />
     <Compile Include="Models\Logger\ILoggerFactoryExtensions.cs" />
+    <Compile Include="Models\Logger\StockLogger.cs" />
     <Compile Include="Models\Mvvm\Binding\BindModelBase.cs" />
     <Compile Include="Models\Configuration\AppConfiguration.cs" />
     <Compile Include="Models\Mvvm\Binding\Collection\ModelViewModelObservableCollectionManager.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="ViewModels\LanguageViewModel.cs" />
     <Compile Include="ViewModels\IntellisenseVersionViewModel.cs" />
     <Compile Include="ViewModels\LibraryVersionViewModel.cs" />
+    <Compile Include="ViewModels\LogItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Models\Mvvm\Binding\ViewModelBase.cs" />
     <Compile Include="ViewModels\Message\OpenFileDialogMessage.cs" />

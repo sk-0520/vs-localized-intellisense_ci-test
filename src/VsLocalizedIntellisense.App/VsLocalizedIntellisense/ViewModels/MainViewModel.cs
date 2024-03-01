@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using VsLocalizedIntellisense.Models.Mvvm.Binding.Collection;
 using System.ComponentModel;
 using VsLocalizedIntellisense.Models.Configuration;
+using System.Collections.ObjectModel;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -31,13 +32,18 @@ namespace VsLocalizedIntellisense.ViewModels
 
         #endregion
 
-        public MainViewModel(MainElement model, AppConfiguration configuration, ILoggerFactory loggerFactory)
+        public MainViewModel(MainElement model, ObservableCollection<LogItemElement> stockLogItems , AppConfiguration configuration, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
         {
             Configuration = configuration;
             DirectoryCollection = new ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel>(Model.IntellisenseDirectoryElements, new ModelViewModelObservableCollectionOptions<DirectoryElement, DirectoryViewModel>()
             {
                 ToViewModel = m => new DirectoryViewModel(m, LoggerFactory),
+            });
+
+            StockLogCollection = new ModelViewModelObservableCollectionManager<LogItemElement, LogItemViewModel>(stockLogItems, new ModelViewModelObservableCollectionOptions<LogItemElement, LogItemViewModel>()
+            {
+                ToViewModel = m => new LogItemViewModel(m, LoggerFactory),
             });
         }
 
@@ -63,6 +69,9 @@ namespace VsLocalizedIntellisense.ViewModels
 
         private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
         public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
+
+        private ModelViewModelObservableCollectionManager<LogItemElement, LogItemViewModel> StockLogCollection { get; }
+        public ICollectionView StockLogItems => StockLogCollection.GetDefaultView();
 
         public string AppVersion => Configuration.Replace("${APP:VERSION}");
 

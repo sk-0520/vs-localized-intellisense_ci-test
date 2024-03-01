@@ -31,6 +31,13 @@ namespace VsLocalizedIntellisense.Models.Logger
                         }
                         break;
 
+                    case StockLogOptions options:
+                        {
+                            var logger = new StockLogger(category, options);
+                            loggers.Add(logger);
+                        }
+                        break;
+
                     default:
                         throw new NotImplementedException();
                 }

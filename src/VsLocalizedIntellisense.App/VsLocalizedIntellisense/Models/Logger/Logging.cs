@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Configuration;
+using VsLocalizedIntellisense.Models.Element;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
@@ -54,9 +56,9 @@ namespace VsLocalizedIntellisense.Models.Logger
         /// </summary>
         /// <param name="configuration"></param>
         /// <returns>アプリケーション全体で使用可能な<see cref="ILoggerFactory"/></returns>
-        internal static ILoggerFactory Initialize(AppConfiguration configuration)
+        internal static ILoggerFactory Initialize(AppConfiguration configuration, ObservableCollection<LogItemElement> stockLogItems = null)
         {
-            AppLoggerFactory = new AppLoggerFactory(configuration);
+            AppLoggerFactory = new AppLoggerFactory(configuration, stockLogItems);
             return AppLoggerFactory;
         }
 

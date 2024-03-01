@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Element;
 
 namespace VsLocalizedIntellisense.Models.Logger
 {
@@ -64,6 +66,16 @@ namespace VsLocalizedIntellisense.Models.Logger
         #region ILogFormatOptions
 
         public string Format { get; set; } = string.Empty;
+
+        #endregion
+    }
+
+    public class StockLogOptions: LogOptionsBase
+    {
+        #region property
+
+        public ILoggerFactory LoggerFactory { get; set; }
+        public ObservableCollection<LogItemElement> LogItems { get; set; }
 
         #endregion
     }

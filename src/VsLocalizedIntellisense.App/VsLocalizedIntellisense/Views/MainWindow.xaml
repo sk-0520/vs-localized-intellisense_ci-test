@@ -122,7 +122,13 @@
     </Grid>
 
     <Grid Grid.Row="3">
-      <TextBlock>logs</TextBlock>
+      <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding StockLogItems}">
+        <DataGrid.Columns>
+          <DataGridTextColumn  Header="Timestamp" Binding="{Binding LocalTimestamp, StringFormat=yyyy-MM-dd HH:mm:ss.fff}"/>
+          <DataGridTextColumn  Header="Level" Binding="{Binding Level}"/>
+          <DataGridTextColumn  Header="Message" Binding="{Binding Message}"/>
+        </DataGrid.Columns>
+      </DataGrid>
     </Grid>
 
     <StatusBar Grid.Row="4">

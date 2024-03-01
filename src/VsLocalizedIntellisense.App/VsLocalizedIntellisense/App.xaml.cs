@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Linq;
@@ -35,8 +36,8 @@ namespace VsLocalizedIntellisense
             base.OnStartup(e);
 
             var appConfiguration = new AppConfiguration(new AppConfigurationInitializeParameters(DateTime.UtcNow));
-
-            var loggerFactory = Logging.Initialize(appConfiguration);
+            var stockLogItems = new ObservableCollection<LogItemElement>();
+            var loggerFactory = Logging.Initialize(appConfiguration, stockLogItems);
             Logger = loggerFactory.CreateLogger(GetType());
             Logger.LogInformation("START");
 
@@ -44,6 +45,7 @@ namespace VsLocalizedIntellisense
             var intellisenseVersionData = appFileService.GetIntellisenseVersionData();
             if (intellisenseVersionData == null)
             {
+                Logger.LogInformation("GitHubからデータ取得");
                 var appGitHubService = new AppGitHubService(appConfiguration, loggerFactory);
                 var intellisenseVersionItems = await appGitHubService.GetVersionItems();
                 intellisenseVersionData = new IntellisenseVersionData();
@@ -58,7 +60,7 @@ namespace VsLocalizedIntellisense
 
             var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, loggerFactory);
 
-            var mainViewModel = new MainViewModel(mainElement, appConfiguration, loggerFactory);
+            var mainViewModel = new MainViewModel(mainElement, stockLogItems, appConfiguration, loggerFactory);
             var mainView = new MainWindow();
 
             MainWindow = mainView;

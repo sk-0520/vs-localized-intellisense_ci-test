@@ -41,7 +41,7 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         #region ILogger
 
-        public bool IsEnabled(LogLevel logLevel)
+        public virtual bool IsEnabled(LogLevel logLevel)
         {
             return Logging.IsEnabled(CurrentLogLevel, logLevel);
         }
