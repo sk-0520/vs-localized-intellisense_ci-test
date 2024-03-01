@@ -18,12 +18,13 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     
-    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
+    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True" Background="Red">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
@@ -103,13 +104,28 @@
         </ListView>
       </Grid>
 
+      <Grid>
+        <Button Command="{Binding DownloadCommand}">download</Button>
+      </Grid>
     </StackPanel>
 
-    <Grid Grid.Row="2">
-      <Button>exec</Button>
+    <Grid Grid.Row="2" Grid.IsSharedSizeScope="True" Background="Lime">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      
+      <TextBox Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" />
+      <Grid Grid.Row="1">
+        <Button Command="{Binding ExecuteCommand}">execute</Button>
+      </Grid>
     </Grid>
 
-    <StatusBar Grid.Row="3">
+    <Grid Grid.Row="3">
+      <TextBlock>logs</TextBlock>
+    </Grid>
+
+    <StatusBar Grid.Row="4">
       <TextBlock Text="{Binding AppVersion, Mode=OneTime}" />
     </StatusBar>
   </Grid>

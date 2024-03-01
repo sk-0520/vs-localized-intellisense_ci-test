@@ -23,7 +23,11 @@ namespace VsLocalizedIntellisense.ViewModels
     {
         #region variable
 
-        DelegateCommand _selectInstallRootDirectoryPathCommand;
+        private bool _isDownloaded = false;
+
+        private DelegateCommand _selectInstallRootDirectoryPathCommand;
+        private DelegateCommand _downloadCommand;
+        private DelegateCommand _executeCommand;
 
         #endregion
 
@@ -49,6 +53,12 @@ namespace VsLocalizedIntellisense.ViewModels
         {
             get => Model.InstallRootDirectoryPath;
             set => SetModel(value);
+        }
+
+        public bool IsDownloaded
+        {
+            get => this._isDownloaded;
+            set => SetVariable(ref this._isDownloaded, value);
         }
 
         private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
@@ -84,6 +94,41 @@ namespace VsLocalizedIntellisense.ViewModels
                     );
                 }
                 return this._selectInstallRootDirectoryPathCommand;
+            }
+        }
+
+        public ICommand DownloadCommand
+        {
+            get
+            {
+                if (this._downloadCommand == null)
+                {
+                    this._downloadCommand = new DelegateCommand(
+                        _ =>
+                        {
+
+                        }
+                    );
+                }
+                return this._downloadCommand;
+            }
+        }
+
+        public ICommand ExecuteCommand
+        {
+            get
+            {
+                if (this._executeCommand == null)
+                {
+                    this._executeCommand = new DelegateCommand(
+                        _ =>
+                        {
+
+                        },
+                        _ => IsDownloaded
+                    );
+                }
+                return this._executeCommand;
             }
         }
 
