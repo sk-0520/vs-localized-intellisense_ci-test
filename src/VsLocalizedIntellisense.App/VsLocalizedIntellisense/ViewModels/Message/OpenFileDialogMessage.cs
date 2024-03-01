@@ -24,9 +24,7 @@ namespace VsLocalizedIntellisense.ViewModels.Message
             MessageId = messageId;
         }
 
-        #region IMessage
-
-        public string MessageId { get; }
+        #region property
 
         public OpenFileDialogKind Kind { get; set; }
 
@@ -34,6 +32,13 @@ namespace VsLocalizedIntellisense.ViewModels.Message
         public DirectoryInfo ResultDirectory { get; set; }
 
         #endregion
+
+        #region IMessage
+
+        public string MessageId { get; }
+
+        #endregion
+
     }
 
     public static class OpenFileDialogMessageExtensions

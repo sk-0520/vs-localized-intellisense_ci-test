@@ -44,6 +44,10 @@ namespace VsLocalizedIntellisense.ViewModels
             StockLogCollection = new ModelViewModelObservableCollectionManager<LogItemElement, LogItemViewModel>(stockLogItems, new ModelViewModelObservableCollectionOptions<LogItemElement, LogItemViewModel>()
             {
                 ToViewModel = m => new LogItemViewModel(m, LoggerFactory),
+                AddItems = p =>
+                {
+                    Messenger.Send(new ScrollMessage());
+                }
             });
         }
 

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using VsLocalizedIntellisense.Models.Mvvm;
 using VsLocalizedIntellisense.Models.Mvvm.Message;
 using VsLocalizedIntellisense.ViewModels.Message;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 
 namespace VsLocalizedIntellisense.Views
 {
@@ -34,6 +35,11 @@ namespace VsLocalizedIntellisense.Views
                     var dir = a.OpenDirectory(this);
                     a.ResultDirectory = dir;
                 });
+                m.Register<ScrollMessage>(a =>
+                {
+                    var item = this.listLogs.Items[this.listLogs.Items.Count - 1];
+                    this.listLogs.ScrollIntoView(item);
+                });
             });
         }
 
@@ -42,5 +48,11 @@ namespace VsLocalizedIntellisense.Views
         private ViewMessenger<Window> Messenger { get; set; }
 
         #endregion
+
+        //private void listLogs_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        //{
+        //    var item = this.listLogs.Items[this.listLogs.Items.Count - 1];
+        //    this.listLogs.ScrollIntoView(item);
+        //}
     }
 }
