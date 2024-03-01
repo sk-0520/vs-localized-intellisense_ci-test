@@ -78,13 +78,16 @@ namespace VsLocalizedIntellisense.Models.Logger
 
         protected override void Dispose(bool disposing)
         {
-            if (!IsDisposed && Loggers != null)
+            if (!IsDisposed)
             {
-                foreach (var logger in Loggers)
+                if(disposing)
                 {
-                    if (logger is IDisposable disposable)
+                    foreach (var logger in Loggers)
                     {
-                        disposable.Dispose();
+                        if (logger is IDisposable disposable)
+                        {
+                            disposable.Dispose();
+                        }
                     }
                 }
             }
