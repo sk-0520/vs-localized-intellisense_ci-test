@@ -137,6 +137,8 @@
     <Compile Include="Models\Mvvm\Message\ScopedMessengerTest.cs" />
     <Compile Include="Models\Mvvm\Message\ViewMessengerTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\EchoTest.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\SwitchEchoTest.cs" />
     <Compile Include="Models\Service\GitHub\GitHubServiceTest.cs" />
     <Compile Include="Models\StringsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

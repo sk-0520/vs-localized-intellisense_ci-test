@@ -136,6 +136,11 @@
     <Compile Include="Models\Mvvm\Message\ViewMessenger.cs" />
     <Compile Include="Models\NotifyModelBase.cs" />
     <Compile Include="Models\Service\Application\AppFileService.cs" />
+    <Compile Include="Models\Service\CommandPrompt\ActionBase.cs" />
+    <Compile Include="Models\Service\CommandPrompt\CommandValue.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\CommandBase.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\SwitchEcho.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\Echo.cs" />
     <Compile Include="Models\Service\GitHub\GitHubAuthentication.cs" />
     <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />
