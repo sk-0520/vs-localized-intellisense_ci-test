@@ -123,21 +123,33 @@ namespace VsLocalizedIntellisense.Models.Element
             }
         }
 
-        public async Task<IDictionary<DirectoryElement, FileInfo[]>> DownloadIntellisenseFilesAsync()
+        public async Task<IDictionary<DirectoryElement, IList<FileInfo>>> DownloadIntellisenseFilesAsync()
         {
-            var downloadRootDirPath = Path.Combine(Configuration.GetTemporaryDirectoryPath(), "intellisense");
+            var downloadRootDirPath = Path.Combine(Configuration.GetWorkingDirectoryPath(), "intellisense");
+            Directory.Delete(downloadRootDirPath, true);
             var downloadRootDirectory = Directory.CreateDirectory(downloadRootDirPath);
+            
+            var revision = Configuration.GetRepositoryRevision();
 
-            var result = new Dictionary<DirectoryElement, FileInfo[]>();
+            var result = new Dictionary<DirectoryElement, IList<FileInfo>>();
 
             var targetElements = IntellisenseDirectoryElements.Where(a => a.IsDownloadTarget).ToArray();
             foreach (var element in targetElements)
             {
+                element.DownloadPercent = -1;
+            }
+
+            Logger.LogInformation("ダウンロード処理開始");
+
+            foreach (var element in targetElements)
+                {
                 var downloadBaseDirPath = Path.Combine(downloadRootDirectory.FullName, element.IntellisenseVersion.DirectoryName, element.Directory.Name);
                 var downloadBaseDirectory = Directory.CreateDirectory(downloadBaseDirPath);
-                var downloadFiles = await element.DownloadIntellisenseFilesAsync(downloadBaseDirectory, AppFileService, AppGitHubService);
+                var downloadFiles = await element.DownloadIntellisenseFilesAsync(revision, downloadBaseDirectory, AppFileService, AppGitHubService);
                 result.Add(element, downloadFiles);
             }
+
+            Logger.LogInformation("ダウンロード処理終了");
 
             return result;
         }

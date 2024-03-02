@@ -51,7 +51,7 @@ namespace VsLocalizedIntellisense
             else
             {
                 Logger.LogInformation("GitHubからインテリセンスバージョンデータ取得");
-                var intellisenseVersionItems = await appGitHubService.GetIntellisenseVersionItems();
+                var intellisenseVersionItems = await appGitHubService.GetIntellisenseVersionItemsAsync(appConfiguration.GetRepositoryRevision());
                 intellisenseVersionData = new IntellisenseVersionData();
                 intellisenseVersionData.VersionItems = intellisenseVersionItems.ToArray();
                 appFileService.SaveIntellisenseVersionData(intellisenseVersionData);

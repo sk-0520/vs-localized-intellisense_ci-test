@@ -15,7 +15,7 @@
   xmlns:datacontext="clr-namespace:VsLocalizedIntellisense.ViewModels" d:DataContext="{d:DesignInstance Type=datacontext:MainViewModel}"
   mc:Ignorable="d"
 >
-  <Grid>
+  <Grid Grid.IsSharedSizeScope="True">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
@@ -24,7 +24,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True" Background="Red">
+    <StackPanel Grid.Row="1" Background="Red">
       <StackPanel.Style>
         <Style TargetType="StackPanel">
           <Style.Triggers>
@@ -62,7 +62,7 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="0">dirs</Label>
-        <ListView Grid.Column="1" ItemsSource="{Binding DirectoryItems}">
+        <ListView Grid.Column="1" ItemsSource="{Binding DirectoryItems}" MinHeight="80">
           <ListView.View>
             <GridView>
               <GridViewColumn Header="DirectoryName">
@@ -72,6 +72,7 @@
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
+
               <GridViewColumn Header="LibraryVersionItems">
                 <GridViewColumn.CellTemplate>
                   <DataTemplate>
@@ -113,25 +114,62 @@
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
+
+              <GridViewColumn Header="DownloadPercent">
+                <GridViewColumn.CellTemplate>
+                  <DataTemplate>
+                    <ProgressBar Minimum="0" Maximum="1" Width="100" Height="16" Value="{Binding DownloadPercent, Mode=OneWay}">
+                      <ProgressBar.Style>
+                        <Style TargetType="ProgressBar" BasedOn="{StaticResource {x:Type ProgressBar}}">
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding DownloadPercent}" Value="-1">
+                              <Setter Property="IsIndeterminate" Value="True" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ProgressBar.Style>
+                    </ProgressBar>
+                  </DataTemplate>
+                </GridViewColumn.CellTemplate>
+              </GridViewColumn>
             </GridView>
           </ListView.View>
         </ListView>
       </Grid>
 
       <Grid>
-        <Button Command="{Binding DownloadCommand}">download</Button>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Column="1" Command="{Binding DownloadCommand}">download</Button>
       </Grid>
     </StackPanel>
 
-    <Grid Grid.Row="2" Grid.IsSharedSizeScope="True" Background="Lime">
+    <Grid Grid.Row="2" Background="Lime">
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
+
+      <Grid Grid.Row="0">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0">command</Label>
+        <TextBox Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" />
+      </Grid>
       
-      <TextBox Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" />
       <Grid Grid.Row="1">
-        <Button Command="{Binding ExecuteCommand}">execute</Button>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Column="1" Command="{Binding ExecuteCommand}">execute</Button>
       </Grid>
     </Grid>
 

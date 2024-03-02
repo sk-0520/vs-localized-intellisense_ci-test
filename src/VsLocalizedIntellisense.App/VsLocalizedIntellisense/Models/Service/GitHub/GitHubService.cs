@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Runtime.Serialization.Json;
 using System.Security.Policy;
 using System.Text;
@@ -64,30 +66,59 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, string uri)
             => CreateRequestMessage(method, new Uri(uri));
 
-        private async Task<T> RequestAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken)
+        private async Task<Stream> RequestStreamAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var response = await HttpClient.SendAsync(request, cancellationToken);
-            var stream = await response.Content.ReadAsStreamAsync();
-            var serializer = new DataContractJsonSerializer(typeof(T));
-            var rawContent = serializer.ReadObject(stream);
-            return (T)rawContent;
+            return await response.Content.ReadAsStreamAsync();
         }
 
-        public async Task<IReadOnlyList<GitHubContentResponseItem>> GetContentsAsync(string path, CancellationToken cancellationToken = default)
+        private async Task<T> RequestJsonAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            using (var stream = await RequestStreamAsync(request, cancellationToken))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                var rawContent = serializer.ReadObject(stream);
+                return (T)rawContent;
+            }
+        }
+
+        public async Task<IReadOnlyList<GitHubContentResponseItem>> GetContentsAsync(string revision, string path, CancellationToken cancellationToken = default)
         {
             var url = Strings.ReplaceFromDictionary(
-                "https://api.github.com/repos/${OWNER}/${NAME}/contents/${PATH}",
+                "https://api.github.com/repos/${OWNER}/${NAME}/contents/${PATH}?ref=${REVISION}",
                 new Dictionary<string, string>()
                 {
                     ["OWNER"] = Repository.Owner,
                     ["NAME"] = Repository.Name,
+                    ["REVISION"] = revision,
                     ["PATH"] = path.Trim('/'),
                 }
             );
             var request = CreateRequestMessage(HttpMethod.Get, url);
-            var response = await RequestAsync<GitHubContentResponseItem[]>(request, cancellationToken);
+            var response = await RequestJsonAsync<GitHubContentResponseItem[]>(request, cancellationToken);
             return response;
         }
+
+        // https://raw.githubusercontent.com/sk-0520/vs-localized-intellisense/master/intellisense/net7.0/Microsoft.NETCore.App.Ref/es/Microsoft.VisualBasic.Core.xml
+
+        public async Task<Stream> GetRawAsync(string revision, string path, CancellationToken cancellationToken = default)
+        {
+            var url = Strings.ReplaceFromDictionary(
+                "https://raw.githubusercontent.com/${OWNER}/${NAME}/${REVISION}/${PATH}",
+                new Dictionary<string, string>()
+                {
+                    ["OWNER"] = Repository.Owner,
+                    ["NAME"] = Repository.Name,
+                    ["REVISION"] = revision,
+                    ["PATH"] = path.Trim('/'),
+                }
+            );
+            Logger.LogInformation($"URL: {url}");
+            var request = CreateRequestMessage(HttpMethod.Get, url);
+            var stream = await RequestStreamAsync(request, cancellationToken);
+            return stream;
+        }
+
 
         #endregion
     }

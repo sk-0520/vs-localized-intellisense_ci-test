@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Data;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.Models.Service.Application;
@@ -16,6 +18,12 @@ namespace VsLocalizedIntellisense.Models.Element
 {
     public class DirectoryElement : ElementBase
     {
+        #region variable
+
+        private double _downloadPercent = 0;
+
+        #endregion
+
         public DirectoryElement(DirectoryInfo directory, IEnumerable<LibraryVersionElement> libraryVersionItems, LibraryVersionElement libraryVersion, IEnumerable<IntellisenseVersionElement> intellisenseVersions, IntellisenseVersionElement intellisenseVersion, IEnumerable<LanguageElement> languageItems, LanguageElement language, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
@@ -48,11 +56,32 @@ namespace VsLocalizedIntellisense.Models.Element
         public ObservableCollection<LanguageElement> LanguageItems { get; }
         public LanguageElement Language { get; set; }
 
+        public double DownloadPercent
+        {
+            get => this._downloadPercent;
+            set => SetVariable(ref this._downloadPercent, value);
+        }
+
         #endregion
 
         #region function
 
-        public async Task<FileInfo[]> DownloadIntellisenseFilesAsync(DirectoryInfo downloadDirectory, AppFileService fileService, GitHubService gitHubService, CancellationToken cancellationToken = default)
+        private async Task<FileInfo> DownloadIntellisenseFileAsync(string revision, IntellisenseLanguageParts languageParts, string fileName, DirectoryInfo downloadDirectory, AppFileService fileService, GitHubService gitHubService, CancellationToken cancellationToken)
+        {
+            var physicalPath = Path.Combine(downloadDirectory.FullName, fileName);
+            var repositoryPath = gitHubService.BuildPath(languageParts, fileName);
+            using (var contentStream = await gitHubService.GetRawAsync(revision, repositoryPath, cancellationToken))
+            {
+                using (var physicalStream = new FileStream(physicalPath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+                {
+                    await contentStream.CopyToAsync(physicalStream, 1024 * 4, cancellationToken);
+                }
+            }
+
+            return new FileInfo(physicalPath);
+        }
+
+        private async Task<IList<FileInfo>> DownloadIntellisenseFilesCoreAsync(string revision, DirectoryInfo downloadDirectory, AppFileService fileService, GitHubService gitHubService, IProgress<double> progress, CancellationToken cancellationToken)
         {
             var languageParts = new IntellisenseLanguageParts()
             {
@@ -68,15 +97,35 @@ namespace VsLocalizedIntellisense.Models.Element
             else
             {
                 Logger.LogInformation($"GitHubからインテリセンス言語データ取得: {languageParts}");
-                var languageItems = await gitHubService.GetIntellisenseLanguageItems(languageParts, cancellationToken);
+                var languageItems = await gitHubService.GetIntellisenseLanguageItemsAsync(revision, languageParts, cancellationToken);
 
                 languageData = new IntellisenseLanguageData();
                 languageData.LanguageItems = languageItems.ToArray();
                 fileService.SaveIntellisenseLanguageData(languageParts, languageData);
             }
 
-            return Array.Empty<FileInfo>();
+            var result = new List<FileInfo>(languageData.LanguageItems.Length);
+            progress.Report(0);
+            var percentProgress = new PercentProgress(languageData.LanguageItems.Length, progress);
+            foreach (var languageItem in languageData.LanguageItems)
+            {
+                var file = await DownloadIntellisenseFileAsync(revision, languageParts, languageItem, downloadDirectory, fileService, gitHubService, cancellationToken);
+                result.Add(file);
+                percentProgress.Increment();
+            }
+
+            return result;
         }
+
+        public async Task<IList<FileInfo>> DownloadIntellisenseFilesAsync(string revision, DirectoryInfo downloadDirectory, AppFileService fileService, GitHubService gitHubService, CancellationToken cancellationToken = default)
+        {
+            var downloadProgress = new Progress<double>(p => DownloadPercent = p);
+            return await DownloadIntellisenseFilesCoreAsync(revision, downloadDirectory, fileService, gitHubService, downloadProgress, cancellationToken);
+        }
+
+        #endregion
+
+        #region ElementBase
 
         #endregion
     }

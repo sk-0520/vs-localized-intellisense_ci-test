@@ -33,6 +33,8 @@ namespace VsLocalizedIntellisense.ViewModels
             {
                 ToViewModel = m => new LanguageViewModel(m, LoggerFactory),
             });
+
+            Model.PropertyChanged += Model_PropertyChanged;
         }
 
         #region property
@@ -43,6 +45,11 @@ namespace VsLocalizedIntellisense.ViewModels
         {
             get => Model.IsDownloadTarget;
             set => SetModel(value);
+        }
+
+        public double DownloadPercent
+        {
+            get => Model.DownloadPercent;
         }
 
         private ModelViewModelObservableCollectionManager<LibraryVersionElement, LibraryVersionViewModel> LibraryVersionCollection { get; }
@@ -92,5 +99,31 @@ namespace VsLocalizedIntellisense.ViewModels
         }
 
         #endregion
+
+        #region SingleModelViewModelBase
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if (Model != null)
+                {
+                    Model.PropertyChanged -= Model_PropertyChanged;
+                }
+            }
+            base.Dispose(disposing);
+        }
+
+        #endregion
+
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Model.DownloadPercent))
+            {
+                RaisePropertyChanged(nameof(DownloadPercent));
+            }
+        }
+
+
     }
 }

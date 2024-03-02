@@ -17,6 +17,7 @@ using VsLocalizedIntellisense.Models.Mvvm.Binding.Collection;
 using System.ComponentModel;
 using VsLocalizedIntellisense.Models.Configuration;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -33,7 +34,7 @@ namespace VsLocalizedIntellisense.ViewModels
 
         #endregion
 
-        public MainViewModel(MainElement model, ObservableCollection<LogItemElement> stockLogItems , AppConfiguration configuration, ILoggerFactory loggerFactory)
+        public MainViewModel(MainElement model, ObservableCollection<LogItemElement> stockLogItems, AppConfiguration configuration, ILoggerFactory loggerFactory)
             : base(model, loggerFactory)
         {
             Configuration = configuration;
@@ -58,6 +59,8 @@ namespace VsLocalizedIntellisense.ViewModels
         public Messenger Messenger { get; } = new Messenger();
 
         private AppConfiguration Configuration { get; }
+
+        private Dictionary<DirectoryElement, IList<FileInfo>> InstallItems { get; } = new Dictionary<DirectoryElement, IList<FileInfo>>();
 
         [Required(ErrorMessageResourceName = nameof(Properties.Resources.UI_Validation_Required), ErrorMessageResourceType = typeof(Properties.Resources))]
         public string InstallRootDirectoryPath
@@ -129,10 +132,17 @@ namespace VsLocalizedIntellisense.ViewModels
                             IsDownloading = true;
                             try
                             {
-                                await Model.DownloadIntellisenseFilesAsync();
+                                var items = await Model.DownloadIntellisenseFilesAsync();
+                                InstallItems.Clear();
+                                foreach (var pair in items)
+                                {
+                                    InstallItems.Add(pair.Key, pair.Value);
+                                }
+                                //TODO: ここで反映！
                                 IsDownloaded = true;
                                 this._executeCommand.RaiseCanExecuteChanged();
-                            } finally
+                            }
+                            finally
                             {
                                 IsDownloading = false;
                             }

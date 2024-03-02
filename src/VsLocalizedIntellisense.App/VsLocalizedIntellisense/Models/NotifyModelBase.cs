@@ -31,6 +31,11 @@ namespace VsLocalizedIntellisense.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        protected void RaisePropertyChanged(string notifyPropertyName)
+        {
+            OnPropertyChanged(notifyPropertyName);
+        }
+
         #endregion
     }
 }

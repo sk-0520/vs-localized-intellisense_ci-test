@@ -20,10 +20,10 @@ namespace VsLocalizedIntellisense.Models.Service.Application
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<string>> GetIntellisenseVersionItems(this GitHubService service, CancellationToken cancellationToken = default)
+        public static async Task<IEnumerable<string>> GetIntellisenseVersionItemsAsync(this GitHubService service, string revision, CancellationToken cancellationToken = default)
         {
             var contentPath = "intellisense";
-            var intellisenseItems = await service.GetContentsAsync(contentPath, cancellationToken);
+            var intellisenseItems = await service.GetContentsAsync(revision, contentPath, cancellationToken);
             return intellisenseItems.Select(a => a.Name);
         }
 
@@ -34,11 +34,16 @@ namespace VsLocalizedIntellisense.Models.Service.Application
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task<IEnumerable<string>> GetIntellisenseLanguageItems(this GitHubService service, IntellisenseLanguageParts parts, CancellationToken cancellationToken = default)
+        public static async Task<IEnumerable<string>> GetIntellisenseLanguageItemsAsync(this GitHubService service, string revision, IntellisenseLanguageParts parts, CancellationToken cancellationToken = default)
         {
             var contentPath = service.JoinPath("intellisense", parts.IntellisenseVersion, parts.LibraryName, parts.Language);
-            var intellisenseItems = await service.GetContentsAsync(contentPath, cancellationToken);
+            var intellisenseItems = await service.GetContentsAsync(revision, contentPath, cancellationToken);
             return intellisenseItems.Select(a => a.Name);
+        }
+
+        public static string BuildPath(this GitHubService service, IntellisenseLanguageParts parts, string fileName)
+        {
+            return service.JoinPath("intellisense", parts.IntellisenseVersion, parts.LibraryName, parts.Language, fileName);
         }
 
         #endregion
