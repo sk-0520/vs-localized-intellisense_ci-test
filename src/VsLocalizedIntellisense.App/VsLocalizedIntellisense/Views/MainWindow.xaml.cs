@@ -37,6 +37,10 @@ namespace VsLocalizedIntellisense.Views
                 });
                 m.Register<ScrollMessage>(a =>
                 {
+                    if(this.listLogs.Items.Count == 0)
+                    {
+                        return;
+                    }
                     var item = this.listLogs.Items[this.listLogs.Items.Count - 1];
                     this.listLogs.ScrollIntoView(item);
                 });

@@ -29,15 +29,5 @@ namespace VsLocalizedIntellisense.Models.Service.Application
                  loggerFactory
             )
         { }
-
-        #region function
-
-        public async Task<IEnumerable<string>> GetVersionItems(CancellationToken cancellationToken = default)
-        {
-            var intellisenseItems = await GetContentsAsync("intellisense", cancellationToken);
-            return intellisenseItems.Select(a => a.Name);
-        }
-
-        #endregion
     }
 }

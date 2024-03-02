@@ -39,6 +39,12 @@ namespace VsLocalizedIntellisense.ViewModels
 
         public string DirectoryName => Model.Directory.Name;
 
+        public bool IsDownloadTarget
+        {
+            get => Model.IsDownloadTarget;
+            set => SetModel(value);
+        }
+
         private ModelViewModelObservableCollectionManager<LibraryVersionElement, LibraryVersionViewModel> LibraryVersionCollection { get; }
         public ICollectionView LibraryVersionItems => LibraryVersionCollection.GetDefaultView();
 

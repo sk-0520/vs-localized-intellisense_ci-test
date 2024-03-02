@@ -87,6 +87,8 @@
     <Compile Include="Models\CacheFile.cs" />
     <Compile Include="Models\Configuration\AppConfigurationExtensions.cs" />
     <Compile Include="Models\Configuration\AppConfigurationInitializeParameters.cs" />
+    <Compile Include="Models\Data\IntellisenseLanguageParts.cs" />
+    <Compile Include="Models\Data\IntellisenseLanguageData.cs" />
     <Compile Include="Models\Data\IntellisenseVersionData.cs" />
     <Compile Include="Models\Element\DirectoryElement.cs" />
     <Compile Include="Models\Element\LanguageElement.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Models\Service\GitHub\GitHubResponseLink.cs" />
     <Compile Include="Models\Service\Application\AppGitHubService.cs" />
     <Compile Include="Models\Service\GitHub\GitHubService.cs" />
+    <Compile Include="Models\Service\Application\GitHubServiceExtensions.cs" />
     <Compile Include="Models\Strings.cs" />
     <Compile Include="ViewModels\DirectoryViewModel.cs" />
     <Compile Include="ViewModels\LanguageViewModel.cs" />

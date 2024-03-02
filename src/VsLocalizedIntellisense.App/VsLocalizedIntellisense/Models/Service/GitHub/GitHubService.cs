@@ -33,6 +33,22 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 
         //"https://api.github.com/repos/sk-0520/vs-localized-intellisense/contents/intellisense"
 
+        public string JoinPath(string path1, string path2, params string[] pathN)
+        {
+            var items = new List<string>(2 + pathN.Length)
+            {
+                path1,
+                path2
+            };
+            items.AddRange(pathN);
+
+            var paths = items
+                .Select(a => a.Trim('/', '\\'))
+                .Where(a => !string.IsNullOrWhiteSpace(a))
+                ;
+            return string.Join("/", paths);
+        }
+
         private HttpRequestMessage CreateRequestMessage(HttpMethod method, Uri uri)
         {
             var request = new HttpRequestMessage(method, uri);

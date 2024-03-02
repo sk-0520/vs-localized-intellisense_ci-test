@@ -6,11 +6,14 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.ApplicationServices;
 using VsLocalizedIntellisense.Models.Configuration;
 using VsLocalizedIntellisense.Models.Logger;
+using VsLocalizedIntellisense.Models.Service.Application;
 using VsLocalizedIntellisense.Models.Service.GitHub;
 
 namespace VsLocalizedIntellisense.Models.Element
@@ -23,11 +26,14 @@ namespace VsLocalizedIntellisense.Models.Element
 
         #endregion
 
-        public MainElement(AppConfiguration configuration, IReadOnlyList<string> intellisenseVersionItems, ILoggerFactory loggerFactory)
+        public MainElement(AppConfiguration configuration, IReadOnlyList<string> intellisenseVersionItems, AppFileService appFileService, AppGitHubService appGitHubService, ILoggerFactory loggerFactory)
             : base(loggerFactory)
         {
             Configuration = configuration;
             IntellisenseVersionItems = intellisenseVersionItems;
+
+            AppFileService = appFileService;
+            AppGitHubService = appGitHubService;
 
             LanguageItems = new ObservableCollection<LanguageElement>(Configuration.GetLanguageItems().Select(a => new LanguageElement(a, LoggerFactory)));
             //TODO: 言語選定は要外部化
@@ -42,6 +48,8 @@ namespace VsLocalizedIntellisense.Models.Element
         #region property
 
         private AppConfiguration Configuration { get; }
+        private AppFileService AppFileService { get; }
+        private AppGitHubService AppGitHubService { get; }
 
         private IReadOnlyList<string> IntellisenseVersionItems { get; }
 
@@ -113,6 +121,25 @@ namespace VsLocalizedIntellisense.Models.Element
                     yield return new DirectoryElement(targetDir, libraryVersionItems, libraryVersionItems.Last(), intellisenseVersions, intellisenseVersions.Last(), LanguageItems, CurrentLanguage, LoggerFactory);
                 }
             }
+        }
+
+        public async Task<IDictionary<DirectoryElement, FileInfo[]>> DownloadIntellisenseFilesAsync()
+        {
+            var downloadRootDirPath = Path.Combine(Configuration.GetTemporaryDirectoryPath(), "intellisense");
+            var downloadRootDirectory = Directory.CreateDirectory(downloadRootDirPath);
+
+            var result = new Dictionary<DirectoryElement, FileInfo[]>();
+
+            var targetElements = IntellisenseDirectoryElements.Where(a => a.IsDownloadTarget).ToArray();
+            foreach (var element in targetElements)
+            {
+                var downloadBaseDirPath = Path.Combine(downloadRootDirectory.FullName, element.IntellisenseVersion.DirectoryName, element.Directory.Name);
+                var downloadBaseDirectory = Directory.CreateDirectory(downloadBaseDirPath);
+                var downloadFiles = await element.DownloadIntellisenseFilesAsync(downloadBaseDirectory, AppFileService, AppGitHubService);
+                result.Add(element, downloadFiles);
+            }
+
+            return result;
         }
 
         #endregion

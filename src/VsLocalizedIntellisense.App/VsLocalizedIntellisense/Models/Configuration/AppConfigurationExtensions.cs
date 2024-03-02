@@ -37,6 +37,8 @@ namespace VsLocalizedIntellisense.Models.Configuration
         public static string GetWorkingDirectoryPath(this AppConfiguration configuration) => configuration.Replace(configuration.GetValue<string>("work-directory-path"));
 
         public static TimeSpan GetCacheTimeoutIntellisenseVersion(this AppConfiguration configuration) => configuration.GetValue<TimeSpan>("cache-timeout-intellisense-version");
+        public static TimeSpan GetCacheTimeoutIntellisenseLanguage(this AppConfiguration configuration) => configuration.GetValue<TimeSpan>("cache-timeout-intellisense-language");
+        
 
 
         public static string[] GetIntellisenseDirectories(this AppConfiguration configuration) => configuration.GetValues<string>("intellisense-directories", '|');

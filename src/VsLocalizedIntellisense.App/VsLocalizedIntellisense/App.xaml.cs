@@ -42,29 +42,35 @@ namespace VsLocalizedIntellisense
             Logger.LogInformation("START");
 
             var appFileService = new AppFileService(appConfiguration, loggerFactory);
+            var appGitHubService = new AppGitHubService(appConfiguration, loggerFactory);
             var intellisenseVersionData = appFileService.GetIntellisenseVersionData();
-            if (intellisenseVersionData == null)
+            if (intellisenseVersionData != null)
             {
-                Logger.LogInformation("GitHubからデータ取得");
-                var appGitHubService = new AppGitHubService(appConfiguration, loggerFactory);
-                var intellisenseVersionItems = await appGitHubService.GetVersionItems();
+                Logger.LogInformation("キャッシュからインテリセンスバージョンデータ取得");
+            }
+            else
+            {
+                Logger.LogInformation("GitHubからインテリセンスバージョンデータ取得");
+                var intellisenseVersionItems = await appGitHubService.GetIntellisenseVersionItems();
                 intellisenseVersionData = new IntellisenseVersionData();
                 intellisenseVersionData.VersionItems = intellisenseVersionItems.ToArray();
                 appFileService.SaveIntellisenseVersionData(intellisenseVersionData);
             }
             if (intellisenseVersionData == null)
             {
+                Logger.LogError("インテリセンスバージョンデータ取得失敗");
                 throw new Exception(nameof(intellisenseVersionData));
             }
 
-
-            var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, loggerFactory);
+            var mainElement = new MainElement(appConfiguration, intellisenseVersionData.VersionItems, appFileService, appGitHubService, loggerFactory);
 
             var mainViewModel = new MainViewModel(mainElement, stockLogItems, appConfiguration, loggerFactory);
             var mainView = new MainWindow();
 
             MainWindow = mainView;
             MainWindow.DataContext = mainViewModel;
+
+            Logger.LogTrace("ビュー起動: こんにちはGUI");
             MainWindow.Show();
         }
 

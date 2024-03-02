@@ -39,6 +39,11 @@ namespace VsLocalizedIntellisense.Models.Service.Application
 
         #region function
 
+        private string GetCacheIntellisenseLanguageFilePath(IntellisenseLanguageParts parts)
+        {
+            return Path.Combine(CacheDirectoryPath, $"language-{parts.IntellisenseVersion}-{parts.LibraryName}-{parts.Language}.json");
+        }
+
         private void WriteJson<T>(string path, T data)
         {
             using (var stream = new FileStream(path, FileMode.Create))
@@ -62,6 +67,23 @@ namespace VsLocalizedIntellisense.Models.Service.Application
 
             WriteJson(path, intellisenseVersionData);
         }
+
+        public IntellisenseLanguageData GetIntellisenseLanguageData(IntellisenseLanguageParts parts)
+        {
+            var path = GetCacheIntellisenseLanguageFilePath(parts);
+            var cacheFile = new CacheFile<IntellisenseLanguageData>(path, Configuration.GetCacheTimeoutIntellisenseLanguage());
+            return cacheFile.Read(DateTimeOffset.Now);
+        }
+
+        public void SaveIntellisenseLanguageData(IntellisenseLanguageParts parts, IntellisenseLanguageData intellisenseLanguageData)
+        {
+            var path = GetCacheIntellisenseLanguageFilePath(parts);
+            var dir = Path.GetDirectoryName(path);
+            Directory.CreateDirectory(dir);
+
+            WriteJson(path, intellisenseLanguageData);
+        }
+
 
         #endregion
     }

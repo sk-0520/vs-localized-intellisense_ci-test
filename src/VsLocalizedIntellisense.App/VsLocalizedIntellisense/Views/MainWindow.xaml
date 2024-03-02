@@ -68,7 +68,7 @@
               <GridViewColumn Header="DirectoryName">
                 <GridViewColumn.CellTemplate>
                   <DataTemplate>
-                    <TextBlock Text="{Binding DirectoryName, Mode=OneWay}"/>
+                    <CheckBox IsChecked="{Binding IsDownloadTarget}" Content="{Binding DirectoryName, Mode=OneWay}" />
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
@@ -138,9 +138,9 @@
     <Grid Grid.Row="3">
       <DataGrid x:Name="listLogs" AutoGenerateColumns="False" ItemsSource="{Binding StockLogItems}">
         <DataGrid.Columns>
-          <DataGridTextColumn  Header="Timestamp" Binding="{Binding LocalTimestamp, StringFormat=yyyy-MM-dd HH:mm:ss.fff}"/>
-          <DataGridTextColumn  Header="Level" Binding="{Binding Level}"/>
-          <DataGridTextColumn  Header="Message" Binding="{Binding Message}"/>
+          <DataGridTextColumn IsReadOnly="True" Header="Timestamp" Width="Auto" Binding="{Binding LocalTimestamp, StringFormat=yyyy-MM-dd HH:mm:ss.fff, Mode=OneTime}" />
+          <DataGridTextColumn IsReadOnly="True" Header="Level" Width="Auto" Binding="{Binding Level, Mode=OneTime}" />
+          <DataGridTextColumn IsReadOnly="True" Header="Message" Width="*" Binding="{Binding Message, Mode=OneTime}" />
         </DataGrid.Columns>
       </DataGrid>
     </Grid>

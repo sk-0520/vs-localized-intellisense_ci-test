@@ -129,8 +129,9 @@ namespace VsLocalizedIntellisense.ViewModels
                             IsDownloading = true;
                             try
                             {
-                                await Task.Delay(1000);
+                                await Model.DownloadIntellisenseFilesAsync();
                                 IsDownloaded = true;
+                                this._executeCommand.RaiseCanExecuteChanged();
                             } finally
                             {
                                 IsDownloading = false;

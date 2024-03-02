@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace VsLocalizedIntellisense.Models.Data
 {
     [DataContract]
-    public class IntellisenseVersionData: ICachedTimestamp
+    public class IntellisenseLanguageData : ICachedTimestamp
     {
         #region property
 
         [DataMember]
-        public string[] VersionItems {get;set;} = Array.Empty<string>();
+        public string[] LanguageItems { get;set;} = Array.Empty<string>();
 
         #endregion
 

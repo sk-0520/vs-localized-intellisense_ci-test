@@ -7,7 +7,7 @@ using VsLocalizedIntellisense.Models.Logger;
 
 namespace VsLocalizedIntellisense.Models.Element
 {
-    public class IntellisenseVersionElement: ElementBase
+    public class IntellisenseVersionElement : ElementBase
     {
         public IntellisenseVersionElement(string name, Version version, ILoggerFactory loggerFactory)
             : base(loggerFactory)
@@ -20,6 +20,8 @@ namespace VsLocalizedIntellisense.Models.Element
 
         public string Name { get; }
         public Version Version { get; }
+
+        public string DirectoryName => $"{Name}{Version}";
 
         #endregion
 
