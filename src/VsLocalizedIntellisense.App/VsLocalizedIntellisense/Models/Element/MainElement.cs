@@ -151,6 +151,16 @@ namespace VsLocalizedIntellisense.Models.Element
 
             Logger.LogInformation("ダウンロード処理終了");
 
+            Logger.LogDebug("対象ファイル");
+            foreach(var pair in result)
+            {
+                Logger.LogDebug(pair.Key.IntellisenseVersion.DirectoryName);
+                foreach(var file in pair.Value)
+                {
+                    Logger.LogDebug($"file {file.Name} {file.FullName}");
+                }
+            }
+
             return result;
         }
 
