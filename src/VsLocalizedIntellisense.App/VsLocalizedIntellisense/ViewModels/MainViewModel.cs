@@ -24,11 +24,12 @@ namespace VsLocalizedIntellisense.ViewModels
     {
         #region variable
 
+        private bool _isDownloading = false;
         private bool _isDownloaded = false;
 
         private DelegateCommand _selectInstallRootDirectoryPathCommand;
-        private DelegateCommand _downloadCommand;
-        private DelegateCommand _executeCommand;
+        private AsyncDelegateCommand _downloadCommand;
+        private AsyncDelegateCommand _executeCommand;
 
         #endregion
 
@@ -63,6 +64,12 @@ namespace VsLocalizedIntellisense.ViewModels
         {
             get => Model.InstallRootDirectoryPath;
             set => SetModel(value);
+        }
+
+        public bool IsDownloading
+        {
+            get => this._isDownloading;
+            set => SetVariable(ref this._isDownloading, value);
         }
 
         public bool IsDownloaded
@@ -116,10 +123,18 @@ namespace VsLocalizedIntellisense.ViewModels
             {
                 if (this._downloadCommand == null)
                 {
-                    this._downloadCommand = new DelegateCommand(
-                        _ =>
+                    this._downloadCommand = new AsyncDelegateCommand(
+                        async _ =>
                         {
-
+                            IsDownloading = true;
+                            try
+                            {
+                                await Task.Delay(1000);
+                                IsDownloaded = true;
+                            } finally
+                            {
+                                IsDownloading = false;
+                            }
                         }
                     );
                 }
@@ -133,10 +148,10 @@ namespace VsLocalizedIntellisense.ViewModels
             {
                 if (this._executeCommand == null)
                 {
-                    this._executeCommand = new DelegateCommand(
+                    this._executeCommand = new AsyncDelegateCommand(
                         _ =>
                         {
-
+                            return Task.CompletedTask;
                         },
                         _ => IsDownloaded
                     );

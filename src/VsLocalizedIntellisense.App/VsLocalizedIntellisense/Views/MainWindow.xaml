@@ -23,8 +23,22 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    
+
     <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True" Background="Red">
+      <StackPanel.Style>
+        <Style TargetType="StackPanel">
+          <Style.Triggers>
+            <MultiDataTrigger>
+              <MultiDataTrigger.Conditions>
+                <Condition Binding="{Binding IsDownloading}" Value="True" />
+              </MultiDataTrigger.Conditions>
+              <MultiDataTrigger.Setters>
+                <Setter Property="IsEnabled" Value="False" />
+              </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+          </Style.Triggers>
+        </Style>
+      </StackPanel.Style>
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
