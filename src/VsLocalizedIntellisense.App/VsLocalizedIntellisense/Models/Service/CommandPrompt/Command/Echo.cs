@@ -15,7 +15,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
         #region property
 
         public static string Name { get; } = "echo";
-        public CommandValue Value { get; set; } = new CommandValue();
 
         #endregion
 
@@ -23,7 +22,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         public override string GetStatement()
         {
-            if (Value.Arguments.Count == 0 || string.IsNullOrWhiteSpace( ))
+            if (Value.Arguments.Count == 0)
             {
                 return GetStatementCommandName();
             }

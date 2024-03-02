@@ -24,6 +24,8 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
         public bool? SuppressOutput { get; set; }
         public bool? SuppressCommand { get; set; }
 
+        public CommandValue Value { get; set; } = new CommandValue();
+
         #endregion
 
         #region function
@@ -34,6 +36,20 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
                 ? "@" + this._commandName
                 : this._commandName
             ;
+        }
+
+        #endregion
+
+        #region function
+
+        public virtual string GetValues()
+        {
+            if (Value.Arguments.Count == 0)
+            {
+                return GetStatementCommandName();
+            }
+
+            return $"{GetStatementCommandName()} {Value.ToValue()}";
         }
 
         #endregion
