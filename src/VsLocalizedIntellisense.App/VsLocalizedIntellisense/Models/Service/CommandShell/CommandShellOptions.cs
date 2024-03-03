@@ -14,7 +14,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 
         public string IndentSpace { get; set; } = "\t";
 
-        public Encoding Encoding { get; set; } = Encoding.UTF8;
+        public Encoding Encoding { get; set; } = Encoding.Default; // .NET Framework と心中
 
         #endregion
     }
