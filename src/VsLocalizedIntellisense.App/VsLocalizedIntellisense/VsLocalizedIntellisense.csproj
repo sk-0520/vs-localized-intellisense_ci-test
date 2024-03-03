@@ -141,6 +141,7 @@
     <Compile Include="Models\Service\CommandShell\CommandShellOptions.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChcpCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\CommandBase.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\CopyCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\EchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\IExpression.cs" />

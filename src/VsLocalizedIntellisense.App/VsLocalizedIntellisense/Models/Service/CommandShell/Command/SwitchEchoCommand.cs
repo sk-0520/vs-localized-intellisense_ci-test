@@ -7,10 +7,10 @@ using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
-    public class SwitchEchoCommand : EchoCommand
+    public sealed class SwitchEchoCommand : CommandBase
     {
         public SwitchEchoCommand()
-            : base()
+            : base(EchoCommand.Name)
         {
             SuppressCommand = true;
         }
@@ -23,9 +23,10 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         #region Echo
 
-        public override Express Value {
-            get => On ? "on" : "off";
-            set => throw new NotSupportedException();
+        public override string GetStatement()
+        {
+            var value = On ? "on" : "off";
+            return $"{GetStatementCommandName()} {value}";
         }
 
         #endregion

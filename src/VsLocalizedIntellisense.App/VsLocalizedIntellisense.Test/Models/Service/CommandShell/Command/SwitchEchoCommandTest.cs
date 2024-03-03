@@ -27,19 +27,6 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        [DataRow("off", false)]
-        [DataRow("on", true)]
-        public void ThrowTest(string expected, bool input)
-        {
-            var sw = new SwitchEchoCommand()
-            {
-                On = input,
-            };
-            Assert.AreEqual(expected, sw.Value.Expression);
-            Assert.ThrowsException<NotSupportedException>(() => sw.Value = string.Empty);
-        }
-
         #endregion
     }
 }
