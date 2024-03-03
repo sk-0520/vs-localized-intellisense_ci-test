@@ -32,5 +32,14 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
             var actual = chcp.GetStatement();
             Assert.AreEqual("chcp 932", actual);
         }
+
+        [TestMethod]
+        public void Default_Test()
+        {
+            var chcp = new ChcpCommand();
+            var actual = chcp.GetStatement();
+            Assert.AreEqual($"chcp {Encoding.Default.CodePage}", actual);
+        }
+
     }
 }

@@ -8,14 +8,17 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
-    public abstract class ValueBase
+    public interface IExpression
     {
-        #region function
+        #region property
 
-        public abstract string Expression { get; }
+        string Expression { get; }
 
         #endregion
+    }
 
+    public abstract class ValueBase: IExpression
+    {
         #region operator
 
         public static Value operator +(ValueBase a, ValueBase b)
@@ -27,6 +30,12 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 
             return result;
         }
+
+        #endregion
+
+        #region IExpression
+
+        public abstract string Expression { get; }
 
         #endregion
     }
