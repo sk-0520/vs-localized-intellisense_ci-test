@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VsLocalizedIntellisense.Models.Service.CommandShell;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Redirect;
 
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
 {
@@ -63,13 +64,30 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
             Assert.AreEqual("test | test", actual2);
         }
 
+        [TestMethod]
+        public void GetStatement_pipe2_Test()
+        {
+            var test = new TestAction()
+            {
+                Pipe = new TestAction()
+                {
+                    Pipe = new TestAction(),
+                }
+            };
+            var actual1 = test.GetStatement();
+            Assert.AreEqual("test", actual1);
+
+            var actual2 = test.ToStatement(new IndentContext());
+            Assert.AreEqual("test | test | test", actual2);
+        }
+
 
         [TestMethod]
         public void GetStatement_null_redirect_Test()
         {
             var test = new TestAction
             {
-                Redirect = Redirect.Null
+                Redirect = OutputRedirect.Null
             };
             var actual1 = test.GetStatement();
             Assert.AreEqual("test", actual1);
@@ -83,7 +101,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         {
             var test = new TestAction
             {
-                Redirect = new Redirect()
+                Redirect = new OutputRedirect()
                 {
                     Target = "TARGET"
                 }
@@ -97,7 +115,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         {
             var test = new TestAction()
             {
-                Redirect = new Redirect()
+                Redirect = new OutputRedirect()
                 {
                     Append = true,
                     Target = "TARGET"
@@ -112,13 +130,13 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         {
             var test = new TestAction()
             {
-                Redirect = new Redirect()
+                Redirect = new OutputRedirect()
                 {
                     Target = "SELF"
                 },
                 Pipe = new TestAction()
                 {
-                    Redirect = new Redirect()
+                    Redirect = new OutputRedirect()
                     {
                         Target = "PIPE"
                     }
@@ -134,13 +152,13 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
             var test = new TestAction()
             {
                 Input = "INPUT",
-                Redirect = new Redirect()
+                Redirect = new OutputRedirect()
                 {
                     Target = "SELF"
                 },
                 Pipe = new TestAction()
                 {
-                    Redirect = new Redirect()
+                    Redirect = new OutputRedirect()
                     {
                         Target = "PIPE"
                     }

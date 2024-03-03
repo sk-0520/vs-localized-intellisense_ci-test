@@ -1,69 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
-namespace VsLocalizedIntellisense.Models.Service.CommandShell
+namespace VsLocalizedIntellisense.Models.Service.CommandShell.Redirect
 {
     /// <summary>
-    /// リダイレクト基底。
+    /// 標準出力リダイレクト。
     /// </summary>
-    public abstract class RedirectBase : IExpression
-    {
-        #region property
-
-        /// <summary>
-        /// リダイレクト先。
-        /// </summary>
-        public Express Target { get; set; }
-        /// <summary>
-        /// 追記するか。
-        /// </summary>
-        public bool Append { get; set; }
-
-        #endregion
-
-        #region IExpression
-
-        public virtual string Expression
-        {
-            get
-            {
-                if (Target == null)
-                {
-                    return string.Empty;
-                }
-
-                var sb = new StringBuilder();
-
-                var redirectMode = Append
-                    ? ">>"
-                    : ">"
-                ;
-                sb.Append(redirectMode);
-                sb.Append(' ');
-                sb.Append(Target.Expression);
-
-                return sb.ToString();
-            }
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// ファイル出力。
-    /// </summary>
-    public class Redirect : RedirectBase
+    public class OutputRedirect : RedirectBase
     {
         #region property
 
         /// <summary>
         /// 空リダイレクト。
         /// </summary>
-        public static Redirect Null => new Redirect()
+        public static OutputRedirect Null => new OutputRedirect()
         {
             Target = "NUL",
         };
@@ -71,7 +20,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         /// <summary>
         /// 空リダイレクト(エラー付き)。
         /// </summary>
-        public static Redirect NullWithError => new Redirect()
+        public static OutputRedirect NullWithError => new OutputRedirect()
         {
             Target = "NUL",
             Error = new ErrorRedirect()
@@ -131,21 +80,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
                 return sb.ToString();
             }
         }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// 標準エラー出力。
-    /// </summary>
-    public class ErrorRedirect : RedirectBase
-    {
-        #region property
-
-        /// <summary>
-        /// 標準出力に追記する。
-        /// </summary>
-        public bool StandardOutput { get; set; }
 
         #endregion
     }

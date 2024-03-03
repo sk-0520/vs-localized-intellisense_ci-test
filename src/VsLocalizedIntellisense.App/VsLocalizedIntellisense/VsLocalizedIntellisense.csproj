@@ -147,7 +147,9 @@
     <Compile Include="Models\Service\CommandShell\Command\EchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\IExpression.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContext.cs" />
-    <Compile Include="Models\Service\CommandShell\Redirect.cs" />
+    <Compile Include="Models\Service\CommandShell\Redirect\OutputRedirect.cs" />
+    <Compile Include="Models\Service\CommandShell\Redirect\ErrorRedirect.cs" />
+    <Compile Include="Models\Service\CommandShell\Redirect\RedirectBase.cs" />
     <Compile Include="Models\Service\CommandShell\Value\Text.cs" />
     <Compile Include="Models\Service\CommandShell\Value\Express.cs" />
     <Compile Include="Models\Service\CommandShell\Value\ValueBase.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Redirect;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
@@ -25,7 +26,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         /// <summary>
         /// リダイレクト先。
         /// </summary>
-        public Redirect Redirect { get; set; }
+        public OutputRedirect Redirect { get; set; }
         /// <summary>
         /// パイプ先。
         /// </summary>
