@@ -69,6 +69,18 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         };
 
         /// <summary>
+        /// 空リダイレクト(エラー付き)。
+        /// </summary>
+        public static Redirect NullWithError => new Redirect()
+        {
+            Target = "NUL",
+            Error = new ErrorRedirect()
+            {
+                StandardOutput = true,
+            }
+        };
+
+        /// <summary>
         /// エラー出力先。
         /// </summary>
         public ErrorRedirect Error { get; set; }
