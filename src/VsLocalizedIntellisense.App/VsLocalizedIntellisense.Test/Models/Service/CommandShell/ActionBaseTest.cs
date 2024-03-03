@@ -97,6 +97,20 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         }
 
         [TestMethod]
+        public void GetStatement_null_null_redirect_Test()
+        {
+            var test = new TestAction
+            {
+                Redirect = OutputRedirect.NullWithError
+            };
+            var actual1 = test.GetStatement();
+            Assert.AreEqual("test", actual1);
+
+            var actual2 = test.ToStatement(new IndentContext());
+            Assert.AreEqual("test > NUL 2>&1", actual2);
+        }
+
+        [TestMethod]
         public void GetStatement_no_append_redirect_Test()
         {
             var test = new TestAction

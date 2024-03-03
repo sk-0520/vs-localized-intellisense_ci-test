@@ -143,6 +143,95 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
         #endregion
     }
 
+    [TestClass]
+    public class IfExistCommandTest
+    {
+        #region function
 
+        [TestMethod]
+        public void IfTest()
+        {
+            var test = new IfExistCommand()
+            {
+                Path = "path",
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
 
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if exist path (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        [TestMethod]
+        public void IfNotTest()
+        {
+            var test = new IfExistCommand()
+            {
+                Path = "path",
+                IsNot = true,
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if not exist path (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        [TestMethod]
+        public void IfElseTest()
+        {
+            var test = new IfExistCommand()
+            {
+                Path = "path",
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+            test.FalseBlock.Add(new EchoCommand() { Value = "false" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if exist path (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ") else (" + Environment.NewLine +
+                "\techo false" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        #endregion
+    }
+
+    [TestClass]
+    public class IfCommandTest
+    {
+        #region function
+
+        [TestMethod]
+        public void ErrorLevelTest()
+        {
+            Assert.IsInstanceOfType<IfErrorLevelCommand>(IfCommand.ErrorLevel);
+        }
+
+        [TestMethod]
+        public void ExpressTest()
+        {
+            Assert.IsInstanceOfType<IfExpressCommand>(IfCommand.Express);
+        }
+
+        [TestMethod]
+        public void ExistTest()
+        {
+            Assert.IsInstanceOfType<IfExistCommand>(IfCommand.Exist);
+        }
+
+        #endregion
+    }
 }

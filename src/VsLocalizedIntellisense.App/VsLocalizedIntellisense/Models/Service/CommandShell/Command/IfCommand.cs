@@ -127,4 +127,39 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         #endregion
     }
 
+    public class IfExistCommand : IfCommandBase
+    {
+        #region property
+
+        public Express Path { get; set; }
+
+        #endregion
+
+        #region IfCommandBase
+
+        protected override Express Condition
+        {
+            get
+            {
+                var result = new Express();
+                result.Values.Add(new Text("exist "));
+                result.Values.Add(Path);
+
+                return result;
+            }
+        }
+
+        #endregion
+    }
+
+    public static class IfCommand
+    {
+        #region property
+
+        public static IfErrorLevelCommand ErrorLevel => new IfErrorLevelCommand();
+        public static IfExpressCommand Express => new IfExpressCommand();
+        public static IfExistCommand Exist => new IfExistCommand();
+
+        #endregion
+    }
 }
