@@ -7,15 +7,15 @@ using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
-    public class EchoCommand : CommandBase
+    public class RemarkCommand: CommandBase
     {
-        public EchoCommand()
+        public RemarkCommand()
             : base(Name)
         { }
 
         #region property
 
-        public static string Name { get; } = "echo";
+        public static string Name { get; } = "rem";
 
         public virtual Express Value { get; set; } = string.Empty;
 
@@ -28,7 +28,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
             var value = Value.Expression;
             if (string.IsNullOrEmpty(value))
             {
-                return $"{GetStatementCommandName()}.";
+                return $"{GetStatementCommandName()}";
             }
 
             return $"{GetStatementCommandName()} {value}";

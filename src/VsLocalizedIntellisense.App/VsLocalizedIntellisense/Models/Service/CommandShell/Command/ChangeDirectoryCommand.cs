@@ -25,6 +25,20 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public Express Path { get; set; }
 
+        public static ChangeDirectoryCommand SelfDirectory
+        {
+            get
+            {
+                var result = new ChangeDirectoryCommand()
+                {
+                    WithDrive = true,
+                    Path = "%~dp0",
+                };
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region CommandBase

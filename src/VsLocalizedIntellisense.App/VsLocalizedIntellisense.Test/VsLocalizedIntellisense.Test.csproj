@@ -143,6 +143,7 @@
     <Compile Include="Models\Service\CommandShell\Command\CommandBaseTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\CopyCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\EchoCommandTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\RemarkCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContextTest.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect\RedirectBaseTest.cs" />
