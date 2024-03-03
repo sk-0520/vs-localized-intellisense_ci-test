@@ -153,6 +153,7 @@
     <Compile Include="Models\Service\CommandShell\Redirect\OutputRedirect.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect\ErrorRedirect.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect\RedirectBase.cs" />
+    <Compile Include="Models\Service\CommandShell\CommandShellHelper.cs" />
     <Compile Include="Models\Service\CommandShell\Value\Special\ErrorLevel.cs" />
     <Compile Include="Models\Service\CommandShell\Value\Text.cs" />
     <Compile Include="Models\Service\CommandShell\Value\Express.cs" />
