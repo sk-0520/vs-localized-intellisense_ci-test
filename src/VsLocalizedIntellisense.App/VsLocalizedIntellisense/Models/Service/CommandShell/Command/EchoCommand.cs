@@ -17,7 +17,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public static string Name { get; } = "echo";
 
-        public virtual Express Value { get; set; } = string.Empty;
+        public Express Value { get; set; } = string.Empty;
 
         #endregion
 
