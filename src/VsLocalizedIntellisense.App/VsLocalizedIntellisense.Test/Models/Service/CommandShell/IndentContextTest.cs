@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VsLocalizedIntellisense.Models.Service.CommandPrompt;
+using VsLocalizedIntellisense.Models.Service.CommandShell;
 
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt
 {

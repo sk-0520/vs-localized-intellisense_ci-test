@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VsLocalizedIntellisense.Models.Service.CommandPrompt
+namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
-    public class CommandPromptEditor
+    public class CommandShellEditor
     {
         #region property
 
-        public CommandPromptOptions Options { get; set; } = new CommandPromptOptions();
+        public CommandShellOptions Options { get; set; } = new CommandShellOptions();
 
         public List<ActionBase> Actions { get; } = new List<ActionBase>();
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VsLocalizedIntellisense.Models.Service.CommandPrompt
+namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
     public abstract class ActionBase
     {

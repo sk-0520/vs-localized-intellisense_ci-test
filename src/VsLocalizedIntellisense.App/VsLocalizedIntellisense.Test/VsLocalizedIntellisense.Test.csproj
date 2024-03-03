@@ -137,10 +137,10 @@
     <Compile Include="Models\Mvvm\Message\ScopedMessengerTest.cs" />
     <Compile Include="Models\Mvvm\Message\ViewMessengerTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
-    <Compile Include="Models\Service\CommandPrompt\Command\ChcpCommandTest.cs" />
-    <Compile Include="Models\Service\CommandPrompt\Command\EchoCommandTest.cs" />
-    <Compile Include="Models\Service\CommandPrompt\Command\SwitchEchoCommandTest.cs" />
-    <Compile Include="Models\Service\CommandPrompt\IndentContextTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\ChcpCommandTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\EchoCommandTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommandTest.cs" />
+    <Compile Include="Models\Service\CommandShell\IndentContextTest.cs" />
     <Compile Include="Models\Service\GitHub\GitHubServiceTest.cs" />
     <Compile Include="Models\StringsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
+namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
     public class EchoCommand : CommandBase
     {
