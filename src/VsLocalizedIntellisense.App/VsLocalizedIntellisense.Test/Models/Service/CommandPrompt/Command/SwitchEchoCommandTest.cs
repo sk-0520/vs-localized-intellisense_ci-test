@@ -19,9 +19,25 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
         [DataRow("@echo on", true)]
         public void Test(string expected, bool input)
         {
-            var sw = new SwitchEchoCommand(input);
+            var sw = new SwitchEchoCommand()
+            {
+                On = input,
+            };
             var actual = sw.GetStatement();
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow("off", false)]
+        [DataRow("on", true)]
+        public void ThrowTest(string expected, bool input)
+        {
+            var sw = new SwitchEchoCommand()
+            {
+                On = input,
+            };
+            Assert.AreEqual(expected, sw.Value);
+            Assert.ThrowsException<NotSupportedException>(() => sw.Value = string.Empty);
         }
 
         #endregion

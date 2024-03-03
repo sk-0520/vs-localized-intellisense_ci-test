@@ -8,10 +8,10 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 {
     public class SwitchEchoCommand : EchoCommand
     {
-        public SwitchEchoCommand(bool on)
+        public SwitchEchoCommand()
+            : base()
         {
             SuppressCommand = true;
-            On = on;
         }
 
         #region property
@@ -22,10 +22,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         #region Echo
 
-        public override string GetStatement()
-        {
-            var value = On ? "on" : "off";
-            return $"{GetStatementCommandName()} {value}";
+        public override string Value {
+            get => On ? "on" : "off";
+            set => throw new NotSupportedException();
         }
 
         #endregion
