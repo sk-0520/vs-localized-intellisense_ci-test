@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 {
-    public class Echo : CommandBase
+    public class EchoCommand : CommandBase
     {
-        public Echo()
+        public EchoCommand()
             : base(Name)
         { }
 
@@ -16,18 +16,20 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         public static string Name { get; } = "echo";
 
+        public string Value { get; set; } = string.Empty;
+
         #endregion
 
         #region CommandBase
 
         public override string GetStatement()
         {
-            if (Value.Arguments.Count == 0)
+            if (string.IsNullOrEmpty(Value))
             {
-                return GetStatementCommandName();
+                return $"{GetStatementCommandName()}.";
             }
 
-            return $"{GetStatementCommandName()} {Value.ToValue()}";
+            return $"{GetStatementCommandName()} {Value}";
         }
 
         #endregion

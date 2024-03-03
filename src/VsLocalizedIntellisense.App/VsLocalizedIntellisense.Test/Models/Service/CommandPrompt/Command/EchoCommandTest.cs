@@ -11,22 +11,19 @@ using VsLocalizedIntellisense.Models.Service.CommandPrompt.Command;
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
 {
     [TestClass]
-    public class EchoTest
+    public class EchoCommandTest
     {
         #region function
 
         [TestMethod]
-        [DataRow("echo")]
-        //[DataRow("echo a", "a")]
-        public void Test(string expected, params string[] arguments)
+        [DataRow("echo.", "")]
+        [DataRow("echo a", "a")]
+        public void Test(string expected, string value)
         {
-            var command = arguments.Length == 0
-                ? new Echo()
-                : new Echo()
-                {
-                    Value = new CommandValue(arguments),
-                }
-            ;
+            var command = new EchoCommand()
+            {
+                Value = value,
+            };
             var actual = command.GetStatement();
             Assert.AreEqual(expected, actual);
         }

@@ -21,10 +21,8 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         #region property
 
-        public bool? SuppressOutput { get; set; }
         public bool? SuppressCommand { get; set; }
-
-        public CommandValue Value { get; set; } = new CommandValue();
+        public bool? CommandNameIsUpper { get; set; }
 
         #endregion
 
@@ -32,9 +30,14 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         public string GetStatementCommandName()
         {
-            return SuppressCommand.GetValueOrDefault()
-                ? "@" + this._commandName
+            var commandName = CommandNameIsUpper.GetValueOrDefault()
+                ? this._commandName.ToUpperInvariant()
                 : this._commandName
+            ;
+
+            return SuppressCommand.GetValueOrDefault()
+                ? "@" + commandName
+                : commandName
             ;
         }
 
@@ -42,15 +45,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 
         #region function
 
-        public virtual string GetValues()
-        {
-            if (Value.Arguments.Count == 0)
-            {
-                return GetStatementCommandName();
-            }
-
-            return $"{GetStatementCommandName()} {Value.ToValue()}";
-        }
 
         #endregion
 

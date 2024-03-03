@@ -137,10 +137,13 @@
     <Compile Include="Models\NotifyModelBase.cs" />
     <Compile Include="Models\Service\Application\AppFileService.cs" />
     <Compile Include="Models\Service\CommandPrompt\ActionBase.cs" />
-    <Compile Include="Models\Service\CommandPrompt\CommandValue.cs" />
+    <Compile Include="Models\Service\CommandPrompt\CommandPromptEditor.cs" />
+    <Compile Include="Models\Service\CommandPrompt\CommandPromptOptions.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\ChcpCommand.cs" />
     <Compile Include="Models\Service\CommandPrompt\Command\CommandBase.cs" />
-    <Compile Include="Models\Service\CommandPrompt\Command\SwitchEcho.cs" />
-    <Compile Include="Models\Service\CommandPrompt\Command\Echo.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\SwitchEchoCommand.cs" />
+    <Compile Include="Models\Service\CommandPrompt\Command\EchoCommand.cs" />
+    <Compile Include="Models\Service\CommandPrompt\IndentContext.cs" />
     <Compile Include="Models\Service\GitHub\GitHubAuthentication.cs" />
     <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />

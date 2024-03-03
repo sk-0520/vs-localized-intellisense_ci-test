@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
 {
-    public class SwitchEcho : Echo
+    public class SwitchEchoCommand : EchoCommand
     {
-        public SwitchEcho(bool on)
+        public SwitchEchoCommand(bool on)
         {
+            SuppressCommand = true;
             On = on;
         }
 
@@ -20,6 +21,12 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt.Command
         #endregion
 
         #region Echo
+
+        public override string GetStatement()
+        {
+            var value = On ? "on" : "off";
+            return $"{GetStatementCommandName()} {value}";
+        }
 
         #endregion
     }

@@ -18,7 +18,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandPrompt
 
         public abstract string GetStatement();
 
-        public virtual string ToStatement(int indentLevel, string indentValue)
+        public virtual string ToStatement(IndentContext indent)
         {
             return GetStatement();
         }
