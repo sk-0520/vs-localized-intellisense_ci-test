@@ -7,11 +7,20 @@ using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
+    /// <summary>
+    /// リダイレクト基底。
+    /// </summary>
     public abstract class RedirectBase : IExpression
     {
         #region property
 
+        /// <summary>
+        /// リダイレクト先。
+        /// </summary>
         public Express Target { get; set; }
+        /// <summary>
+        /// 追記するか。
+        /// </summary>
         public bool Append { get; set; }
 
         #endregion
@@ -27,27 +36,42 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
                     return string.Empty;
                 }
 
+                var sb = new StringBuilder();
+
                 var redirectMode = Append
                     ? ">>"
                     : ">"
                 ;
-                return $"{redirectMode} {Target.Expression}";
+                sb.Append(redirectMode);
+                sb.Append(' ');
+                sb.Append(Target.Expression);
+
+                return sb.ToString();
             }
         }
 
         #endregion
     }
 
+    /// <summary>
+    /// ファイル出力。
+    /// </summary>
     public class Redirect : RedirectBase
     {
         #region property
 
+        /// <summary>
+        /// 空リダイレクト。
+        /// </summary>
         public static Redirect Null => new Redirect()
         {
             Target = "NUL",
         };
 
-        public virtual ErrorRedirect Error { get; set; }
+        /// <summary>
+        /// エラー出力先。
+        /// </summary>
+        public ErrorRedirect Error { get; set; }
 
         #endregion
 
@@ -99,10 +123,16 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         #endregion
     }
 
+    /// <summary>
+    /// 標準エラー出力。
+    /// </summary>
     public class ErrorRedirect : RedirectBase
     {
         #region property
 
+        /// <summary>
+        /// 標準出力に追記する。
+        /// </summary>
         public bool StandardOutput { get; set; }
 
         #endregion
