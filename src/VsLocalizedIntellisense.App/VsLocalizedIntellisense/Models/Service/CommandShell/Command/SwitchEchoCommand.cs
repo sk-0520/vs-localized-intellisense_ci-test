@@ -22,7 +22,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         #region Echo
 
-        public override string Value {
+        public override Value Value {
             get => On ? "on" : "off";
             set => throw new NotSupportedException();
         }

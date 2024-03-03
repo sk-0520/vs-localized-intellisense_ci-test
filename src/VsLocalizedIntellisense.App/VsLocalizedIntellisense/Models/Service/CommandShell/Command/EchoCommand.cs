@@ -16,7 +16,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public static string Name { get; } = "echo";
 
-        public virtual string Value { get; set; } = string.Empty;
+        public virtual Value Value { get; set; } = string.Empty;
 
         #endregion
 
@@ -24,12 +24,12 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public override string GetStatement()
         {
-            if (string.IsNullOrEmpty(Value))
+            if (string.IsNullOrEmpty(Value.Expression))
             {
                 return $"{GetStatementCommandName()}.";
             }
 
-            return $"{GetStatementCommandName()} {Value}";
+            return $"{GetStatementCommandName()} {Value.Expression}";
         }
 
         #endregion

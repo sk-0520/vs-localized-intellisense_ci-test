@@ -36,7 +36,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
             {
                 On = input,
             };
-            Assert.AreEqual(expected, sw.Value);
+            Assert.AreEqual(expected, sw.Value.Expression);
             Assert.ThrowsException<NotSupportedException>(() => sw.Value = string.Empty);
         }
 

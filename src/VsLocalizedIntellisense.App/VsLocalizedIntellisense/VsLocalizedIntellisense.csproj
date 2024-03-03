@@ -144,6 +144,7 @@
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\EchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContext.cs" />
+    <Compile Include="Models\Service\CommandShell\Value.cs" />
     <Compile Include="Models\Service\GitHub\GitHubAuthentication.cs" />
     <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />
