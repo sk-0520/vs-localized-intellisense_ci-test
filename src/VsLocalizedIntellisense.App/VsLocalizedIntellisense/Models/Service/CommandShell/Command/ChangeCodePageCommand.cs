@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
-    public class ChcpCommand : CommandBase
+    public class ChangeCodePageCommand : CommandBase
     {
-        public ChcpCommand()
+        public ChangeCodePageCommand()
             : base(Name)
         { }
 

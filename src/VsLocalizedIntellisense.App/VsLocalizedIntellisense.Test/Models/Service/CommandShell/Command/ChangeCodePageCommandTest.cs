@@ -9,12 +9,12 @@ using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
 {
     [TestClass]
-    public class ChcpCommandTest
+    public class ChangeCodePageCommandTest
     {
         [TestMethod]
         public void Utf8_Test()
         {
-            var chcp = new ChcpCommand
+            var chcp = new ChangeCodePageCommand
             {
                 Encoding = Encoding.UTF8
             };
@@ -25,7 +25,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
         [TestMethod]
         public void ShiftJis_Test()
         {
-            var chcp = new ChcpCommand()
+            var chcp = new ChangeCodePageCommand()
             {
                 Encoding = Encoding.GetEncoding("Shift_JIS"),
             };
@@ -36,7 +36,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandPrompt.Command
         [TestMethod]
         public void Default_Test()
         {
-            var chcp = new ChcpCommand();
+            var chcp = new ChangeCodePageCommand();
             var actual = chcp.GetStatement();
             Assert.AreEqual($"chcp {Encoding.Default.CodePage}", actual);
         }
