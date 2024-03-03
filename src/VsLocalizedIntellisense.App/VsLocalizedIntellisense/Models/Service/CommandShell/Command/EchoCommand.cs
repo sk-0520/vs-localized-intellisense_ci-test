@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
@@ -16,7 +17,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public static string Name { get; } = "echo";
 
-        public virtual Value Value { get; set; } = string.Empty;
+        public virtual Express Value { get; set; } = string.Empty;
 
         #endregion
 

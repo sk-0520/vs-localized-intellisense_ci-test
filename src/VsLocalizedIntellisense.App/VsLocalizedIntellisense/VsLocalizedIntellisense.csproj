@@ -143,9 +143,13 @@
     <Compile Include="Models\Service\CommandShell\Command\CommandBase.cs" />
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\EchoCommand.cs" />
+    <Compile Include="Models\Service\CommandShell\IExpression.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContext.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect.cs" />
-    <Compile Include="Models\Service\CommandShell\Value.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\Text.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\Express.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\ValueBase.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\Variable.cs" />
     <Compile Include="Models\Service\GitHub\GitHubAuthentication.cs" />
     <Compile Include="Models\Service\GitHub\GitHubContentResponseItem.cs" />
     <Compile Include="Models\Service\GitHub\GitHubOptions.cs" />

@@ -144,7 +144,9 @@
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContextTest.cs" />
     <Compile Include="Models\Service\CommandShell\RedirectTest.cs" />
-    <Compile Include="Models\Service\CommandShell\ValueTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\TextTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\ExpressTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Value\VariableTest.cs" />
     <Compile Include="Models\Service\GitHub\GitHubServiceTest.cs" />
     <Compile Include="Models\StringsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

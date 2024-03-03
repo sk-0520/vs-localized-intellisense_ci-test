@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
@@ -11,7 +12,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         #region property
 
         public virtual string CommandName { get; set; }
-        public Value Input { get; set; }
+        public Express Input { get; set; }
         public Redirect Redirect { get; set; }
         public ActionBase Pipe { get; set; }
 

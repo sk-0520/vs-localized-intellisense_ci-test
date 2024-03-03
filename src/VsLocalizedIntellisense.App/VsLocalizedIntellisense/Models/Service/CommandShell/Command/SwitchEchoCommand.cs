@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 {
@@ -22,7 +23,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         #region Echo
 
-        public override Value Value {
+        public override Express Value {
             get => On ? "on" : "off";
             set => throw new NotSupportedException();
         }

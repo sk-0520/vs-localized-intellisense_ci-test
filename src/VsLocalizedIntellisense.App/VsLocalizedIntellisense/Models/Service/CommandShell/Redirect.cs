@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
 namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
@@ -10,7 +11,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
     {
         #region property
 
-        public Value Target { get; set; }
+        public Express Target { get; set; }
         public bool Append { get; set; }
 
         #endregion
