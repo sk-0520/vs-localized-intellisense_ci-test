@@ -11,11 +11,15 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
     [TestClass]
     public class IfErrorLevelCommandTest
     {
+        #region function
+
         [TestMethod]
         public void IfTest()
         {
-            var test = new IfErrorLevelCommand();
-            test.Level = 10;
+            var test = new IfErrorLevelCommand
+            {
+                Level = 10
+            };
             test.TrueBlock.Add(new EchoCommand() { Value = "true" });
 
             var actual = test.GetStatement();
@@ -28,10 +32,31 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
         }
 
         [TestMethod]
+        public void IfNotTest()
+        {
+            var test = new IfErrorLevelCommand
+            {
+                Level = 10,
+                IsNot = true,
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if not ERRORLEVEL 10 (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        [TestMethod]
         public void IfElseTest()
         {
-            var test = new IfErrorLevelCommand();
-            test.Level = 10;
+            var test = new IfErrorLevelCommand
+            {
+                Level = 10
+            };
             test.TrueBlock.Add(new EchoCommand() { Value = "true" });
             test.FalseBlock.Add(new EchoCommand() { Value = "false" });
 
@@ -45,5 +70,79 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
                 actual
             );
         }
+
+        #endregion
     }
+
+    [TestClass]
+    public class IfExpressCommandTest
+    {
+        #region function
+
+        [TestMethod]
+        public void IfTest()
+        {
+            var test = new IfExpressCommand()
+            {
+                Left = "l",
+                Right = "r",
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if l == r (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        [TestMethod]
+        public void IfNotTest()
+        {
+            var test = new IfExpressCommand()
+            {
+                Left = "l",
+                Right = "r",
+                IsNot = true,
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if not l == r (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        [TestMethod]
+        public void IfElseTest()
+        {
+            var test = new IfExpressCommand()
+            {
+                Left = "l",
+                Right = "r"
+            };
+            test.TrueBlock.Add(new EchoCommand() { Value = "true" });
+            test.FalseBlock.Add(new EchoCommand() { Value = "false" });
+
+            var actual = test.GetStatement();
+            Assert.AreEqual(
+                "if l == r (" + Environment.NewLine +
+                "\techo true" + Environment.NewLine +
+                ") else (" + Environment.NewLine +
+                "\techo false" + Environment.NewLine +
+                ")" + Environment.NewLine,
+                actual
+            );
+        }
+
+        #endregion
+    }
+
+
+
 }

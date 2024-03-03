@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
@@ -19,9 +20,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         public static string Name { get; } = "if";
         public static string ElseName { get; } = "else";
 
-        protected bool IsNot { get; set; }
+        public bool IsNot { get; set; }
 
-        protected virtual Express Condition { get; }
+        protected abstract Express Condition { get; }
 
         public IList<CommandBase> TrueBlock { get; } = new List<CommandBase>();
         public IList<CommandBase> FalseBlock { get; } = new List<CommandBase>();
@@ -87,13 +88,39 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         {
             get
             {
-                var sb = new StringBuilder();
+                var result = new Express();
+                result.Values.Add(new Text(ErrorLevel.Instance.Name));
+                result.Values.Add(new Text(" "));
+                result.Values.Add(new Text(Level.ToString()));
 
-                sb.Append(ErrorLevel.Instance.Name);
-                sb.Append(' ');
-                sb.Append(Level);
+                return result;
+            }
+        }
 
-                return sb.ToString();
+        #endregion
+    }
+
+    public class IfExpressCommand : IfCommandBase
+    {
+        #region property
+
+        public Express Left { get; set; }
+        public Express Right { get; set; }
+
+        #endregion
+
+        #region IfCommandBase
+
+        protected override Express Condition
+        {
+            get
+            {
+                var result = new Express();
+                result.Values.Add(Left);
+                result.Values.Add(new Text(" == "));
+                result.Values.Add(Right);
+
+                return result;
             }
         }
 
