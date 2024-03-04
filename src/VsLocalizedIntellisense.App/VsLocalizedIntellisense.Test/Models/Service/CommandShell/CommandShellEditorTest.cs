@@ -137,6 +137,24 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         }
 
         [TestMethod]
+        public void AddMakeDirectoryTest()
+        {
+            var test = new CommandShellEditor();
+            var actual = test.AddMakeDirectory("abc");
+
+            Assert.AreEqual(test.Actions[0], actual);
+        }
+
+        [TestMethod]
+        public void AddPauseTest()
+        {
+            var test = new CommandShellEditor();
+            var actual = test.AddPause();
+
+            Assert.AreEqual(test.Actions[0], actual);
+        }
+
+        [TestMethod]
         public void AddRemarkTest()
         {
             var test = new CommandShellEditor();

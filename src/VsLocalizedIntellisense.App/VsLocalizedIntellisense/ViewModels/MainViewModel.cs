@@ -18,6 +18,7 @@ using System.ComponentModel;
 using VsLocalizedIntellisense.Models.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
+using VsLocalizedIntellisense.Models.Service.CommandShell;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -27,6 +28,8 @@ namespace VsLocalizedIntellisense.ViewModels
 
         private bool _isDownloading = false;
         private bool _isDownloaded = false;
+
+        private string _installCommand = string.Empty;
 
         private DelegateCommand _selectInstallRootDirectoryPathCommand;
         private AsyncDelegateCommand _downloadCommand;
@@ -61,6 +64,12 @@ namespace VsLocalizedIntellisense.ViewModels
         private AppConfiguration Configuration { get; }
 
         private Dictionary<DirectoryElement, IList<FileInfo>> InstallItems { get; } = new Dictionary<DirectoryElement, IList<FileInfo>>();
+        private CommandShellEditor GeneratedCommandShellEditor { get; set; }
+        public string InstallCommand
+        {
+            get => this._installCommand;
+            set => SetVariable(ref this._installCommand, value);
+        }
 
         [Required(ErrorMessageResourceName = nameof(Properties.Resources.UI_Validation_Required), ErrorMessageResourceType = typeof(Properties.Resources))]
         public string InstallRootDirectoryPath
@@ -129,6 +138,7 @@ namespace VsLocalizedIntellisense.ViewModels
                     this._downloadCommand = new AsyncDelegateCommand(
                         async _ =>
                         {
+                            IsDownloaded = false;
                             IsDownloading = true;
                             try
                             {
@@ -138,7 +148,8 @@ namespace VsLocalizedIntellisense.ViewModels
                                 {
                                     InstallItems.Add(pair.Key, pair.Value);
                                 }
-                                //TODO: ここで反映！
+                                GeneratedCommandShellEditor = Model.GenerateShellCommand(InstallItems);
+                                InstallCommand = GeneratedCommandShellEditor.ToSourceCode();
                                 IsDownloaded = true;
                                 this._executeCommand.RaiseCanExecuteChanged();
                             }
@@ -160,9 +171,9 @@ namespace VsLocalizedIntellisense.ViewModels
                 if (this._executeCommand == null)
                 {
                     this._executeCommand = new AsyncDelegateCommand(
-                        _ =>
+                        async _ =>
                         {
-                            return Task.CompletedTask;
+                            await Model.ExecuteCommandShellAsync(GeneratedCommandShellEditor);
                         },
                         _ => IsDownloaded
                     );

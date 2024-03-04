@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,8 +13,11 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.ApplicationServices;
 using VsLocalizedIntellisense.Models.Configuration;
+using VsLocalizedIntellisense.Models.Data;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.Models.Service.Application;
+using VsLocalizedIntellisense.Models.Service.CommandShell;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 using VsLocalizedIntellisense.Models.Service.GitHub;
 
 namespace VsLocalizedIntellisense.Models.Element
@@ -128,7 +132,7 @@ namespace VsLocalizedIntellisense.Models.Element
             var downloadRootDirPath = Path.Combine(Configuration.GetWorkingDirectoryPath(), "intellisense");
             Directory.Delete(downloadRootDirPath, true);
             var downloadRootDirectory = Directory.CreateDirectory(downloadRootDirPath);
-            
+
             var revision = Configuration.GetRepositoryRevision();
 
             var result = new Dictionary<DirectoryElement, IList<FileInfo>>();
@@ -142,7 +146,7 @@ namespace VsLocalizedIntellisense.Models.Element
             Logger.LogInformation("ダウンロード処理開始");
 
             foreach (var element in targetElements)
-                {
+            {
                 var downloadBaseDirPath = Path.Combine(downloadRootDirectory.FullName, element.IntellisenseVersion.DirectoryName, element.Directory.Name);
                 var downloadBaseDirectory = Directory.CreateDirectory(downloadBaseDirPath);
                 var downloadFiles = await element.DownloadIntellisenseFilesAsync(revision, downloadBaseDirectory, AppFileService, AppGitHubService);
@@ -152,16 +156,84 @@ namespace VsLocalizedIntellisense.Models.Element
             Logger.LogInformation("ダウンロード処理終了");
 
             Logger.LogDebug("対象ファイル");
-            foreach(var pair in result)
+            foreach (var pair in result)
             {
                 Logger.LogDebug(pair.Key.IntellisenseVersion.DirectoryName);
-                foreach(var file in pair.Value)
+                foreach (var file in pair.Value)
                 {
                     Logger.LogDebug($"file {file.Name} {file.FullName}");
                 }
             }
 
             return result;
+        }
+
+
+        public CommandShellEditor GenerateShellCommand(Dictionary<DirectoryElement, IList<FileInfo>> installItems)
+        {
+            var commandShellEditor = new CommandShellEditor();
+#if DEBUG
+            commandShellEditor.AddSwitchEcho(false);
+#else
+            commandShellEditor.AddSwitchEcho(true);
+#endif
+            commandShellEditor.AddChangeSelfDirectory();
+
+            commandShellEditor.AddEcho("install intellisense");
+            commandShellEditor.AddEmptyLine();
+
+            foreach (var pair in installItems)
+            {
+                commandShellEditor.AddEmptyLine();
+                commandShellEditor.AddEcho(pair.Key.Directory.Name);
+
+                var destinationDirPath = Path.Combine(
+                    pair.Key.Directory.FullName,
+                    pair.Key.LibraryVersion.Version.ToString(),
+                    "ref",
+                    pair.Key.IntellisenseVersion.DirectoryName,
+                    pair.Key.Language.Language
+                );
+                var dirVarCommand = commandShellEditor.AddSetVariable(pair.Key.Directory.Name, destinationDirPath);
+
+                var dirExpress = new Express();
+                dirExpress.Values.Add(dirVarCommand.Variable);
+                var dirIfCommand = commandShellEditor.AddIfExist(dirExpress, true);
+                dirIfCommand.TrueBlock.Add(commandShellEditor.CreateMakeDirectory(dirExpress));
+
+                foreach (var file in pair.Value)
+                {
+                    var destinationPath = Path.Combine(dirVarCommand.Variable.Expression, file.Name);
+                    var copyCommand = commandShellEditor.AddCopy(file.FullName, destinationPath, true);
+                    copyCommand.IsVerify = true;
+                }
+            }
+
+            commandShellEditor.AddPause();
+
+            return commandShellEditor;
+        }
+
+        public async Task ExecuteCommandShellAsync(CommandShellEditor commandShellEditor)
+        {
+            var currentProcess = Process.GetCurrentProcess();
+            var batchFilePath = Path.Combine(Configuration.GetTemporaryDirectoryPath(), "batch", $"{DateTime.Now:yyyy-MM-dd'T'HHmmss'_'fff}_{currentProcess.Id}.bat");
+            var batchDirPath = Path.GetDirectoryName(batchFilePath);
+            Directory.CreateDirectory(batchDirPath);
+
+            using (var stream = new FileStream(batchFilePath, FileMode.Create, FileAccess.ReadWrite, FileShare.Read))
+            {
+                await commandShellEditor.WriteAsync(stream);
+            }
+
+            var psi = new ProcessStartInfo()
+            {
+                FileName = batchFilePath,
+                UseShellExecute = true,
+                Verb = "runas",
+            };
+            var batchProcess = Process.Start(psi);
+            Logger.LogInformation(batchFilePath);
         }
 
         #endregion

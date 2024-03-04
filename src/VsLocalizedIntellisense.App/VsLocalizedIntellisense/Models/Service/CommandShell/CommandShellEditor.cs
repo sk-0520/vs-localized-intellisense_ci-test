@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 
@@ -45,9 +46,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             return result;
         }
 
-        #region add-command
+        #region create-command
 
-        private TCommand AddCommand<TCommand>()
+        private TCommand CreateCommand<TCommand>()
             where TCommand : CommandBase, new()
         {
             var result = new TCommand()
@@ -57,9 +58,30 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
                 IndentSpace = Options.IndentSpace,
             };
 
-            Actions.Add(result);
-
             return result;
+        }
+
+        public MakeDirectoryCommand CreateMakeDirectory(Express path)
+        {
+            var command = CreateCommand<MakeDirectoryCommand>();
+
+            command.Path = path;
+
+            return command;
+        }
+
+        #endregion
+
+        #region add-command
+
+        private TCommand AddCommand<TCommand>()
+            where TCommand : CommandBase, new()
+        {
+            var command = CreateCommand<TCommand>();
+
+            Actions.Add(command);
+
+            return command;
         }
 
         public ChangeCodePageCommand AddChangeCodePage(Encoding encoding)
@@ -124,6 +146,19 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             return command;
         }
 
+        public MakeDirectoryCommand AddMakeDirectory(Express path)
+        {
+            var command = AddCommand<MakeDirectoryCommand>();
+            command.Path = path;
+            return command;
+        }
+
+        public PauseCommand AddPause()
+        {
+            var command = AddCommand<PauseCommand>();
+            return command;
+        }
+
         public RemarkCommand AddRemark(Express comment)
         {
             var command = AddCommand<RemarkCommand>();
@@ -158,27 +193,30 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             foreach (var action in Actions)
             {
                 var statement = action.ToStatement(indentContext);
-                sb.AppendLine(statement);
+                sb.Append(statement);
+                sb.Append(Options.NewLine);
             }
 
             return sb.ToString();
         }
 
-        //public async Task WriteAsync(Stream stream, CancellationToken cancellationToken = default)
-        //{
-        //    var writer = new StreamWriter(stream, Options.Encoding, 1024, true)
-        //    {
-        //        NewLine = Options.NewLine,
-        //    };
-        //    var indentContext = new IndentContext(Options.IndentSpace, 0);
-        //    foreach (var action in Actions)
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
+        public async Task WriteAsync(Stream stream, CancellationToken cancellationToken = default)
+        {
+            using (var writer = new StreamWriter(stream, Options.Encoding, 1024, true)
+            {
+                NewLine = Options.NewLine,
+            })
+            {
+                var indentContext = new IndentContext(Options.IndentSpace, 0);
+                foreach (var action in Actions)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
 
-        //        var statement = action.ToStatement(indentContext);
-        //        await writer.WriteLineAsync(statement);
-        //    }
-        //}
+                    var statement = action.ToStatement(indentContext);
+                    await writer.WriteLineAsync(statement);
+                }
+            }
+        }
 
         #endregion
     }

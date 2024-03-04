@@ -6,7 +6,7 @@
   xmlns:p="clr-namespace:VsLocalizedIntellisense.Properties"
   
   Title="{x:Static p:Resources.ApplicationName}"
-  Height="450"
+  Height="600"
   Width="800"
   WindowStartupLocation="CenterScreen"
   ResizeMode="CanResizeWithGrip"
@@ -142,7 +142,7 @@
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Button Grid.Column="1" Command="{Binding DownloadCommand}">download</Button>
       </Grid>
     </StackPanel>
@@ -160,15 +160,24 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Column="0">command</Label>
-        <TextBox Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" AcceptsReturn="True" />
+        <TextBox
+          Grid.Column="1"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+          VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch"
+          IsReadOnly="True"
+          IsReadOnlyCaretVisible="True"
+          Text="{Binding InstallCommand, Mode=OneWay}"
+        />
       </Grid>
-      
+
       <Grid Grid.Row="1">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Button Grid.Column="1" Command="{Binding ExecuteCommand}">execute</Button>
       </Grid>
     </Grid>
