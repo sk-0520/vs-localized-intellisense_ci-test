@@ -31,7 +31,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                 return $"{GetStatementCommandName()}.";
             }
 
-            return $"{GetStatementCommandName()} {value}";
+            return $"{GetStatementCommandName()} {CommandShellHelper.Escape(value)}";
         }
 
         #endregion

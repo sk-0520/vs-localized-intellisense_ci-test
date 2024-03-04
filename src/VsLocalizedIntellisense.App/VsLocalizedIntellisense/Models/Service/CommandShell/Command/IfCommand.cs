@@ -129,9 +129,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
             {
                 var result = new Express();
 
-                result.Values.Add(Left);
+                result.Values.Add(new Text(Left.Escape()));
                 result.Values.Add(new Text(" == "));
-                result.Values.Add(Right);
+                result.Values.Add(new Text(Right.Escape()));
 
                 return result;
             }
@@ -156,7 +156,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
             {
                 var result = new Express();
                 result.Values.Add(new Text("exist "));
-                result.Values.Add(Path);
+                result.Values.Add(new Text(Path.Escape()));
 
                 return result;
             }

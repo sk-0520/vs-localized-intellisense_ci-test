@@ -24,7 +24,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public override string GetStatement()
         {
-            return $"{GetStatementCommandName()} {Path.Expression}";
+            return $"{GetStatementCommandName()} {Path.Escape()}";
         }
 
         #endregion

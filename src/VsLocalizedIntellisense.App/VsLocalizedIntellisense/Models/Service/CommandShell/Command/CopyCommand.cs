@@ -85,9 +85,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                 }
             }
 
-            sb.Append(src);
+            sb.Append(CommandShellHelper.Escape(src));
             sb.Append(' ');
-            sb.Append(dst);
+            sb.Append(CommandShellHelper.Escape(dst));
 
             return sb.ToString();
         }

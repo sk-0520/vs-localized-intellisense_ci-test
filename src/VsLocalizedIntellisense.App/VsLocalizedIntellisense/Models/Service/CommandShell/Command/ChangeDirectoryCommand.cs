@@ -41,7 +41,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                 sb.Append("/d ");
             }
 
-            sb.Append(Path.Expression);
+            sb.Append(Path.Escape());
 
             return sb.ToString();
         }
