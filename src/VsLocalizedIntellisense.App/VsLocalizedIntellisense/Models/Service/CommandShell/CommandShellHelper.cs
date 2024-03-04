@@ -18,7 +18,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 
         public static string Escape(string raw)
         {
-            throw new NotImplementedException();
+            return raw;
         }
 
         #endregion
