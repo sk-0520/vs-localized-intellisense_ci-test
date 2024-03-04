@@ -59,11 +59,11 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                     sb.Append(IndentSpace);
                     sb.AppendLine(command.GetStatement());
                 }
-                sb.AppendLine(")");
+                sb.Append(")");
             }
             else
             {
-                sb.AppendLine(")");
+                sb.Append(")");
             }
 
             return sb.ToString();

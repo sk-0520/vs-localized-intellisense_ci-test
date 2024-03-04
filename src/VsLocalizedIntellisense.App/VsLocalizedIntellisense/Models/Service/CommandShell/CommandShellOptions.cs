@@ -17,6 +17,8 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 
         public Encoding Encoding { get; set; } = Encoding.Default; // .NET Framework と心中
 
+        public string NewLine { get; set; } = Environment.NewLine;
+
         #endregion
     }
 }

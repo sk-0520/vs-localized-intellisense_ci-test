@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VsLocalizedIntellisense.Models.Service.CommandShell;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
 {
@@ -12,6 +13,39 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
     public class CommandShellEditorTest
     {
         #region function
+
+        [TestMethod]
+        public void AddEmptyLineTest()
+        {
+            var test = new CommandShellEditor();
+            var actual = test.AddEmptyLine();
+
+            Assert.AreEqual(test.Actions[0], actual);
+        }
+
+        [TestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        public void AddEmptyLinesTest(int length)
+        {
+            var test = new CommandShellEditor();
+            var actual = test.AddEmptyLines(length);
+
+            Assert.AreEqual(test.Actions.Count, actual.Length);
+            for (var i = 0; i < length; i++)
+            {
+                Assert.AreEqual(test.Actions[i], actual[i]);
+            }
+        }
+
+        [TestMethod]
+        public void AddEmptyLines_throw_Test()
+        {
+            var test = new CommandShellEditor();
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => test.AddEmptyLines(-1));
+        }
+
 
         #region add-command
 
@@ -55,7 +89,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
             Assert.AreEqual(test.Actions[0], actual);
             Assert.AreEqual("src", actual.Source.Expression);
             Assert.AreEqual("dst", actual.Destination.Expression);
-            Assert.IsFalse(actual.IsForce);
+            Assert.IsNull(actual.IsForce);
         }
 
         [TestMethod]
@@ -137,6 +171,40 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
         }
 
         #endregion
+
+        [TestMethod]
+        public void ToSourceCodeTest()
+        {
+            var test = new CommandShellEditor();
+            test.AddSwitchEcho(false);
+            test.AddEmptyLine();
+            test.AddEcho("hello");
+            test.AddEmptyLine();
+            var pathIf = test.AddIfExist("path");
+            pathIf.TrueBlock.Add(new EchoCommand() { Value = "TRUE" });
+            pathIf.FalseBlock.Add(new EchoCommand() { Value = "FALSE" });
+            test.AddCopy("src", "dst");
+            test.AddEmptyLines(2);
+            test.AddRemark("bye");
+
+            var actual = test.ToSourceCode();
+            var expected
+                = "@echo off" + Environment.NewLine
+                + Environment.NewLine
+                + "echo hello" + Environment.NewLine
+                + Environment.NewLine
+                + "if exist path (" + Environment.NewLine
+                + "\techo TRUE" + Environment.NewLine
+                + ") else (" + Environment.NewLine
+                + "\techo FALSE" + Environment.NewLine
+                + ")" + Environment.NewLine
+                + "copy src dst" + Environment.NewLine
+                + Environment.NewLine
+                + Environment.NewLine
+                + "rem bye" + Environment.NewLine
+                ;
+            Assert.AreEqual(expected, actual);
+        }
 
         #endregion
     }

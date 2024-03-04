@@ -26,7 +26,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if ERRORLEVEL 10 (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -45,7 +45,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if not ERRORLEVEL 10 (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -66,7 +66,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
                 "\techo true" + Environment.NewLine +
                 ") else (" + Environment.NewLine +
                 "\techo false" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -93,7 +93,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if l == r (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -113,7 +113,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if not l == r (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -135,7 +135,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
                 "\techo true" + Environment.NewLine +
                 ") else (" + Environment.NewLine +
                 "\techo false" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -161,7 +161,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if exist path (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -180,7 +180,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual(
                 "if not exist path (" + Environment.NewLine +
                 "\techo true" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }
@@ -201,7 +201,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
                 "\techo true" + Environment.NewLine +
                 ") else (" + Environment.NewLine +
                 "\techo false" + Environment.NewLine +
-                ")" + Environment.NewLine,
+                ")",
                 actual
             );
         }

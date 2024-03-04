@@ -8,6 +8,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
     /// <summary>
     /// 現在インデント。
+    /// <para>まぁきちんと動いてないけど使うこともないのでどうでもよさげ</para>
     /// </summary>
     public class IndentContext
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
@@ -20,6 +21,29 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         #endregion
 
         #region function
+
+        public EmptyLine AddEmptyLine()
+        {
+            var result = new EmptyLine();
+
+            Actions.Add(result);
+
+            return result;
+        }
+
+        public EmptyLine[] AddEmptyLines(int length)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+
+            var result = Enumerable.Repeat(0, length).Select(x => new EmptyLine()).ToArray();
+
+            Actions.AddRange(result);
+
+            return result;
+        }
 
         #region add-command
 
@@ -59,7 +83,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             return command;
         }
 
-        public CopyCommand AddCopy(Express source, Express destination, bool isForce = false)
+        public CopyCommand AddCopy(Express source, Express destination, bool? isForce = null)
         {
             var command = AddCommand<CopyCommand>();
             command.Source = source;
@@ -118,12 +142,43 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         public SwitchEchoCommand AddSwitchEcho(bool isOn)
         {
             var command = AddCommand<SwitchEchoCommand>();
+            command.SuppressCommand = true;
             command.On = isOn;
             return command;
         }
 
 
         #endregion
+
+        public string ToSourceCode()
+        {
+            var sb = new StringBuilder();
+
+            var indentContext = new IndentContext(Options.IndentSpace, 0);
+            foreach (var action in Actions)
+            {
+                var statement = action.ToStatement(indentContext);
+                sb.AppendLine(statement);
+            }
+
+            return sb.ToString();
+        }
+
+        //public async Task WriteAsync(Stream stream, CancellationToken cancellationToken = default)
+        //{
+        //    var writer = new StreamWriter(stream, Options.Encoding, 1024, true)
+        //    {
+        //        NewLine = Options.NewLine,
+        //    };
+        //    var indentContext = new IndentContext(Options.IndentSpace, 0);
+        //    foreach (var action in Actions)
+        //    {
+        //        cancellationToken.ThrowIfCancellationRequested();
+
+        //        var statement = action.ToStatement(indentContext);
+        //        await writer.WriteLineAsync(statement);
+        //    }
+        //}
 
         #endregion
     }
