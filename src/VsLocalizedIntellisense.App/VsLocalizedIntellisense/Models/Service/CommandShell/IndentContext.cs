@@ -11,7 +11,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
     /// </summary>
     public class IndentContext
     {
-        public IndentContext(string space = "\t", int level = 0)
+        public IndentContext(string space = CommandShellHelper.IndentSpace, int level = 0)
         {
             Space = space;
             Level = level;

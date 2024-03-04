@@ -9,21 +9,16 @@ using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
 {
     [TestClass]
-    public class RemarkCommandTest
+    public class ChangeSelfDirectoryCommandTest
     {
         #region function
 
         [TestMethod]
-        [DataRow("rem", "")]
-        [DataRow("rem a", "a")]
-        public void Test(string expected, string value)
+        public void Test()
         {
-            var command = new RemarkCommand()
-            {
-                Comment = value,
-            };
-            var actual = command.GetStatement();
-            Assert.AreEqual(expected, actual);
+            var test = new ChangeSelfDirectoryCommand();
+            var actual = test.GetStatement();
+            Assert.AreEqual("cd /d %~dp0", actual);
         }
 
         #endregion

@@ -27,8 +27,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         public IList<CommandBase> TrueBlock { get; } = new List<CommandBase>();
         public IList<CommandBase> FalseBlock { get; } = new List<CommandBase>();
 
-        public string IndentSpace { get; set; } = "\t";
-
         #endregion
 
         #region CommandBase
@@ -100,12 +98,26 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         #endregion
     }
 
+    // あ、これどうしよ
+    public enum CompareOperation
+    {
+        Default,
+        Equal,
+        NotEqual,
+        LessThan,
+        LessThanOrEqual,
+        GreaterThan,
+        GreaterThanOrEqual,
+    }
+
     public class IfExpressCommand : IfCommandBase
     {
         #region property
 
         public Express Left { get; set; }
         public Express Right { get; set; }
+
+        public CompareOperation CompareOperation { get; set; }
 
         #endregion
 
@@ -116,6 +128,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
             get
             {
                 var result = new Express();
+
                 result.Values.Add(Left);
                 result.Values.Add(new Text(" == "));
                 result.Values.Add(Right);
@@ -148,17 +161,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                 return result;
             }
         }
-
-        #endregion
-    }
-
-    public static class IfCommand
-    {
-        #region property
-
-        public static IfErrorLevelCommand ErrorLevel => new IfErrorLevelCommand();
-        public static IfExpressCommand Express => new IfExpressCommand();
-        public static IfExistCommand Exist => new IfExistCommand();
 
         #endregion
     }

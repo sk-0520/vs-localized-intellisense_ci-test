@@ -24,7 +24,14 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public bool IsExpress { get; set; }
 
-        public Variable Variable { get; private set; }
+        public Variable Variable
+        {
+            get
+            {
+                var variable = new Variable(VariableName);
+                return variable;
+            }
+        }
 
         #endregion
 
@@ -41,8 +48,6 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
             sb.Append(GetStatementCommandName());
             sb.Append(' ');
-
-            Variable = new Variable(VariableName);
 
             if (IsExpress)
             {

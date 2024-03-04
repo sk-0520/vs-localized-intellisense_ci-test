@@ -17,7 +17,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public static string Name { get; } = "rem";
 
-        public Express Value { get; set; } = string.Empty;
+        public Express Comment { get; set; } = string.Empty;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         public override string GetStatement()
         {
-            var value = Value.Expression;
+            var value = Comment.Expression;
             if (string.IsNullOrEmpty(value))
             {
                 return $"{GetStatementCommandName()}";

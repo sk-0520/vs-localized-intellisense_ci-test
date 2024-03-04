@@ -36,13 +36,6 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             Assert.AreEqual("cd /d Z:\\Windows", actual);
         }
 
-        [TestMethod]
-        public void SelfDirectoryTest()
-        {
-            var actual = ChangeDirectoryCommand.SelfDirectory.GetStatement();
-            Assert.AreEqual("cd /d %~dp0", actual);
-        }
-
         #endregion
     }
 }

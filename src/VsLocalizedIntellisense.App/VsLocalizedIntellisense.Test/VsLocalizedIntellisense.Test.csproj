@@ -138,8 +138,10 @@
     <Compile Include="Models\Mvvm\Message\ViewMessengerTest.cs" />
     <Compile Include="Models\NotifyModelBaseTest.cs" />
     <Compile Include="Models\Service\CommandShell\ActionBaseTest.cs" />
+    <Compile Include="Models\Service\CommandShell\CommandShellEditorTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChangeCodePageCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChangeDirectoryCommandTest.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\ChangeSelfDirectoryCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\CommandBaseTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\CopyCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\EchoCommandTest.cs" />

@@ -208,30 +208,4 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
 
         #endregion
     }
-
-    [TestClass]
-    public class IfCommandTest
-    {
-        #region function
-
-        [TestMethod]
-        public void ErrorLevelTest()
-        {
-            Assert.IsInstanceOfType<IfErrorLevelCommand>(IfCommand.ErrorLevel);
-        }
-
-        [TestMethod]
-        public void ExpressTest()
-        {
-            Assert.IsInstanceOfType<IfExpressCommand>(IfCommand.Express);
-        }
-
-        [TestMethod]
-        public void ExistTest()
-        {
-            Assert.IsInstanceOfType<IfExistCommand>(IfCommand.Exist);
-        }
-
-        #endregion
-    }
 }

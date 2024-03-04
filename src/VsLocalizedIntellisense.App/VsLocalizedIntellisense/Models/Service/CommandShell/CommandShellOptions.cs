@@ -11,8 +11,9 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         #region property
 
         public bool SuppressCommand { get; set; }
+        public bool CommandNameIsUpper { get; set; }
 
-        public string IndentSpace { get; set; } = "\t";
+        public string IndentSpace { get; set; } = CommandShellHelper.IndentSpace;
 
         public Encoding Encoding { get; set; } = Encoding.Default; // .NET Framework と心中
 

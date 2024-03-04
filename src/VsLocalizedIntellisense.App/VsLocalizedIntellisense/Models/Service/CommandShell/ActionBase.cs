@@ -32,6 +32,12 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         /// </summary>
         public ActionBase Pipe { get; set; }
 
+        /// <summary>
+        /// コマンド内でのインデント文字列。
+        /// <para>通常のインデントとは異なり改行で付与したインデントとして使用する想定。</para>
+        /// </summary>
+        public string IndentSpace { get; set; } = "\t";
+
         #endregion
 
         #region function

@@ -21,21 +21,27 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
 
         #region property
 
-        public bool? SuppressCommand { get; set; }
-        public bool? CommandNameIsUpper { get; set; }
+        /// <summary>
+        /// コマンド表示を抑制するか。
+        /// </summary>
+        public bool SuppressCommand { get; set; }
+        /// <summary>
+        /// コマンド名を大文字にするか。
+        /// </summary>
+        public bool CommandNameIsUpper { get; set; }
 
         #endregion
 
         #region function
 
-        public string GetStatementCommandName()
+        protected internal string GetStatementCommandName()
         {
-            var commandName = CommandNameIsUpper.GetValueOrDefault()
+            var commandName = CommandNameIsUpper
                 ? this._commandName.ToUpperInvariant()
                 : this._commandName
             ;
 
-            return SuppressCommand.GetValueOrDefault()
+            return SuppressCommand
                 ? "@" + commandName
                 : commandName
             ;

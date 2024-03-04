@@ -8,6 +8,12 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 {
     public static class CommandShellHelper
     {
+        #region property
+
+        public const string IndentSpace = "\t";
+
+        #endregion
+
         #region function
 
         public static string Escape(string raw)
