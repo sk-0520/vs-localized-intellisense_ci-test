@@ -153,6 +153,7 @@
     <Compile Include="Models\Service\CommandShell\Command\EchoCommand.cs" />
     <Compile Include="Models\Service\CommandShell\EmptyLine.cs" />
     <Compile Include="Models\Service\CommandShell\IExpression.cs" />
+    <Compile Include="Models\Service\CommandShell\IExpressionExtensions.cs" />
     <Compile Include="Models\Service\CommandShell\IndentContext.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect\OutputRedirect.cs" />
     <Compile Include="Models\Service\CommandShell\Redirect\ErrorRedirect.cs" />
