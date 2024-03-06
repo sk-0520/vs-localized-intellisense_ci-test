@@ -36,6 +36,13 @@ namespace VsLocalizedIntellisense.ViewModels
         private AsyncDelegateCommand _downloadCommand;
         private AsyncDelegateCommand _executeCommand;
 
+        bool _filterTrace;
+        bool _filterDebug;
+        bool _filterInformation;
+        bool _filterWarning;
+        bool _filterError;
+        bool _filterCritical;
+
         #endregion
 
         public MainViewModel(MainElement model, ObservableCollection<LogItemElement> stockLogItems, AppConfiguration configuration, ILoggerFactory loggerFactory)
@@ -66,6 +73,39 @@ namespace VsLocalizedIntellisense.ViewModels
 
         private Dictionary<DirectoryElement, IList<FileInfo>> InstallItems { get; } = new Dictionary<DirectoryElement, IList<FileInfo>>();
         private CommandShellEditor GeneratedCommandShellEditor { get; set; }
+
+        public bool FilterTrace
+        {
+            get => this._filterTrace;
+            set => SetVariable(ref this._filterTrace, value);
+        }
+        public bool FilterDebug
+        {
+            get => this._filterDebug;
+            set => SetVariable(ref this._filterDebug, value);
+        }
+        public bool FilterInformation
+        {
+            get => this._filterInformation;
+            set => SetVariable(ref this._filterInformation, value);
+        }
+        public bool FilterWarning
+        {
+            get => this._filterWarning;
+            set => SetVariable(ref this._filterWarning, value);
+        }
+        public bool FilterError
+        {
+            get => this._filterError;
+            set => SetVariable(ref this._filterError, value);
+        }
+        public bool FilterCritical
+        {
+            get => this._filterCritical;
+            set => SetVariable(ref this._filterCritical, value);
+        }
+
+
         public string InstallCommand
         {
             get => this._installCommand;
