@@ -214,7 +214,7 @@ namespace VsLocalizedIntellisense.Models.Element
             return commandShellEditor;
         }
 
-        public async Task ExecuteCommandShellAsync(CommandShellEditor commandShellEditor)
+        public async Task<bool> ExecuteCommandShellAsync(CommandShellEditor commandShellEditor)
         {
             var currentProcess = Process.GetCurrentProcess();
             var batchFilePath = Path.Combine(Configuration.GetTemporaryDirectoryPath(), "batch", $"{DateTime.Now:yyyy-MM-dd'T'HHmmss'_'fff}_{currentProcess.Id}.bat");
@@ -232,8 +232,19 @@ namespace VsLocalizedIntellisense.Models.Element
                 UseShellExecute = true,
                 Verb = "runas",
             };
-            var batchProcess = Process.Start(psi);
-            Logger.LogInformation(batchFilePath);
+            Logger.LogInformation($"[BATCH] start {batchFilePath}");
+            try
+            {
+                var batchProcess = Process.Start(psi);
+                batchProcess.WaitForExit();
+                Logger.LogInformation($"[BATCH] exit code {batchProcess.ExitCode}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.ToString());
+            }
+            return true;
         }
 
         #endregion

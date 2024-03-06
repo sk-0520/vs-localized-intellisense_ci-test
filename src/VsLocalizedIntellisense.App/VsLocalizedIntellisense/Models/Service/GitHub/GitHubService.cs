@@ -69,6 +69,26 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
         private async Task<Stream> RequestStreamAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var response = await HttpClient.SendAsync(request, cancellationToken);
+            if (Logger.IsEnabled(LogLevel.Trace) || Logger.IsEnabled(LogLevel.Debug))
+            {
+                foreach(var header in response.Headers)
+                {
+                    if(header.Key.Equals("ETag", StringComparison.OrdinalIgnoreCase))
+                    {
+                        foreach (var value in header.Value)
+                        {
+                            Logger.LogDebug($"{header.Key}: {value}");
+                        }
+                    }
+                    else
+                    {
+                        foreach (var value in header.Value)
+                        {
+                            Logger.LogTrace($"{header.Key}: {value}");
+                        }
+                    }
+                }
+            }
             return await response.Content.ReadAsStreamAsync();
         }
 

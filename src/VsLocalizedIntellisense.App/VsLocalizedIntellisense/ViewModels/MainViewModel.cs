@@ -28,6 +28,7 @@ namespace VsLocalizedIntellisense.ViewModels
 
         private bool _isDownloading = false;
         private bool _isDownloaded = false;
+        private bool _isExecuting = false;
 
         private string _installCommand = string.Empty;
 
@@ -87,8 +88,24 @@ namespace VsLocalizedIntellisense.ViewModels
         public bool IsDownloaded
         {
             get => this._isDownloaded;
-            set => SetVariable(ref this._isDownloaded, value);
+            set
+            {
+                SetVariable(ref this._isDownloaded, value);
+                this._executeCommand.RaiseCanExecuteChanged();
+            }
         }
+
+        public bool IsExecuting
+        {
+            get => this._isExecuting;
+            set
+            {
+                SetVariable(ref this._isExecuting, value);
+                this._executeCommand.RaiseCanExecuteChanged();
+                this._downloadCommand.RaiseCanExecuteChanged();
+            }
+        }
+
 
         private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
         public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
@@ -151,13 +168,13 @@ namespace VsLocalizedIntellisense.ViewModels
                                 GeneratedCommandShellEditor = Model.GenerateShellCommand(InstallItems);
                                 InstallCommand = GeneratedCommandShellEditor.ToSourceCode();
                                 IsDownloaded = true;
-                                this._executeCommand.RaiseCanExecuteChanged();
                             }
                             finally
                             {
                                 IsDownloading = false;
                             }
-                        }
+                        },
+                        _ => !IsExecuting
                     );
                 }
                 return this._downloadCommand;
@@ -173,9 +190,17 @@ namespace VsLocalizedIntellisense.ViewModels
                     this._executeCommand = new AsyncDelegateCommand(
                         async _ =>
                         {
-                            await Model.ExecuteCommandShellAsync(GeneratedCommandShellEditor);
+                            IsExecuting = true;
+                            try
+                            {
+                                await Model.ExecuteCommandShellAsync(GeneratedCommandShellEditor);
+                            }
+                            finally
+                            {
+                                IsExecuting = false;
+                            }
                         },
-                        _ => IsDownloaded
+                        _ => IsDownloaded && !IsExecuting
                     );
                 }
                 return this._executeCommand;
