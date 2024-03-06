@@ -73,6 +73,7 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
             {
                 foreach(var header in response.Headers)
                 {
+                    //TODO: Etag でキャッシュしてもいいかもしれんのでこれだけ Debug
                     if(header.Key.Equals("ETag", StringComparison.OrdinalIgnoreCase))
                     {
                         foreach (var value in header.Value)

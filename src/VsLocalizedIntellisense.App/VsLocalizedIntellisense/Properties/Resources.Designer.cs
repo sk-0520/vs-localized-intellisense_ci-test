@@ -70,6 +70,132 @@ namespace VsLocalizedIntellisense.Properties {
         }
         
         /// <summary>
+        ///   インストール処理 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_InstallCommand_Header_A {
+            get {
+                return ResourceManager.GetString("UI_Main_InstallCommand_Header_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ダウンロード に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_InstallDirectory_Download_A {
+            get {
+                return ResourceManager.GetString("UI_Main_InstallDirectory_Download_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   インストール に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_InstallDirectory_Execute_A {
+            get {
+                return ResourceManager.GetString("UI_Main_InstallDirectory_Execute_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   インストール先 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_InstallDirectory_Header_A {
+            get {
+                return ResourceManager.GetString("UI_Main_InstallDirectory_Header_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   選択... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_InstallDirectory_SelectDirectory_A {
+            get {
+                return ResourceManager.GetString("UI_Main_InstallDirectory_SelectDirectory_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ログレベル に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_Log_List_Column_Header_Level {
+            get {
+                return ResourceManager.GetString("UI_Main_Log_List_Column_Header_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   メッセージ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_Log_List_Column_Header_Message {
+            get {
+                return ResourceManager.GetString("UI_Main_Log_List_Column_Header_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   タイムスタンプ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_Log_List_Column_Header_Timestamp {
+            get {
+                return ResourceManager.GetString("UI_Main_Log_List_Column_Header_Timestamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   対象ディレクトリ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_A {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_A", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_List_Column_Header_Directory {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_List_Column_Header_Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   DL進捗 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_List_Column_Header_DownloadProgress {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_List_Column_Header_DownloadProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   インテリセンスバージョン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_List_Column_Header_IntellisenseVersion {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_List_Column_Header_IntellisenseVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   言語 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_List_Column_Header_Language {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_List_Column_Header_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ライブラリバージョン に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UI_Main_TargetDirectories_List_Column_Header_LibraryVersion {
+            get {
+                return ResourceManager.GetString("UI_Main_TargetDirectories_List_Column_Header_LibraryVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   入力必須項目です に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_Validation_Required {

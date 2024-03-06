@@ -120,6 +120,48 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>VsLocalizedIntellisense</value>
   </data>
+  <data name="UI_Main_InstallCommand_Header_A" xml:space="preserve">
+    <value>インストール処理</value>
+  </data>
+  <data name="UI_Main_InstallDirectory_Download_A" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="UI_Main_InstallDirectory_Execute_A" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="UI_Main_InstallDirectory_Header_A" xml:space="preserve">
+    <value>インストール先</value>
+  </data>
+  <data name="UI_Main_InstallDirectory_SelectDirectory_A" xml:space="preserve">
+    <value>選択...</value>
+  </data>
+  <data name="UI_Main_Log_List_Column_Header_Level" xml:space="preserve">
+    <value>ログレベル</value>
+  </data>
+  <data name="UI_Main_Log_List_Column_Header_Message" xml:space="preserve">
+    <value>メッセージ</value>
+  </data>
+  <data name="UI_Main_Log_List_Column_Header_Timestamp" xml:space="preserve">
+    <value>タイムスタンプ</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_A" xml:space="preserve">
+    <value>対象ディレクトリ</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_List_Column_Header_Directory" xml:space="preserve">
+    <value>Directory</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_List_Column_Header_DownloadProgress" xml:space="preserve">
+    <value>DL進捗</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_List_Column_Header_IntellisenseVersion" xml:space="preserve">
+    <value>インテリセンスバージョン</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_List_Column_Header_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="UI_Main_TargetDirectories_List_Column_Header_LibraryVersion" xml:space="preserve">
+    <value>ライブラリバージョン</value>
+  </data>
   <data name="UI_Validation_Required" xml:space="preserve">
     <value>入力必須項目です</value>
   </data>
