@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,15 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
     public class CommandShellEditorTest
     {
         #region function
+
+        [TestMethod]
+        public void CreateEmptyLineTest()
+        {
+            var test = new CommandShellEditor();
+            test.CreateEmptyLine();
+
+            Assert.AreEqual(0, test.Actions.Count);
+        }
 
         [TestMethod]
         public void AddEmptyLineTest()
@@ -222,6 +232,33 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
                 + "rem bye" + Environment.NewLine
                 ;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public async Task WriteAsyncTest()
+        {
+            var test = new CommandShellEditor();
+            var unicode = new UnicodeEncoding(false, false);
+            test.Options.Encoding = unicode;
+
+            test.AddSwitchEcho(false);
+            test.AddEmptyLine();
+            test.AddEcho("hello");
+            test.AddEmptyLine();
+            var pathIf = test.AddIfExist("path");
+            pathIf.TrueBlock.Add(new EchoCommand() { Value = "TRUE" });
+            pathIf.FalseBlock.Add(new EchoCommand() { Value = "FALSE" });
+            test.AddCopy("src", "dst");
+            test.AddEmptyLines(2);
+            test.AddRemark("bye");
+
+            var expected = test.ToSourceCode();
+            using (var dst = new MemoryStream())
+            {
+                await test.WriteAsync(dst);
+                var actual = unicode.GetString(dst.ToArray());
+            Assert.AreEqual(expected, actual);
+            }
         }
 
         #endregion

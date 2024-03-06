@@ -23,9 +23,14 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
 
         #region function
 
-        public EmptyLine AddEmptyLine()
+        public EmptyLine CreateEmptyLine()
         {
             var result = new EmptyLine();
+            return result;
+        }
+        public EmptyLine AddEmptyLine()
+        {
+            var result = CreateEmptyLine();
 
             Actions.Add(result);
 
@@ -46,7 +51,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             return result;
         }
 
-        #region create-command
+        #region command
 
         private TCommand CreateCommand<TCommand>()
             where TCommand : CommandBase, new()
@@ -61,127 +66,140 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
             return result;
         }
 
-        public MakeDirectoryCommand CreateMakeDirectory(Express path)
+        private TCommand AddCommand<TCommand>(TCommand command)
+            where TCommand : CommandBase
         {
-            var command = CreateCommand<MakeDirectoryCommand>();
-
-            command.Path = path;
-
+            Actions.Add(command);
             return command;
         }
 
         #endregion
 
-        #region add-command
+        #region create/add-command
 
-        private TCommand AddCommand<TCommand>()
-            where TCommand : CommandBase, new()
+        public ChangeCodePageCommand CreateChangeCodePage(Encoding encoding)
         {
-            var command = CreateCommand<TCommand>();
-
-            Actions.Add(command);
-
-            return command;
-        }
-
-        public ChangeCodePageCommand AddChangeCodePage(Encoding encoding)
-        {
-            var command = AddCommand<ChangeCodePageCommand>();
+            var command = CreateCommand<ChangeCodePageCommand>();
             command.Encoding = encoding;
             return command;
         }
+        public ChangeCodePageCommand AddChangeCodePage(Encoding encoding)
+            => AddCommand(CreateChangeCodePage(encoding));
 
-        public ChangeDirectoryCommand AddChangeDirectory(Express path, bool withDrive = true)
+        public ChangeDirectoryCommand CreateChangeDirectory(Express path, bool withDrive = true)
         {
-            var command = AddCommand<ChangeDirectoryCommand>();
+            var command = CreateCommand<ChangeDirectoryCommand>();
             command.Path = path;
             command.WithDrive = withDrive;
             return command;
         }
+        public ChangeDirectoryCommand AddChangeDirectory(Express path, bool withDrive = true)
+            => AddCommand(CreateChangeDirectory(path, withDrive));
 
-        public ChangeSelfDirectoryCommand AddChangeSelfDirectory()
+        public ChangeSelfDirectoryCommand CreateChangeSelfDirectory()
         {
-            var command = AddCommand<ChangeSelfDirectoryCommand>();
+            var command = CreateCommand<ChangeSelfDirectoryCommand>();
             return command;
         }
+        public ChangeSelfDirectoryCommand AddChangeSelfDirectory()
+            => AddCommand(CreateChangeSelfDirectory());
 
-        public CopyCommand AddCopy(Express source, Express destination, bool? isForce = null)
+        public CopyCommand CreateCopy(Express source, Express destination, bool? isForce = null)
         {
-            var command = AddCommand<CopyCommand>();
+            var command = CreateCommand<CopyCommand>();
             command.Source = source;
             command.Destination = destination;
             command.IsForce = isForce;
             return command;
         }
+        public CopyCommand AddCopy(Express source, Express destination, bool? isForce = null)
+            => AddCommand(CreateCopy(source, destination, isForce));
 
-        public EchoCommand AddEcho(Express value)
+        public EchoCommand CreateEcho(Express value)
         {
-            var command = AddCommand<EchoCommand>();
+            var command = CreateCommand<EchoCommand>();
             command.Value = value;
             return command;
         }
+        public EchoCommand AddEcho(Express value)
+            => AddCommand(CreateEcho(value));
 
-        public IfErrorLevelCommand AddIfErrorLevel(int level, bool isNot = false)
+        public IfErrorLevelCommand CreateIfErrorLevel(int level, bool isNot = false)
         {
-            var command = AddCommand<IfErrorLevelCommand>();
+            var command = CreateCommand<IfErrorLevelCommand>();
             command.Level = level;
             command.IsNot = isNot;
             return command;
         }
+        public IfErrorLevelCommand AddIfErrorLevel(int level, bool isNot = false)
+            => AddCommand(CreateIfErrorLevel(level, isNot));
 
-        public IfExpressCommand AddIfExpress(Express left, Express right, bool isNot = false)
+        public IfExpressCommand CreateIfExpress(Express left, Express right, bool isNot = false)
         {
-            var command = AddCommand<IfExpressCommand>();
+            var command = CreateCommand<IfExpressCommand>();
             command.Left = left;
             command.Right = right;
             command.IsNot = isNot;
             return command;
         }
+        public IfExpressCommand AddIfExpress(Express left, Express right, bool isNot = false)
+            => AddCommand(CreateIfExpress(left, right, isNot));
 
-        public IfExistCommand AddIfExist(Express path, bool isNot = false)
+        public IfExistCommand CreateIfExist(Express path, bool isNot = false)
         {
-            var command = AddCommand<IfExistCommand>();
+            var command = CreateCommand<IfExistCommand>();
             command.Path = path;
             command.IsNot = isNot;
             return command;
         }
+        public IfExistCommand AddIfExist(Express path, bool isNot = false)
+            => AddCommand(CreateIfExist(path, isNot));
 
-        public MakeDirectoryCommand AddMakeDirectory(Express path)
+        public MakeDirectoryCommand CreateMakeDirectory(Express path)
         {
-            var command = AddCommand<MakeDirectoryCommand>();
+            var command = CreateCommand<MakeDirectoryCommand>();
             command.Path = path;
             return command;
         }
+        public MakeDirectoryCommand AddMakeDirectory(Express path)
+            => AddCommand(CreateMakeDirectory(path));
 
-        public PauseCommand AddPause()
+        public PauseCommand CreatePause()
         {
-            var command = AddCommand<PauseCommand>();
+            var command = CreateCommand<PauseCommand>();
             return command;
         }
+        public PauseCommand AddPause()
+            => AddCommand(CreatePause());
 
-        public RemarkCommand AddRemark(Express comment)
+        public RemarkCommand CreateRemark(Express comment)
         {
-            var command = AddCommand<RemarkCommand>();
+            var command = CreateCommand<RemarkCommand>();
             command.Comment = comment;
             return command;
         }
+        public RemarkCommand AddRemark(Express comment)
+            => AddCommand(CreateRemark(comment));
 
-        public SetVariableCommand AddSetVariable(string variableName, Express value)
+        public SetVariableCommand CreateSetVariable(string variableName, Express value)
         {
-            var command = AddCommand<SetVariableCommand>();
+            var command = CreateCommand<SetVariableCommand>();
             command.VariableName = variableName;
             command.Value = value;
             return command;
         }
+        public SetVariableCommand AddSetVariable(string variableName, Express value)
+            => AddCommand(CreateSetVariable(variableName, value));
 
-        public SwitchEchoCommand AddSwitchEcho(bool isOn)
+        public SwitchEchoCommand CreateSwitchEcho(bool isOn)
         {
-            var command = AddCommand<SwitchEchoCommand>();
+            var command = CreateCommand<SwitchEchoCommand>();
             command.SuppressCommand = true;
             command.On = isOn;
             return command;
         }
-
+        public SwitchEchoCommand AddSwitchEcho(bool isOn)
+            => AddCommand(CreateSwitchEcho(isOn));
 
         #endregion
 
