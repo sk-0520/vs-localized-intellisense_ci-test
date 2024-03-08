@@ -195,7 +195,7 @@ namespace VsLocalizedIntellisense.Models.Element
                     pair.Key.IntellisenseVersion.DirectoryName,
                     pair.Key.Language.Language
                 );
-                var dirVarCommand = commandShellEditor.AddSetVariable(pair.Key.Directory.Name, destinationDirPath);
+                var dirVarCommand = commandShellEditor.AddSetVariable(CommandShellHelper.ToSafeVariableName(pair.Key.Directory.Name), destinationDirPath);
 
                 var dirExpress = new Express();
                 dirExpress.Values.Add(dirVarCommand.Variable);
@@ -210,6 +210,7 @@ namespace VsLocalizedIntellisense.Models.Element
                 }
             }
 
+            commandShellEditor.AddEmptyLine();
             commandShellEditor.AddPause();
 
             return commandShellEditor;

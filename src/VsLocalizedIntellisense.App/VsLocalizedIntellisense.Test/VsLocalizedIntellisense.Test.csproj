@@ -139,6 +139,7 @@
     <Compile Include="Models\NotifyModelBaseTest.cs" />
     <Compile Include="Models\Service\CommandShell\ActionBaseTest.cs" />
     <Compile Include="Models\Service\CommandShell\CommandShellEditorTest.cs" />
+    <Compile Include="Models\Service\CommandShell\CommandShellHelperTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChangeCodePageCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChangeDirectoryCommandTest.cs" />
     <Compile Include="Models\Service\CommandShell\Command\ChangeSelfDirectoryCommandTest.cs" />
