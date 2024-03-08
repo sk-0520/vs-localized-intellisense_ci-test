@@ -147,6 +147,7 @@
     <Compile Include="Models\Service\CommandShell\Command\IfCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\MakeDirectoryCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\PauseCommand.cs" />
+    <Compile Include="Models\Service\CommandShell\Command\PromptMode.cs" />
     <Compile Include="Models\Service\CommandShell\Command\RemarkCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\SetVariableCommand.cs" />
     <Compile Include="Models\Service\CommandShell\Command\SwitchEchoCommand.cs" />

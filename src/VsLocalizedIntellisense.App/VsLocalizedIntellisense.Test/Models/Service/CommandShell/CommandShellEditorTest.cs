@@ -99,7 +99,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell
             Assert.AreEqual(test.Actions[0], actual);
             Assert.AreEqual("src", actual.Source.Expression);
             Assert.AreEqual("dst", actual.Destination.Expression);
-            Assert.IsNull(actual.IsForce);
+            Assert.AreEqual(PromptMode.Default, actual.PromptMode);
         }
 
         [TestMethod]

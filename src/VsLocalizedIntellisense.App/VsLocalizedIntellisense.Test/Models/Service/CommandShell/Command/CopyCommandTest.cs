@@ -64,7 +64,7 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
         }
 
         [TestMethod]
-        public void IsForceTest()
+        public void PromptModeTest()
         {
             var test = new CopyCommand
             {
@@ -73,14 +73,17 @@ namespace VsLocalizedIntellisense.Test.Models.Service.CommandShell.Command
             };
             Assert.AreEqual("copy src dst", test.GetStatement());
 
-            test.IsForce = false;
+            test.PromptMode = PromptMode.Confirm;
             Assert.AreEqual("copy /-y src dst", test.GetStatement());
 
-            test.IsForce = true;
+            test.PromptMode = PromptMode.Silent;
             Assert.AreEqual("copy /y src dst", test.GetStatement());
 
-            test.IsForce = null;
+            test.PromptMode = PromptMode.Default;
             Assert.AreEqual("copy src dst", test.GetStatement());
+
+            test.PromptMode = (PromptMode)(-1);
+            Assert.ThrowsException<NotImplementedException>(() => test.GetStatement());
         }
 
         #endregion

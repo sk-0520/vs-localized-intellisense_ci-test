@@ -104,16 +104,16 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
         public ChangeSelfDirectoryCommand AddChangeSelfDirectory()
             => AddCommand(CreateChangeSelfDirectory());
 
-        public CopyCommand CreateCopy(Express source, Express destination, bool? isForce = null)
+        public CopyCommand CreateCopy(Express source, Express destination, PromptMode promptMode = PromptMode.Default)
         {
             var command = CreateCommand<CopyCommand>();
             command.Source = source;
             command.Destination = destination;
-            command.IsForce = isForce;
+            command.PromptMode = promptMode;
             return command;
         }
-        public CopyCommand AddCopy(Express source, Express destination, bool? isForce = null)
-            => AddCommand(CreateCopy(source, destination, isForce));
+        public CopyCommand AddCopy(Express source, Express destination, PromptMode promptMode = PromptMode.Default)
+            => AddCommand(CreateCopy(source, destination, promptMode));
 
         public EchoCommand CreateEcho(Express value)
         {

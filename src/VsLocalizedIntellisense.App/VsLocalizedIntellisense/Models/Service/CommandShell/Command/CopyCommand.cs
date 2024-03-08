@@ -29,11 +29,11 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
         public bool IsVerify { get; set; }
         /// <summary>
         /// プロンプト状態。
-        /// <para>[<see langword="true"/>] /y: 既存の宛先ファイルを上書きするかどうかを確認するプロンプトを抑制します。</para>
-        /// <para>[<see langword="false"/>] /-y: 既存のリンク先ファイルを上書きするかどうかを確認するプロンプトを表示します。</para>
-        /// <para>[<see langword="null"/>] デフォルト。</para>
+        /// <para>[<see cref="PromptMode.Silent"/>] /y: 既存の宛先ファイルを上書きするかどうかを確認するプロンプトを抑制します。</para>
+        /// <para>[<see cref="PromptMode.Confirm"/>] /-y: 既存のリンク先ファイルを上書きするかどうかを確認するプロンプトを表示します。</para>
+        /// <para>[<see cref="PromptMode.Default"/>] デフォルト。</para>
         /// </summary>
-        public bool? IsForce { get; set; }
+        public PromptMode PromptMode { get; set; }
 
         public Express Source { get; set; }
         public Express Destination { get; set; }
@@ -73,16 +73,21 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell.Command
                 sb.Append("/v ");
             }
 
-            if (IsForce.HasValue)
+            switch (PromptMode)
             {
-                if (IsForce.Value)
-                {
-                    sb.Append("/y ");
-                }
-                else
-                {
+                case PromptMode.Default:
+                    break;
+
+                case PromptMode.Confirm:
                     sb.Append("/-y ");
-                }
+                    break;
+
+                case PromptMode.Silent:
+                    sb.Append("/y ");
+                    break;
+
+                default:
+                    throw new NotImplementedException();
             }
 
             sb.Append(CommandShellHelper.Escape(src));

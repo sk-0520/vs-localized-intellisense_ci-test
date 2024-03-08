@@ -17,6 +17,7 @@ using VsLocalizedIntellisense.Models.Data;
 using VsLocalizedIntellisense.Models.Logger;
 using VsLocalizedIntellisense.Models.Service.Application;
 using VsLocalizedIntellisense.Models.Service.CommandShell;
+using VsLocalizedIntellisense.Models.Service.CommandShell.Command;
 using VsLocalizedIntellisense.Models.Service.CommandShell.Value;
 using VsLocalizedIntellisense.Models.Service.GitHub;
 
@@ -204,7 +205,7 @@ namespace VsLocalizedIntellisense.Models.Element
                 foreach (var file in pair.Value)
                 {
                     var destinationPath = Path.Combine(dirVarCommand.Variable.Expression, file.Name);
-                    var copyCommand = commandShellEditor.AddCopy(file.FullName, destinationPath, true);
+                    var copyCommand = commandShellEditor.AddCopy(file.FullName, destinationPath, PromptMode.Silent);
                     copyCommand.IsVerify = true;
                 }
             }

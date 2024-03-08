@@ -62,6 +62,9 @@ namespace VsLocalizedIntellisense.ViewModels
                     Messenger.Send(new ScrollMessage());
                 }
             });
+
+            StockLogItems = StockLogCollection.GetDefaultView();
+            StockLogItems.Filter += StockLogItems_Filter;
         }
 
         #region property
@@ -151,7 +154,7 @@ namespace VsLocalizedIntellisense.ViewModels
         public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
 
         private ModelViewModelObservableCollectionManager<LogItemElement, LogItemViewModel> StockLogCollection { get; }
-        public ICollectionView StockLogItems => StockLogCollection.GetDefaultView();
+        public ICollectionView StockLogItems { get; }
 
         public string AppVersion => Configuration.Replace("${APP:VERSION}");
 
@@ -248,5 +251,42 @@ namespace VsLocalizedIntellisense.ViewModels
         }
 
         #endregion
+
+        private bool StockLogItems_Filter(object obj)
+        {
+            var item = obj as LogItemViewModel;
+            if (item == null)
+            {
+                return false;
+            }
+
+            if (FilterTrace)
+            {
+                return Logging.IsEnabled(LogLevel.Trace, item.Level);
+            }
+            if (FilterDebug)
+            {
+                return Logging.IsEnabled(LogLevel.Debug, item.Level);
+            }
+            if (FilterInformation)
+            {
+                return Logging.IsEnabled(LogLevel.Information, item.Level);
+            }
+            if (FilterWarning)
+            {
+                return Logging.IsEnabled(LogLevel.Warning, item.Level);
+            }
+            if (FilterError)
+            {
+                return Logging.IsEnabled(LogLevel.Error, item.Level);
+            }
+            if (FilterCritical)
+            {
+                return Logging.IsEnabled(LogLevel.Critical, item.Level);
+            }
+
+            return true;
+        }
+
     }
 }
