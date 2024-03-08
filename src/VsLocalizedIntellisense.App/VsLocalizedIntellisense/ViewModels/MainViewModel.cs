@@ -19,6 +19,7 @@ using VsLocalizedIntellisense.Models.Configuration;
 using System.Collections.ObjectModel;
 using System.IO;
 using VsLocalizedIntellisense.Models.Service.CommandShell;
+using System.Windows;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -65,6 +66,8 @@ namespace VsLocalizedIntellisense.ViewModels
 
             StockLogItems = StockLogCollection.GetDefaultView();
             StockLogItems.Filter += StockLogItems_Filter;
+
+            PropertyChanged += MainViewModel_PropertyChanged;
         }
 
         #region property
@@ -108,7 +111,6 @@ namespace VsLocalizedIntellisense.ViewModels
             set => SetVariable(ref this._filterCritical, value);
         }
 
-
         public string InstallCommand
         {
             get => this._installCommand;
@@ -131,24 +133,14 @@ namespace VsLocalizedIntellisense.ViewModels
         public bool IsDownloaded
         {
             get => this._isDownloaded;
-            set
-            {
-                SetVariable(ref this._isDownloaded, value);
-                this._executeCommand.RaiseCanExecuteChanged();
-            }
+            set => SetVariable(ref this._isDownloaded, value);
         }
 
         public bool IsExecuting
         {
             get => this._isExecuting;
-            set
-            {
-                SetVariable(ref this._isExecuting, value);
-                this._executeCommand.RaiseCanExecuteChanged();
-                this._downloadCommand.RaiseCanExecuteChanged();
-            }
+            set => SetVariable(ref this._isExecuting, value);
         }
-
 
         private ModelViewModelObservableCollectionManager<DirectoryElement, DirectoryViewModel> DirectoryCollection { get; }
         public ICollectionView DirectoryItems => DirectoryCollection.GetDefaultView();
@@ -182,7 +174,8 @@ namespace VsLocalizedIntellisense.ViewModels
                             {
                                 InstallRootDirectoryPath = message.ResultDirectory.FullName;
                             }
-                        }
+                        },
+                        _ => !IsDownloading && !IsExecuting
                     );
                 }
                 return this._selectInstallRootDirectoryPathCommand;
@@ -198,6 +191,12 @@ namespace VsLocalizedIntellisense.ViewModels
                     this._downloadCommand = new AsyncDelegateCommand(
                         async _ =>
                         {
+                            if(IsDownloading || IsExecuting)
+                            {
+                                Logger.LogInformation("disable download");
+                                return;
+                            }
+
                             IsDownloaded = false;
                             IsDownloading = true;
                             try
@@ -214,10 +213,10 @@ namespace VsLocalizedIntellisense.ViewModels
                             }
                             finally
                             {
+                                //TODO: 頑張ったけどダウンロードボタンがダウンロード直後に死ぬけどもうどうでもいいわ
                                 IsDownloading = false;
                             }
-                        },
-                        _ => !IsExecuting
+                        }
                     );
                 }
                 return this._downloadCommand;
@@ -248,6 +247,35 @@ namespace VsLocalizedIntellisense.ViewModels
                 }
                 return this._executeCommand;
             }
+        }
+
+        #endregion
+
+        #region function
+
+        public void RefreshCommand()
+        {
+            this._selectInstallRootDirectoryPathCommand.RaiseCanExecuteChanged();
+            this._downloadCommand.RaiseCanExecuteChanged();
+            this._executeCommand.RaiseCanExecuteChanged();
+        }
+
+        #endregion
+
+        #region SingleModelViewModelBase
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                if(StockLogItems != null)
+                {
+                    StockLogItems.Filter -= StockLogItems_Filter;
+                }
+                PropertyChanged -= MainViewModel_PropertyChanged;
+                
+            }
+            base.Dispose(disposing);
         }
 
         #endregion
@@ -288,5 +316,18 @@ namespace VsLocalizedIntellisense.ViewModels
             return true;
         }
 
+        private void MainViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var propertyNames = new[]
+            {
+                nameof(IsDownloading),
+                nameof(IsDownloaded),
+                nameof(IsExecuting),
+            };
+            if(propertyNames.Contains(e.PropertyName))
+            {
+                RefreshCommand();
+            }
+        }
     }
 }

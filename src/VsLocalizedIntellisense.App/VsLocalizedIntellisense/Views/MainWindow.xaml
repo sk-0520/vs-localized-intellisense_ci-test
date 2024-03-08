@@ -31,6 +31,21 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
+    <!--<StackPanel>
+      <TextBlock>
+        <Run Text="IsDownloading" />
+        <Run Text="{Binding IsDownloading}" />
+      </TextBlock>
+      <TextBlock>
+        <Run Text="IsDownloaded" />
+        <Run Text="{Binding IsDownloaded}" />
+      </TextBlock>
+      <TextBlock>
+        <Run Text="IsExecuting" />
+        <Run Text="{Binding IsExecuting}" />
+      </TextBlock>
+    </StackPanel>-->
+
     <StackPanel Grid.Row="1" Background="Red">
       <!--<StackPanel.Style>
         <Style TargetType="StackPanel">
@@ -85,7 +100,7 @@
               </GridViewColumn>
 
               <GridViewColumn Header="{x:Static p:Resources.UI_Main_TargetDirectories_List_Column_Header_LibraryVersion}">
-                  <GridViewColumn.CellTemplate>
+                <GridViewColumn.CellTemplate>
                   <DataTemplate>
                     <ComboBox ItemsSource="{Binding LibraryVersionItems}" SelectedItem="{Binding LibraryVersion}">
                       <ComboBox.ItemTemplate>
@@ -127,7 +142,7 @@
               </GridViewColumn>
 
               <GridViewColumn Header="{x:Static p:Resources.UI_Main_TargetDirectories_List_Column_Header_DownloadProgress}">
-                  <GridViewColumn.CellTemplate>
+                <GridViewColumn.CellTemplate>
                   <DataTemplate>
                     <ProgressBar Minimum="0" Maximum="1" Width="100" Height="16" Value="{Binding DownloadPercent, Mode=OneWay}">
                       <ProgressBar.Style>
@@ -158,8 +173,20 @@
           Grid.Column="1"
           Command="{Binding DownloadCommand}"
           Content="{x:Static p:Resources.UI_Main_InstallDirectory_Download_A}"
-          IsEnabled="{Binding IsDownloading, Converter={StaticResource LogicalNotConverter}}"
         />
+        <!--<Button.Style>
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsDownloading}" Value="True">
+                  <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsExecuting}" Value="True">
+                  <Setter Property="IsEnabled" Value="False" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </Button>-->
       </Grid>
     </StackPanel>
 
@@ -194,7 +221,11 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="1" Command="{Binding ExecuteCommand}" Content="{x:Static p:Resources.UI_Main_InstallDirectory_Execute_A}" />
+        <Button
+          Grid.Column="1"
+          Command="{Binding ExecuteCommand}"
+          Content="{x:Static p:Resources.UI_Main_InstallDirectory_Execute_A}"
+        />
       </Grid>
     </Grid>
 

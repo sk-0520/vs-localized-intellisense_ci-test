@@ -16,6 +16,7 @@
             HorizontalContentAlignment="Stretch"
             IsTabStop="False"
             Focusable="False"
+            Cursor="Hand"
           >
             <ToggleButton.Template>
               <ControlTemplate>
