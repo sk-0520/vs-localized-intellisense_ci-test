@@ -131,7 +131,7 @@ namespace VsLocalizedIntellisense.Models.Element
         public async Task<IDictionary<DirectoryElement, IList<FileInfo>>> DownloadIntellisenseFilesAsync()
         {
             var downloadRootDirPath = Path.Combine(Configuration.GetWorkingDirectoryPath(), "intellisense");
-            Directory.Delete(downloadRootDirPath, true);
+            IOHelper.DeleteDirectory(downloadRootDirPath);
             var downloadRootDirectory = Directory.CreateDirectory(downloadRootDirPath);
 
             var revision = Configuration.GetRepositoryRevision();

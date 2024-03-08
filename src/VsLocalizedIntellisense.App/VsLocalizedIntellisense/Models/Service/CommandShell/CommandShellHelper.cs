@@ -35,7 +35,7 @@ namespace VsLocalizedIntellisense.Models.Service.CommandShell
                     .Replace("^", "^^")
                     .Replace("<", "^<")
                     .Replace(">", "^>")
-                    ;
+                ;
             }
 
             if (needQuotation)

@@ -11,6 +11,17 @@ namespace VsLocalizedIntellisense.Models
     {
         #region function
 
+        public static bool DeleteDirectory(string path)
+        {
+            if(Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+                return true;
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// 指定したディレクトリっぽいパスから物理ディレクトリを取得する。
         /// <para>環境変数の展開を行う。</para>
