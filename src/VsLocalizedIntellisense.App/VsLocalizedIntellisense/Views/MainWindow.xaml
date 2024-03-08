@@ -4,6 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   
   xmlns:p="clr-namespace:VsLocalizedIntellisense.Properties"
+
+  xmlns:app_mvvm_views_converter="clr-namespace:VsLocalizedIntellisense.Models.Mvvm.Views.Converter"
   
   Title="{x:Static p:Resources.ApplicationName}"
   Height="600"
@@ -15,6 +17,11 @@
   xmlns:datacontext="clr-namespace:VsLocalizedIntellisense.ViewModels" d:DataContext="{d:DesignInstance Type=datacontext:MainViewModel}"
   mc:Ignorable="d"
 >
+  <Window.Resources>
+    <ResourceDictionary>
+      <app_mvvm_views_converter:LogicalNotConverter x:Key="LogicalNotConverter" />
+    </ResourceDictionary>
+  </Window.Resources>
   <Grid Grid.IsSharedSizeScope="True">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -25,7 +32,7 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="1" Background="Red">
-      <StackPanel.Style>
+      <!--<StackPanel.Style>
         <Style TargetType="StackPanel">
           <Style.Triggers>
             <MultiDataTrigger>
@@ -38,7 +45,7 @@
             </MultiDataTrigger>
           </Style.Triggers>
         </Style>
-      </StackPanel.Style>
+      </StackPanel.Style>-->
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" SharedSizeGroup="Header" />
@@ -68,7 +75,11 @@
               <GridViewColumn Header="{x:Static p:Resources.UI_Main_TargetDirectories_List_Column_Header_Directory}">
                 <GridViewColumn.CellTemplate>
                   <DataTemplate>
-                    <CheckBox IsChecked="{Binding IsDownloadTarget}" Content="{Binding DirectoryName, Mode=OneWay}" />
+                    <CheckBox
+                      IsChecked="{Binding IsDownloadTarget}"
+                      Content="{Binding DirectoryName, Mode=OneWay}"
+                      IsEnabled="{Binding DataContext.IsDownloading, Converter={StaticResource LogicalNotConverter}, RelativeSource={RelativeSource AncestorType=Window}}"
+                    />
                   </DataTemplate>
                 </GridViewColumn.CellTemplate>
               </GridViewColumn>
@@ -143,7 +154,12 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="1" Command="{Binding DownloadCommand}" Content="{x:Static p:Resources.UI_Main_InstallDirectory_Download_A}" />
+        <Button
+          Grid.Column="1"
+          Command="{Binding DownloadCommand}"
+          Content="{x:Static p:Resources.UI_Main_InstallDirectory_Download_A}"
+          IsEnabled="{Binding IsDownloading, Converter={StaticResource LogicalNotConverter}}"
+        />
       </Grid>
     </StackPanel>
 
