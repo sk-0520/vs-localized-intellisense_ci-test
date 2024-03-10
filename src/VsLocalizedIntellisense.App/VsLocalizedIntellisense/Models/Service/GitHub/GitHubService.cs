@@ -78,10 +78,7 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
             {
                 foreach (var header in response.Headers)
                 {
-                    foreach (var value in header.Value)
-                    {
-                        Logger.LogTrace($"{header.Key}: {value}");
-                    }
+                    Logger.LogTrace($"{header.Key}: {string.Join(", ", header.Value)}");
                 }
             }
             return await response.Content.ReadAsStreamAsync();

@@ -73,6 +73,14 @@ namespace VsLocalizedIntellisense
             MainWindow.DataContext = mainViewModel;
 
             Logger.LogTrace("ビュー起動: こんにちはGUI");
+
+            Logger.LogTrace("LogTrace");
+            Logger.LogDebug("LogDebug");
+            Logger.LogInformation("LogInformation");
+            Logger.LogWarning("LogWarning");
+            Logger.LogError("LogError");
+            Logger.LogCritical("LogCritical");
+
             MainWindow.Show();
         }
 
