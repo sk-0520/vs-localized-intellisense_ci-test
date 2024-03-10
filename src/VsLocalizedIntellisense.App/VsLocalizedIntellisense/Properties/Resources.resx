@@ -120,6 +120,24 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>VsLocalizedIntellisense</value>
   </data>
+  <data name="enum_LogLevel_Critical" xml:space="preserve">
+    <value>危険</value>
+  </data>
+  <data name="enum_LogLevel_Debug" xml:space="preserve">
+    <value>デバッグ</value>
+  </data>
+  <data name="enum_LogLevel_Error" xml:space="preserve">
+    <value>異常</value>
+  </data>
+  <data name="enum_LogLevel_Information" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="enum_LogLevel_Trace" xml:space="preserve">
+    <value>トレース</value>
+  </data>
+  <data name="enum_LogLevel_Warning" xml:space="preserve">
+    <value>警報</value>
+  </data>
   <data name="UI_Main_InstallCommand_Header_A" xml:space="preserve">
     <value>インストール処理</value>
   </data>

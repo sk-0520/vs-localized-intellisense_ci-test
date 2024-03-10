@@ -70,6 +70,60 @@ namespace VsLocalizedIntellisense.Properties {
         }
         
         /// <summary>
+        ///   危険 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Critical {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Critical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   デバッグ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Debug {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Debug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   異常 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Error {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   情報 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Information {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   トレース に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Trace {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   警報 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string enum_LogLevel_Warning {
+            get {
+                return ResourceManager.GetString("enum_LogLevel_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   インストール処理 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UI_Main_InstallCommand_Header_A {

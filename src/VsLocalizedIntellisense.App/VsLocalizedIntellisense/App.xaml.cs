@@ -74,12 +74,14 @@ namespace VsLocalizedIntellisense
 
             Logger.LogTrace("ビュー起動: こんにちはGUI");
 
+#if DEBUG
             Logger.LogTrace("LogTrace");
             Logger.LogDebug("LogDebug");
             Logger.LogInformation("LogInformation");
             Logger.LogWarning("LogWarning");
             Logger.LogError("LogError");
             Logger.LogCritical("LogCritical");
+#endif
 
             MainWindow.Show();
         }
