@@ -17,15 +17,20 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
     public class GitHubService
     {
         public GitHubService(GitHubRepository repository, GitHubOptions options, ILoggerFactory loggerFactory)
+            : this(repository, options, new HttpClient(), loggerFactory)
+        { }
+
+        public GitHubService(GitHubRepository repository, GitHubOptions options, HttpClient httpClient, ILoggerFactory loggerFactory)
         {
             Repository = repository;
             Options = options;
+            HttpClient = httpClient;
             Logger = loggerFactory.CreateLogger(GetType());
         }
 
         #region proeprty
         protected ILogger Logger { get; }
-        private HttpClient HttpClient { get; } = new HttpClient();
+        private HttpClient HttpClient { get; }
         private GitHubRepository Repository { get; }
         private GitHubOptions Options { get; }
 
@@ -68,25 +73,14 @@ namespace VsLocalizedIntellisense.Models.Service.GitHub
 
         private async Task<Stream> RequestStreamAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var response = await HttpClient.SendAsync(request, cancellationToken);
-            if (Logger.IsEnabled(LogLevel.Trace) || Logger.IsEnabled(LogLevel.Debug))
+            var response = await HttpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            if (Logger.IsEnabled(LogLevel.Debug))
             {
-                foreach(var header in response.Headers)
+                foreach (var header in response.Headers)
                 {
-                    //TODO: Etag でキャッシュしてもいいかもしれんのでこれだけ Debug
-                    if(header.Key.Equals("ETag", StringComparison.OrdinalIgnoreCase))
+                    foreach (var value in header.Value)
                     {
-                        foreach (var value in header.Value)
-                        {
-                            Logger.LogDebug($"{header.Key}: {value}");
-                        }
-                    }
-                    else
-                    {
-                        foreach (var value in header.Value)
-                        {
-                            Logger.LogTrace($"{header.Key}: {value}");
-                        }
+                        Logger.LogTrace($"{header.Key}: {value}");
                     }
                 }
             }
