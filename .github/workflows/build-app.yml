@@ -2,7 +2,11 @@ name: Build Application
 
 on:
   push:
+    paths:
+      - 'src/VsLocalizedIntellisense.App'
   pull_request:
+    paths:
+      - 'src/VsLocalizedIntellisense.App'
 
 concurrency:
   group: ${{ github.ref }}
