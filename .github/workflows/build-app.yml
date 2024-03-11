@@ -160,3 +160,22 @@ jobs:
           path: |
             metadata
             document
+
+  deploy:
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci-test'
+    name: Deploy
+
+    runs-on: windows-latest
+
+    needs:
+      - build
+      - test
+      - document
+
+    steps:
+      - name: <Checkout> Repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            src
