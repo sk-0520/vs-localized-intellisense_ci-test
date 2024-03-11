@@ -3,11 +3,11 @@ name: Build Application
 on:
   push:
     paths:
-      - 'src/VsLocalizedIntellisense.App'
+      - 'src/VsLocalizedIntellisense.App/**/'
       - '.github/workflows/build-app.yml'
   pull_request:
     paths:
-      - 'src/VsLocalizedIntellisense.App'
+      - 'src/VsLocalizedIntellisense.App/**/'
       - '.github/workflows/build-app.yml'
 
 concurrency:

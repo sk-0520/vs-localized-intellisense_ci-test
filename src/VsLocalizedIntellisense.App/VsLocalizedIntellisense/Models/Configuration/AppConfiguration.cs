@@ -214,6 +214,8 @@ namespace VsLocalizedIntellisense.Models.Configuration
                 ["STARTUP-TIMESTAMP:LOCAL:FILE"] = parameters.UtcTimestamp.ToLocalTime().ToString("yyyy-MM-dd_HHmmss"),
                 ["APP:NAME"] = parameters.AssemblyName.Name,
                 ["APP:VERSION"] = parameters.AssemblyName.Version.ToString(),
+                ["APP:REVISION:SHORT"] = parameters.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion.Substring(0, 8),
+                ["APP:REVISION:LONG"] = parameters.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion,
             };
 
             return map;
