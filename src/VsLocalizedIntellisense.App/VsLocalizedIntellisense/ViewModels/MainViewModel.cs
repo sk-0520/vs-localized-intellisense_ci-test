@@ -20,6 +20,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using VsLocalizedIntellisense.Models.Service.CommandShell;
 using System.Windows;
+using System.Diagnostics;
+using System.Security.Policy;
 
 namespace VsLocalizedIntellisense.ViewModels
 {
@@ -36,6 +38,8 @@ namespace VsLocalizedIntellisense.ViewModels
         private DelegateCommand _selectInstallRootDirectoryPathCommand;
         private AsyncDelegateCommand _downloadCommand;
         private AsyncDelegateCommand _executeCommand;
+        private DelegateCommand _openReleasePageCommand;
+        
 
         bool _filterTrace;
         bool _filterDebug;
@@ -149,6 +153,8 @@ namespace VsLocalizedIntellisense.ViewModels
         public ICollectionView StockLogItems { get; }
 
         public string AppVersion => Configuration.Replace("${APP:VERSION}");
+        public string AppShortRevision => Configuration.Replace("${APP:REVISION:SHORT}");
+        public string AppLongRevision => Configuration.Replace("${APP:REVISION:LONG}");
 
         #endregion
 
@@ -246,6 +252,30 @@ namespace VsLocalizedIntellisense.ViewModels
                     );
                 }
                 return this._executeCommand;
+            }
+        }
+
+        public ICommand OpenReleasePageCommand
+        {
+            get
+            {
+                if(this._openReleasePageCommand == null)
+                {
+                    this._openReleasePageCommand = new DelegateCommand(
+                        _ =>
+                        {
+                            var uri = Configuration.GetReleaseUri();
+                            var  psi = new ProcessStartInfo()
+                            {
+                                FileName = uri.ToString(),
+                                UseShellExecute = true,
+                            };
+                            Process.Start(psi);
+                        }
+                    );
+                }
+
+                return this._openReleasePageCommand;
             }
         }
 

@@ -31,6 +31,8 @@ namespace VsLocalizedIntellisense.Models.Configuration
         /// <returns></returns>
         public static Uri GetUpdateCheckUri(this AppConfiguration configuration) => configuration.GetValue<Uri>("update-check-uri");
 
+        public static Uri GetReleaseUri(this AppConfiguration configuration) => configuration.GetValue<Uri>("update-release-uri");
+
         public static string GetInstallRootDirectoryPath(this AppConfiguration configuration) => configuration.GetValue<string>("install-root-directory");
 
         public static string GetTemporaryDirectoryPath(this AppConfiguration configuration) => configuration.Replace(configuration.GetValue<string>("temp-directory-path"));
