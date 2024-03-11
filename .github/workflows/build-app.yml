@@ -200,6 +200,7 @@ jobs:
       - name: <Archive> Application
         shell: pwsh
         run: |
+          Remove-Item -Path VsLocalizedIntellisense -Include *.pdb -Recurse
           Compress-Archive -Path VsLocalizedIntellisense/* -DestinationPath VsLocalizedIntellisense.zip -CompressionLevel Optimal
 
       - name: <Read> Version
