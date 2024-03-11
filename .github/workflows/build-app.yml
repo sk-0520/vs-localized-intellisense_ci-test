@@ -16,6 +16,7 @@ concurrency:
 
 env:
   SOLUTION_PATH: src\VsLocalizedIntellisense.App\VsLocalizedIntellisense.App.sln
+  ASSEMBLY_INFO_PATH: src\VsLocalizedIntellisense.App\VsLocalizedIntellisense\Properties\AssemblyInfo.cs
   APP_BIN_DIR: src\VsLocalizedIntellisense.App\VsLocalizedIntellisense\bin\Release
   TEST_BASE_DIR: src\VsLocalizedIntellisense.App\VsLocalizedIntellisense.Test\bin
   TEST_BIN_NAME: VsLocalizedIntellisense.Test.dll
@@ -36,6 +37,14 @@ jobs:
           sparse-checkout: |
             .github
             src
+
+      - name: <Replace> Revision
+        shell: pwsh
+        run: |
+          $filePath = "${{ env.ASSEMBLY_INFO_PATH }}"
+          (Get-Content -Path $filePath) |
+            Foreach-Object { $_.Replace("REVISION", "${{ github.sha }}") } |
+            Set-Content -Path $filePath
 
       - name: <Add> msbuild to PATH
         uses: microsoft/setup-msbuild@v2
